@@ -16,7 +16,7 @@ class CustomData{
     var user:User{
         let user = """
         {
-          "userId": "UUID",
+          "user_id": "UUID",
           "name": "John Doe",
           "MBTI": "INTJ",
           "nickname": "johnny",
@@ -25,8 +25,16 @@ class CustomData{
           "blog_path_URL": "https://youtube.com/johndoe",
           "introduce": "iOS Developer",
           "contents": [
-            { "title": "Project A", "content": "Description of Project A" },
-            { "title": "Project B", "content": "Description of Project B" }
+            {
+              "contents_id": "aaaaaaa",
+              "title": "Project A",
+              "content": "Description of Project A"
+            },
+            {
+              "contents_id": "bbbbbbb",
+              "title": "Project B",
+              "content": "Description of Project B"
+            }
           ],
           "password": "hashed_password",
           "image_path_URL": "https://example.com/profile.jpg"
@@ -39,54 +47,54 @@ class CustomData{
     var userList:[User]{
         let user = """
         [
+        {
+          "user_id": "UUID",
+          "name": "John Doe",
+          "MBTI": "INTJ",
+          "nickname": "johnny",
+          "age": 25,
+          "gitHub_path_URL": "https://github.com/johndoe",
+          "blog_path_URL": "https://youtube.com/johndoe",
+          "introduce": "iOS Developer",
+          "contents": [
             {
-              "userId": "UUID",
-              "name": "John Doe",
-              "MBTI": "INTJ",
-              "nickname": "johnny",
-              "age": 25,
-              "gitHub_path_URL": "https://github.com/johndoe",
-              "blog_path_URL": "https://youtube.com/johndoe",
-              "introduce": "iOS Developer",
-              "contents": [
-                { "title": "Project A", "content": "Description of Project A" },
-                { "title": "Project B", "content": "Description of Project B" }
-              ],
-              "password": "hashed_password",
-              "image_path_URL": "https://example.com/profile.jpg"
+              "contents_id": "aaaaaaa",
+              "title": "Project A",
+              "content": "Description of Project A"
             },
             {
-              "userId": "UUID1",
-              "name": "John Doe",
-              "MBTI": "INTJ",
-              "nickname": "johnny",
-              "age": 25,
-              "gitHub_path_URL": "https://github.com/johndoe",
-              "blog_path_URL": "https://youtube.com/johndoe",
-              "introduce": "iOS Developer",
-              "contents": [
-                { "title": "Project A", "content": "Description of Project A" },
-                { "title": "Project B", "content": "Description of Project B" }
-              ],
-              "password": "hashed_password",
-              "image_path_URL": "https://example.com/profile.jpg"
-            },
-            {
-              "userId": "UUID2",
-              "name": "John Doe",
-              "MBTI": "INTJ",
-              "nickname": "johnny",
-              "age": 25,
-              "gitHub_path_URL": "https://github.com/johndoe",
-              "blog_path_URL": "https://youtube.com/johndoe",
-              "introduce": "iOS Developer",
-              "contents": [
-                { "title": "Project A", "content": "Description of Project A" },
-                { "title": "Project B", "content": "Description of Project B" }
-              ],
-              "password": "hashed_password",
-              "image_path_URL": "https://example.com/profile.jpg"
+              "contents_id": "bbbbbbb",
+              "title": "Project B",
+              "content": "Description of Project B"
             }
+          ],
+          "password": "hashed_password",
+          "image_path_URL": "https://example.com/profile.jpg"
+        },
+        {
+          "user_id": "UUID",
+          "name": "John Doe",
+          "MBTI": "INTJ",
+          "nickname": "johnny",
+          "age": 25,
+          "gitHub_path_URL": "https://github.com/johndoe",
+          "blog_path_URL": "https://youtube.com/johndoe",
+          "introduce": "iOS Developer",
+          "contents": [
+            {
+              "contents_id": "aaaaaaa",
+              "title": "Project A",
+              "content": "Description of Project A"
+            },
+            {
+              "contents_id": "bbbbbbb",
+              "title": "Project B",
+              "content": "Description of Project B"
+            }
+          ],
+          "password": "hashed_password",
+          "image_path_URL": "https://example.com/profile.jpg"
+        }
         ]
         """
         return try! JSONDecoder().decode([User].self, from: user.data(using: .utf8)!)

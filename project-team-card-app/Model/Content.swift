@@ -11,5 +11,10 @@ import Foundation
 //Key - title, Value - content
 //ex - Goals, Merit, TMI
 struct Content: Codable {
-    let title, content: String
+    let contentsId,title, content: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title,content
+        case contentsId = "contents_id"
+    }
 }

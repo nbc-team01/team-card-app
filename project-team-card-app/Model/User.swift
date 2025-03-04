@@ -13,12 +13,12 @@ struct User: Codable {
     let age: Int
     let gitHubPathURL, blogPathURL: String
     let introduce: String
-    let contents: [Content]
+    var contents: [Content]?
     let password: String
     let imagePathURL: String
 
     enum CodingKeys: String, CodingKey {
-        case userID = "userId"
+        case userID = "user_id"
         case name
         case mbti = "MBTI"
         case nickname, age
