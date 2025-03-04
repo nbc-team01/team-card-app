@@ -126,10 +126,13 @@ class SooTemplateView: UIView {
     // 자기 소개
     private let introduceView = SooInfoView(title: "자기소개")
     
-    // 커스텀 테이블 뷰
-    public let infoTableView: UITableView = {
-        let view = UITableView()
-        view.register(SooInfoCell.self, forCellReuseIdentifier: SooInfoCell.id)
+   // 커스텀 스택뷰
+    public let infoStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 15
+        view.distribution = .fill
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -161,7 +164,7 @@ class SooTemplateView: UIView {
             gitButton,
             blogButton,
             introduceView,
-//            infoTableView
+            infoStackView
         ].forEach{contentView.addSubview($0)}
     }
     
@@ -228,11 +231,22 @@ class SooTemplateView: UIView {
             blogButton.widthAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
             
             // 자기 소개
-            introduceView.topAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: 20),
+            introduceView.topAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: 15),
             introduceView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             introduceView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            introduceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-//            introduceView.heightAnchor.constraint(equalToConstant: 50)
+//            introduceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            // 커스텀 정보 뷰
+            infoStackView.topAnchor.constraint(equalTo: introduceView.bottomAnchor, constant: 15),
+            infoStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            infoStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+    }
+    
+    public func setInfoData(infoData: (title: String, content: String)) {
+        let infoView = SooInfoView(title: infoData.title, content: infoData.content)
+        
+        infoStackView.addArrangedSubview(infoView)
     }
 }

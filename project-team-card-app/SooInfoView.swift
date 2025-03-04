@@ -10,6 +10,7 @@ import UIKit
 // 정보를 담을 공통 컴포넌트
 class SooInfoView: UIView {
     private let title: String
+    private let content: String
     
     // 타이틀 라벨
     private lazy var titleLabel: UILabel = {
@@ -21,10 +22,11 @@ class SooInfoView: UIView {
         return lbl
     }()
     
-    // description 라벨
-    private let descriptionLabel: UILabel = {
+    // content 라벨
+    private lazy var contentLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시"
+        lbl.text = content
+//        lbl.text = "임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시"
         lbl.font = . systemFont(ofSize: 24)
         lbl.numberOfLines = 0
         lbl.backgroundColor = .systemPink
@@ -32,8 +34,9 @@ class SooInfoView: UIView {
         return lbl
     }()
     
-    init(title: String) {
+    init(title: String, content: String = "") {
         self.title = title
+        self.content = content
         
         super.init(frame: .zero)
         self.backgroundColor = .clear
@@ -51,7 +54,7 @@ class SooInfoView: UIView {
     private func setSubView() {
         [
             titleLabel,
-            descriptionLabel
+            contentLabel
         ].forEach{self.addSubview($0)}
     }
     
@@ -65,10 +68,10 @@ class SooInfoView: UIView {
             titleLabel.heightAnchor.constraint(equalToConstant: 30),
 
             // 설명 라벨
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            descriptionLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            descriptionLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            contentLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            contentLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            contentLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
