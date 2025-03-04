@@ -13,5 +13,16 @@ struct project_team_card_appTests {
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.
     }
-
+    //user custom data test code..
+    @Test func getUserData() async throws{
+        let user = CustomData.shared.user
+        print("user : \(user)")
+        #expect(user.userID == "UUID")
+    }
+    //user list custom data test code..
+    @Test func getUserListData() async throws{
+        let list = CustomData.shared.userList
+        print("user : \(list[1])")
+        #expect(list[1].userID == "UUID1")
+    }
 }
