@@ -7,10 +7,12 @@
 
 import Foundation
 
+//singleton
 class CustomData{
     static let shared = CustomData()
     private init(){}
     
+    //user data
     var user:User{
         let user = """
         {
@@ -33,6 +35,7 @@ class CustomData{
         return try! JSONDecoder().decode(User.self, from: user.data(using: .utf8)!)
     }
     
+    //user data list
     var userList:[User]{
         let user = """
         [

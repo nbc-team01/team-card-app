@@ -7,6 +7,7 @@
 
 import Foundation
 
+//User Data
 struct User: Codable {
     let userID, name, mbti, nickname: String
     let age: Int
