@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseFirestore
+
 
 class UserAPIService{
     
@@ -24,4 +26,14 @@ class UserAPIService{
             throw error
         }
     }
+    static func saveUser(user: User) async throws {
+            let ref = db.collection("users").document(user.userID)
+
+            do {
+                try ref.setData(from: user)
+                print("User 데이터 저장 성공")
+            } catch {
+                throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
+            }
+        }
 }
