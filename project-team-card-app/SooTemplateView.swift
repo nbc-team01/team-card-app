@@ -85,22 +85,52 @@ class SooTemplateView: UIView {
         return view
     }()
     
-    // 이름
-    private let nameLabel: UILabel = {
+    // 닉네임 / 이름 (나이) 라벨
+    private let userInfoLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "임시 이름"
+        lbl.text = "닉네임 / 이름 (나이)"
         lbl.textColor = .white
-        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 26, weight: .semibold)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     
+//    // 이름
+//    private let nameLabel: UILabel = {
+//        let lbl = UILabel()
+//        lbl.text = "임시 이름"
+//        lbl.textColor = .white
+//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
+//        lbl.translatesAutoresizingMaskIntoConstraints = false
+//        return lbl
+//    }()
+//    
+//    // 닉네임
+//    private let nicknameLabel: UILabel = {
+//        let lbl = UILabel()
+//        lbl.text = "닉네임"
+//        lbl.textColor = .white
+//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
+//        lbl.translatesAutoresizingMaskIntoConstraints = false
+//        return lbl
+//    }()
+//    
+//    // 나이
+//    private let ageLabel: UILabel = {
+//        let lbl = UILabel()
+//        lbl.text = "26"
+//        lbl.textColor = .white
+//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
+//        lbl.translatesAutoresizingMaskIntoConstraints = false
+//        return lbl
+//    }()
+//    
     // MBTI
     private let mbtiLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "임시 MBTI"
         lbl.textColor = .white
-        lbl.font = .systemFont(ofSize: 28, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 24, weight: .semibold)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -159,7 +189,10 @@ class SooTemplateView: UIView {
         [
             profileImageView,
             gradientView,
-            nameLabel,
+            userInfoLabel,
+//            nameLabel,
+//            nicknameLabel,
+//            ageLabel,
             mbtiLabel,
             gitButton,
             blogButton,
@@ -208,14 +241,24 @@ class SooTemplateView: UIView {
             gradientView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             gradientView.heightAnchor.constraint(equalToConstant: 150),
             
-            // 이름
-            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
-            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            nameLabel.heightAnchor.constraint(equalToConstant: 30),
+            // 유저 정보 라벨
+            userInfoLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
+            userInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            userInfoLabel.heightAnchor.constraint(equalToConstant: 30),
             
+//            // 닉네임
+//            nicknameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
+//            nicknameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+//            nicknameLabel.heightAnchor.constraint(equalToConstant: 30),
+//            
+//            // 이름
+//            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
+//            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+//            nameLabel.heightAnchor.constraint(equalToConstant: 30),
+//            
             // MBTI
-            mbtiLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            mbtiLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            mbtiLabel.topAnchor.constraint(equalTo: userInfoLabel.bottomAnchor, constant: 10),
+            mbtiLabel.leadingAnchor.constraint(equalTo: userInfoLabel.leadingAnchor),
             mbtiLabel.heightAnchor.constraint(equalToConstant: 30),
             
             // 깃 버튼
@@ -244,9 +287,16 @@ class SooTemplateView: UIView {
         ])
     }
     
+    // 커스텀 데이터
     public func setInfoData(infoData: (title: String, content: String)) {
         let infoView = SooInfoView(title: infoData.title, content: infoData.content)
         
         infoStackView.addArrangedSubview(infoView)
+    }
+    
+    // 유저 정보 데이터
+    public func setUserInfoData(nickname: String, name: String, age: Int, mbti: String) {
+        userInfoLabel.text = "\(nickname) / \(name) (\(age)세)"
+        mbtiLabel.text = mbti
     }
 }

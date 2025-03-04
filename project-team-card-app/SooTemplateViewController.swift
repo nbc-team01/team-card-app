@@ -18,6 +18,7 @@ class SooTemplateViewController: UIViewController {
         (title: "123", content: "123123"),
         (title: "123", content: "123123"),
     ]
+    private let userDummyDaya: [Any] = ["고니", "이수현", 26, "ISTJ"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,5 +29,6 @@ class SooTemplateViewController: UIViewController {
     
     private func setInfoData() {
         dummyData.forEach{templateView.setInfoData(infoData: $0)}
+        templateView.setUserInfoData(nickname: userDummyDaya[0] as! String, name: userDummyDaya[1] as! String, age: userDummyDaya[2] as! Int, mbti: userDummyDaya[3] as! String)
     }
 }
