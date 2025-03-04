@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C96EA7E2D77334F00D6907C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4C96EA7D2D77334F00D6907C /* Kingfisher */; };
+		4C96EA812D77337D00D6907C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4C96EA802D77337D00D6907C /* SnapKit */; };
 		4CD7431E2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4CD7431D2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C96EA812D77337D00D6907C /* SnapKit in Frameworks */,
+				4C96EA7E2D77334F00D6907C /* Kingfisher in Frameworks */,
 				4CD7431E2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +135,8 @@
 			name = "project-team-card-app";
 			packageProductDependencies = (
 				4CD7431D2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport */,
+				4C96EA7D2D77334F00D6907C /* Kingfisher */,
+				4C96EA802D77337D00D6907C /* SnapKit */,
 			);
 			productName = "project-team-card-app";
 			productReference = D6AEF1622D75ACC300F8EA4E /* project-team-card-app.app */;
@@ -216,6 +222,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				4CD7431C2D76CCD5006B3F0C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				4C96EA7C2D77334F00D6907C /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				4C96EA7F2D77337D00D6907C /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D6AEF1632D75ACC300F8EA4E /* Products */;
@@ -580,6 +588,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4C96EA7C2D77334F00D6907C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
+		4C96EA7F2D77337D00D6907C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
 		4CD7431C2D76CCD5006B3F0C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -591,6 +615,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4C96EA7D2D77334F00D6907C /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C96EA7C2D77334F00D6907C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		4C96EA802D77337D00D6907C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C96EA7F2D77337D00D6907C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		4CD7431D2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4CD7431C2D76CCD5006B3F0C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
