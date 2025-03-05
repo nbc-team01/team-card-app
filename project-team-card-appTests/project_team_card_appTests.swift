@@ -39,4 +39,8 @@ struct project_team_card_appTests {
         let user = User(userID: "UUID",name:"QQQQ")
         try await UserAPIService.updateUser(user: user)
     }
+    //deleting in the user data DB test code..
+    @Test func deleteUserData() async throws {
+        try await UserAPIService.deleteUser(userId: "UUID")
+    }
 }

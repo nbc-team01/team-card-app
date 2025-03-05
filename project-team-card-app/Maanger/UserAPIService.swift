@@ -54,4 +54,9 @@ class UserAPIService{
             throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
         }
     }
+    //유저정보 삭제
+    static func deleteUser(userId:String) async throws{
+        let ref = db.collection("users").document(userId)
+        try await ref.delete()
+    }
 }
