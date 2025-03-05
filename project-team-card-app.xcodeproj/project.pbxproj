@@ -10,6 +10,8 @@
 		4C96EA7E2D77334F00D6907C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4C96EA7D2D77334F00D6907C /* Kingfisher */; };
 		4C96EA812D77337D00D6907C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4C96EA802D77337D00D6907C /* SnapKit */; };
 		4CD7431E2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 4CD7431D2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		D6AEF2112D76F97400F8EA4E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D6AEF2102D76F97400F8EA4E /* FirebaseFirestore */; };
+		D6AEF2132D76F97400F8EA4E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D6AEF2122D76F97400F8EA4E /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 				4C96EA812D77337D00D6907C /* SnapKit in Frameworks */,
 				4C96EA7E2D77334F00D6907C /* Kingfisher in Frameworks */,
 				4CD7431E2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				D6AEF2112D76F97400F8EA4E /* FirebaseFirestore in Frameworks */,
+				D6AEF2132D76F97400F8EA4E /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,8 +139,11 @@
 			name = "project-team-card-app";
 			packageProductDependencies = (
 				4CD7431D2D76CCD5006B3F0C /* FirebaseAnalyticsWithoutAdIdSupport */,
+				D6AEF2102D76F97400F8EA4E /* FirebaseFirestore */,
+				D6AEF2122D76F97400F8EA4E /* FirebaseStorage */,
 				4C96EA7D2D77334F00D6907C /* Kingfisher */,
 				4C96EA802D77337D00D6907C /* SnapKit */,
+				
 			);
 			productName = "project-team-card-app";
 			productReference = D6AEF1622D75ACC300F8EA4E /* project-team-card-app.app */;
@@ -306,7 +313,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9R7T8F4A6S;
+				DEVELOPMENT_TEAM = N676ZFA7W8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -334,7 +341,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9R7T8F4A6S;
+				DEVELOPMENT_TEAM = N676ZFA7W8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -629,6 +636,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4CD7431C2D76CCD5006B3F0C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		D6AEF2102D76F97400F8EA4E /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CD7431C2D76CCD5006B3F0C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		D6AEF2122D76F97400F8EA4E /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CD7431C2D76CCD5006B3F0C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
