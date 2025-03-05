@@ -25,9 +25,11 @@ struct project_team_card_appTests {
         print("user : \(list[1])")
         #expect(list[1].userID == "UUID1")
     }
+    //stored in the user data DB test code..
     @Test func setUserData() async throws{
-        try await UserAPIService.saveUser(user: CustomData.shared.user)
+        try await UserAPIService.setUser(user: CustomData.shared.user)
     }
+    //fetching in the user data DB test code..
     @Test func fetchUserDate() async throws{
         let user = try await UserAPIService.fetchUser(userId: "UUID")
         print(user)
