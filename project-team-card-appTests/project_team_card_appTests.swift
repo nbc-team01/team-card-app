@@ -40,7 +40,7 @@ struct project_team_card_appTests {
         let user = User(userID: "UUID",name:"QQQQ")
         try await UserAPIService.updateUser(user: user)
     }
-    //deleting in the user data DB test code..
+    //delete in the user data DB test code..
     @Test func deleteUserData() async throws {
         try await UserAPIService.deleteUser(userId: "UUID")
     }
@@ -59,5 +59,9 @@ struct project_team_card_appTests {
         let image = UIImage(named: "github-mark")!
         let url = try await StorageAPIService.setImage(image, userId: "UUID")
         print(url)
+    }
+    //delete the image test code..
+    @Test func deleteImage() async throws{
+        try await StorageAPIService.deleteImage(userId: "UUID")
     }
 }

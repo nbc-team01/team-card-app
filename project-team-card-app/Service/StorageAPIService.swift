@@ -26,4 +26,9 @@ class StorageAPIService{
         
         return try await ref.downloadURL().absoluteString                       //해당 스토리지 경로
     }
+    //이미지 삭제
+    static func deleteImage(userId: String) async throws {
+        let ref = storage.reference().child("users/\(userId).jpg")
+        try await ref.delete()
+    }
 }
