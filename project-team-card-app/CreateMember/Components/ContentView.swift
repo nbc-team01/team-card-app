@@ -8,7 +8,7 @@
 import UIKit
 
 class ContentView: UIView {
-    public var id = UUID() // Content 구분을 위해 ID 값 사용
+//    public var id = UUID() // Content 구분을 위해 ID 값 사용
     
     // 타이틀 뷰
     public let titleView = CreateMemberInfoView(title: "Title", placeholder: "Enter your Content Title", isEnableRemove: true)
