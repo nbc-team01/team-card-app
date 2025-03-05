@@ -9,43 +9,45 @@ import UIKit
 
 class CreateMemberCardViewController: UIViewController {
     private let createMemberCardView = CreateMemberCardView()
-    private var contentsCount = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = createMemberCardView
         setDelegate()
+        setAction()
     }
     
     private func setDelegate(){
         createMemberCardView.introduceView.textView.delegate = self
-        createMemberCardView.contentTableView.dataSource = self
-        createMemberCardView.contentTableView.delegate = self
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        createMemberCardView.updateContentTableViewHeight(contentCount: contentsCount)
-    }
-}
-
-// 테이블 뷰 데이터소스
-extension CreateMemberCardViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contentsCount
+    private func setAction(){
+        createMemberCardView.addContentButton.addTarget(self, action: #selector(touchUpInsideAddContentButton), for: .touchUpInside)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ContentCell.id) as? ContentCell else { return UITableViewCell() }
-//        cell.titleView.removeButton.addTarget(self, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
-        return cell
+    // Add Content 버튼 액션
+    @objc private func touchUpInsideAddContentButton() {
+        let contentView = ContentView() // ContentView 생성 -> ID 생성
+        let removeButtonTapGesutre = CustomTapGesture(target: self, action: #selector(removeButtonTapGesture(_:))) // 삭제 제스처 추가
+        removeButtonTapGesutre.id = contentView.id // 탭 제스처에 id 값 추가
+        contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre) // 삭제 버튼에 삭제 제스처 추가
+        createMemberCardView.contentStackView.addArrangedSubview(contentView) // 생성한 View, StackView에 추가
+        
+        contentView.contentsView.textView.delegate = self // 딜리게이트 설정 (텍스트 뷰)
     }
-}
-
-// 테이블 뷰 딜리게이트
-extension CreateMemberCardViewController: UITableViewDelegate {
-
+    
+    // ContentView 삭제 버튼 액션
+    @objc private func removeButtonTapGesture(_ gesture: CustomTapGesture) {
+        guard let id = gesture.id else { return } // 제스처에 저장된 ID 값 추출
+        
+        // contentStackView를 순회하면서 제스처 ID와 같으면 뷰 삭제
+        createMemberCardView.contentStackView.arrangedSubviews.forEach{ view in
+            if (view as? ContentView)?.id == id {
+                view.removeFromSuperview()
+            }
+        }
+    }
 }
 
 // 텍스트 필드 딜리게이트

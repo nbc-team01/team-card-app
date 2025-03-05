@@ -80,11 +80,9 @@ class CreateMemberInfoView: UIView {
         self.isEnableReomve = isEnableRemove
         super.init(frame: .zero)
         
+        self.isUserInteractionEnabled = true
         self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
-        
-//        self.setContentHuggingPriority(.required, for: .vertical)
-//        self.setContentCompressionResistancePriority(.required, for: .vertical)
         
         setSubView()
         setUI()

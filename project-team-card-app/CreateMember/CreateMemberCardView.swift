@@ -13,11 +13,6 @@ class CreateMemberCardView: UIView {
         let lbl = UILabel()
         lbl.text = "User Profile"
         lbl.font = .systemFont(ofSize: 20, weight: .medium)
-//        lbl.layer.shadowOffset = CGSize(width: 0, height: 2)
-//        lbl.layer.shadowOpacity = 0.12 // 12 투명도
-//        lbl.layer.shadowColor = UIColor.black.cgColor
-//        lbl.layer.shadowRadius = 6 // 블러
-//        lbl.layer.masksToBounds = false
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -83,17 +78,16 @@ class CreateMemberCardView: UIView {
     // 자기소개
     public let introduceView = CreateMemberInfoView(title: "자기소개", placeholder: "Introduce yourself", isLongText: true)
     
-    // 컨텐츠 테이블 뷰
-    public let contentTableView: UITableView = {
-        let view = UITableView()
-        view.register(ContentCell.self, forCellReuseIdentifier: ContentCell.id)
-        view.showsVerticalScrollIndicator = false
-        view.showsHorizontalScrollIndicator = false
-        view.separatorStyle = .none
-        view.isScrollEnabled = false
+    // 컨텐츠 스택뷰
+    public let contentStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 10
+        view.distribution = .fillEqually
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     
     // 커스텀 내용 추가
     public let addContentButton: UIButton = {
@@ -102,6 +96,7 @@ class CreateMemberCardView: UIView {
         btn.titleLabel?.font = .systemFont(ofSize: 12, weight: .bold)
         btn.layer.cornerRadius = 8
         btn.backgroundColor = .black
+        btn.isUserInteractionEnabled = true
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -166,7 +161,7 @@ class CreateMemberCardView: UIView {
         [
             imageView,
             infoStackView,
-            contentTableView,
+            contentStackView,
             addContentButton,
             bottomButtonStackView,
         ].forEach{contentView.addSubview($0)}
@@ -221,17 +216,16 @@ class CreateMemberCardView: UIView {
             
             // infoStackView
             infoStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-//            infoStackView.bottomAnchor.constraint(equalTo: contentTableView.topAnchor, constant: -20),
             infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             
-            // 컨텐츠 테이블 뷰
-            contentTableView.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 10),
-            contentTableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            contentTableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            // 컨텐츠 스택 뷰
+            contentStackView.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 10),
+            contentStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
             
             // 내용 추가 버튼
-            addContentButton.topAnchor.constraint(equalTo: contentTableView.bottomAnchor, constant: -0),
+            addContentButton.topAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: 10),
             addContentButton.bottomAnchor.constraint(equalTo: bottomButtonStackView.topAnchor, constant: -10),
             addContentButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             addContentButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
@@ -243,10 +237,5 @@ class CreateMemberCardView: UIView {
             bottomButtonStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             bottomButtonStackView.heightAnchor.constraint(equalToConstant: 42),
         ])
-    }
-    
-    public func updateContentTableViewHeight(contentCount: Int) {
-        let height = CGFloat(contentCount) * (207 + 10) // CellHeight + Padding
-        self.contentTableView.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
 }
