@@ -38,31 +38,57 @@ class CreateMemberCardViewController: UIViewController {
         // nil 값이 있는지 확인
         guard self.validationData() else { return }
         
-        // 커스텀 컨텐츠 배열
-        var customContents = [(String, String)]()
+        // 얼럿 띄우기
+        presentAlert() { password in
+            // 모델 만들어서 DB에 저장
+            
+            // 커스텀 컨텐츠 배열
+            var customContents = [(String, String)]()
+            
+            // API 저장 로직 처리
+            guard let name = self.createMemberCardView.nameView.textField.text,
+                  let mbti = self.createMemberCardView.mbtiView.textField.text,
+                  let age = self.createMemberCardView.ageView.textField.text,
+                  let gitAddress = self.createMemberCardView.gitAddress.textField.text,
+                  let blogAddress = self.createMemberCardView.blogAddress.textField.text,
+                  let introduce = self.createMemberCardView.introduceView.textView.text
+            else {
+                return
+            }
+
+            // 커스텀 컨텐츠 데이터 (빈 값 제외)
+            self.createMemberCardView.contentStackView.arrangedSubviews.forEach { view in
+                guard let title = (view as? ContentView)?.titleView.textField.text,
+                      title != "",
+                      let content = (view as? ContentView)?.contentsView.textView.text,
+                      (view as? ContentView)?.contentsView.textView.textColor != .placeholderText
+                else { return }
+                customContents.append((title, content))
+            }
+            
+            print(password, name, mbti, age, gitAddress, blogAddress, introduce, customContents)
+        }
         
-        // API 저장 로직 처리
-        guard let name = createMemberCardView.nameView.textField.text,
-              let mbti = createMemberCardView.mbtiView.textField.text,
-              let age = createMemberCardView.ageView.textField.text,
-              let gitAddress = createMemberCardView.gitAddress.textField.text,
-              let blogAddress = createMemberCardView.blogAddress.textField.text,
-              let introduce = createMemberCardView.introduceView.textView.text
-        else {
-            return
+        // 홈뷰로 돌아가기 (통신 이후)
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    // 비밀번호 얼럿
+    private func presentAlert(completion: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .destructive)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            let password = alert.textFields?.first?.text ?? ""
+            completion(password) // 입력된 비밀번호 전달
         }
-
-        // 커스텀 컨텐츠 데이터 (빈 값 제외)
-        createMemberCardView.contentStackView.arrangedSubviews.forEach { view in
-            guard let title = (view as? ContentView)?.titleView.textField.text,
-                  title != "",
-                  let content = (view as? ContentView)?.contentsView.textView.text,
-                  (view as? ContentView)?.contentsView.textView.textColor != .placeholderText
-            else { return }
-            customContents.append((title, content))
-        }
-
+        
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        
         // 모델 생성 후 통신 처리
+        present(alert, animated: true)
     }
     
     // 필수 데이터가 모두 들어갔는지 확인
