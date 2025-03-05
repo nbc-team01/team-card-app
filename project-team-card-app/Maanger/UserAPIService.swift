@@ -59,4 +59,11 @@ class UserAPIService{
         let ref = db.collection("users").document(userId)
         try await ref.delete()
     }
+    //유저 리스트 조회
+    static func fetchUsers() async throws -> [User]{
+        //컬렉션의 모든 문서 fetching
+        let snapshot = try await db.collection("users").getDocuments()
+        //문서 디코딩
+        return try snapshot.documents.compactMap { try $0.data(as: User.self) }
+    }
 }
