@@ -6,6 +6,7 @@
 //
 
 import Testing
+import UIKit
 @testable import project_team_card_app
 
 struct project_team_card_appTests {
@@ -52,5 +53,11 @@ struct project_team_card_appTests {
     @Test func isValidPassword() async throws {
         let isValid = try await UserAPIService.isValidPassword(userId: "UUID", password: "hashed_password")
         #expect(isValid)
+    }
+    //save the image and get the url test code..
+    @Test func setIamge() async throws {
+        let image = UIImage(named: "github-mark")!
+        let url = try await StorageAPIService.setImage(image, userId: "UUID")
+        print(url)
     }
 }
