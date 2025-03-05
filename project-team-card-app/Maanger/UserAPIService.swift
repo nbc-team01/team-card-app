@@ -29,12 +29,27 @@ class UserAPIService{
     //유저정보 저장
     static func setUser(user: User) async throws {
         //경로 설정 users/user_uid
-        let ref = db.collection("users").document(user.userID)
+        let ref = db.collection("users").document(user.userID ?? "")
         
         do {
             //DB에 데이터 저장
             try ref.setData(from: user)
             print("User 데이터 저장 성공")
+        } catch {
+            throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
+        }
+    }
+    //유저정보 업데이트
+    static func updateUser(user:User) async throws{
+        //경로 설정 users/user_uid
+        let ref = db.collection("users").document(user.userID ?? "")
+        
+        do {
+            //업데이트 시에는 [String:Any]형태로 존재해야함
+            let data = try Firestore.Encoder().encode(user)
+            //DB에 데이터 업데이트
+            try await ref.updateData(data)
+            print("User 데이터 수정 성공")
         } catch {
             throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
         }

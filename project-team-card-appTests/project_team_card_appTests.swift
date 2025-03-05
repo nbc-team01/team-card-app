@@ -30,9 +30,13 @@ struct project_team_card_appTests {
         try await UserAPIService.setUser(user: CustomData.shared.user)
     }
     //fetching in the user data DB test code..
-    @Test func fetchUserDate() async throws{
+    @Test func fetchUserData() async throws{
         let user = try await UserAPIService.fetchUser(userId: "UUID")
-        print(user)
         #expect(user.mbti == "INTJ")
+    }
+    //updating in the user data DB test code..
+    @Test func updateUserData() async throws {
+        let user = User(userID: "UUID",name:"QQQQ")
+        try await UserAPIService.updateUser(user: user)
     }
 }

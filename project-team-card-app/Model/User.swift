@@ -9,13 +9,13 @@ import Foundation
 
 //User Data
 struct User: Codable {
-    let userID, name, mbti, nickname: String
-    let age: Int
-    let gitHubPathURL, blogPathURL: String
-    let introduce: String
+    var userID, name, mbti, nickname: String?
+    var age: Int?
+    var gitHubPathURL, blogPathURL: String?
+    var introduce: String?
     var contents: [Content]?
-    let password: String
-    let imagePathURL: String
+    var password: String?
+    var imagePathURL: String?
 
     enum CodingKeys: String, CodingKey {
         case userID = "user_id"
@@ -26,6 +26,20 @@ struct User: Codable {
         case blogPathURL = "blog_path_URL"
         case introduce, contents, password
         case imagePathURL = "image_path_URL"
+    }
+    
+    init(userID: String? = nil, name: String? = nil, mbti: String? = nil, nickname: String? = nil, age: Int? = nil, gitHubPathURL: String? = nil, blogPathURL: String? = nil, introduce: String? = nil, contents: [Content]? = nil, password: String? = nil, imagePathURL: String? = nil) {
+        self.userID = userID
+        self.name = name
+        self.mbti = mbti
+        self.nickname = nickname
+        self.age = age
+        self.gitHubPathURL = gitHubPathURL
+        self.blogPathURL = blogPathURL
+        self.introduce = introduce
+        self.contents = contents
+        self.password = password
+        self.imagePathURL = imagePathURL
     }
 }
 
