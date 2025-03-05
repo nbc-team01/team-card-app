@@ -8,11 +8,27 @@
 import UIKit
 
 class CreateMemberCardView: UIView {
-    // 상수 설정
-    struct Constant {
-        static let longTextFieldHeight: CGFloat = 200
-        static let shortTextFieldHeight: CGFloat = 80
-    }
+    // 타이틀 라벨
+    public let titleLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "User Profile"
+        lbl.font = .systemFont(ofSize: 20, weight: .medium)
+//        lbl.layer.shadowOffset = CGSize(width: 0, height: 2)
+//        lbl.layer.shadowOpacity = 0.12 // 12 투명도
+//        lbl.layer.shadowColor = UIColor.black.cgColor
+//        lbl.layer.shadowRadius = 6 // 블러
+//        lbl.layer.masksToBounds = false
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
+    
+    // 경계션
+    private let seperatorLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray4.withAlphaComponent(0.5)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     // 스크롤뷰
     private let scrollView: UIScrollView = {
@@ -44,36 +60,36 @@ class CreateMemberCardView: UIView {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 15
-        view.distribution = .fill
+        view.distribution = .fillProportionally
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     // 이름
-    public let nameView = CreateMemberInfoView(title: "이름")
+    public let nameView = CreateMemberInfoView(title: "이름", placeholder: "Enter your name")
+    
+    // MBTI
+    public let mbtiView = CreateMemberInfoView(title: "MBTI", placeholder: "Enter your MBTI")
     
     // 나이
-    public let ageView = CreateMemberInfoView(title: "나이")
+    public let ageView = CreateMemberInfoView(title: "나이", placeholder: "Enter your Age")
     
     // 깃허브
-    public let gitAddress = CreateMemberInfoView(title: "GitHub 주소")
+    public let gitAddress = CreateMemberInfoView(title: "GitHub URL", placeholder: "Enter your Github URL")
     
     // 블로그
-    public let blogAddress = CreateMemberInfoView(title: "블로그 주소")
+    public let blogAddress = CreateMemberInfoView(title: "Blog URL", placeholder: "Enter your Blog URL")
     
     // 자기소개
-    public let introduceView = CreateMemberInfoView(title: "자기 소개")
-    
-    // 인증번호
-    public let passwordView = CreateMemberInfoView(title: "인증번호", isSecurity: true)
+    public let introduceView = CreateMemberInfoView(title: "자기소개", placeholder: "Introduce yourself", isLongText: true)
     
     // 커스텀 내용 추가
     public let addContentButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("커스텀 필드 추가하기", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 25, weight: .bold)
+        btn.setTitle("Add Content", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 12, weight: .bold)
         btn.layer.cornerRadius = 8
-        btn.backgroundColor = .systemCyan
+        btn.backgroundColor = .black
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -91,29 +107,47 @@ class CreateMemberCardView: UIView {
     }
     
     private func setSubView(){
-        self.addSubview(scrollView)
+        
+        [
+            titleLabel,
+            seperatorLine,
+            scrollView
+        ].forEach{self.addSubview($0)}
+        
         scrollView.addSubview(contentView)
         
         [
+            imageView,
             infoStackView,
             addContentButton,
         ].forEach{contentView.addSubview($0)}
         
         [
-            imageView,
             nameView,
+            mbtiView,
             ageView,
             gitAddress,
             blogAddress,
             introduceView,
-            passwordView
         ].forEach{infoStackView.addArrangedSubview($0)}
     }
     
     private func setUI() {
         NSLayoutConstraint.activate([
+            // titleLabel
+            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            titleLabel.heightAnchor.constraint(equalToConstant: 48),
+            
+            // 경계선
+            seperatorLine.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            seperatorLine.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            seperatorLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            seperatorLine.heightAnchor.constraint(equalToConstant: 1),
+            
             // 스크롤뷰
-            scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -125,38 +159,46 @@ class CreateMemberCardView: UIView {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
+            // 사진 올리기 이미지뷰
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 256),
+            
             // infoStackView
-            infoStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            infoStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
             infoStackView.bottomAnchor.constraint(equalTo: addContentButton.topAnchor, constant: -20),
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            
+            // 이름
+//            nameView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
+//            
+//            // MBTI
+//            mbtiView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
+//            
+//            // 나이
+//            ageView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
+//            
+//            // 깃허브
+//            gitAddress.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
+//            
+//            // 블로그
+//            blogAddress.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
+//            
+//            // 자기소개
+//            introduceView.heightAnchor.constraint(equalToConstant: Constant.longTextFieldHeight),
+//            
+//            // 패스워드
+//            passwordView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
+            
             
             // 내용 추가 버튼
             addContentButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            addContentButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            addContentButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            addContentButton.heightAnchor.constraint(equalToConstant: 60),
+            addContentButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
+            addContentButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            addContentButton.heightAnchor.constraint(equalToConstant: 28),
             
-            // 사진 올리기 이미지뷰
-            imageView.heightAnchor.constraint(equalToConstant: 400),
-            
-            // 이름
-            nameView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
-            
-            // 나이
-            ageView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
-            
-            // 깃허브
-            gitAddress.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
-            
-            // 블로그
-            blogAddress.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
-            
-            // 자기소개
-            introduceView.heightAnchor.constraint(equalToConstant: Constant.longTextFieldHeight),
-            
-            // 패스워드
-            passwordView.heightAnchor.constraint(equalToConstant: Constant.shortTextFieldHeight),
         ])
     }
 }
