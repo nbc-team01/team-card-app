@@ -43,9 +43,14 @@ struct project_team_card_appTests {
     @Test func deleteUserData() async throws {
         try await UserAPIService.deleteUser(userId: "UUID")
     }
-    //fetching in ther users data DB test code..
+    //fetching in the users data DB test code..
     @Test func fetchUsersData() async throws {
         let users = try await UserAPIService.fetchUsers()
         #expect(users.first?.mbti == "INTJ")
+    }
+    //isValid in ther users password test code..
+    @Test func isValidPassword() async throws {
+        let isValid = try await UserAPIService.isValidPassword(userId: "UUID", password: "hashed_password")
+        #expect(isValid)
     }
 }

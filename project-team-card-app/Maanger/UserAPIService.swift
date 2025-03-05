@@ -66,4 +66,14 @@ class UserAPIService{
         //문서 디코딩
         return try snapshot.documents.compactMap { try $0.data(as: User.self) }
     }
+    //비밀번호 검사
+    static func isValidPassword(userId: String, password: String) async throws -> Bool {
+        //유저정보가 담겨있는 문서의 데이터를 fetching
+        //그 중 paasword 필드의 데이터를 추출
+        guard let data = try await db.collection("users").document(userId).getDocument().data(),
+              let pw = data["password"] as? String else {
+            throw NSError(domain: "FirestoreService", code: 404, userInfo: [NSLocalizedDescriptionKey: "Document or field not found"])
+        }
+        return password == pw
+    }
 }
