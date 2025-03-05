@@ -17,7 +17,7 @@ class CreateMemberInfoView: UIView {
     private let placeholder: String
     
     // 텍스트 필드 높이 설정
-    private let isLongText: Bool
+    public let isLongText: Bool
     
     // 삭제 가능 유무
     private let isEnableReomve: Bool
@@ -73,6 +73,17 @@ class CreateMemberInfoView: UIView {
         return field
     }()
     
+    // 에러 라벨
+    public let errorLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "필수로 입력해주세요"
+        lbl.textColor = .red
+        lbl.font = .systemFont(ofSize: 10, weight: .medium)
+        lbl.isHidden = true
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
+    
     init(title: String, placeholder: String, isLongText: Bool = false, isEnableRemove: Bool = false) {
         self.title = title
         self.placeholder = placeholder
@@ -97,6 +108,7 @@ class CreateMemberInfoView: UIView {
             titleLabel,
             removeButton,
             isLongText ? textView : textField,
+            errorLabel,
         ].forEach{self.addSubview($0)}
     }
     
@@ -119,9 +131,13 @@ class CreateMemberInfoView: UIView {
             textSpace.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
             textSpace.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             textSpace.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            textSpace.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
             textSpace.heightAnchor.constraint(equalToConstant: isLongText ? 111 : 36),
             
+            // 에러 라벨
+            errorLabel.topAnchor.constraint(equalTo: textSpace.bottomAnchor, constant: 3),
+            errorLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            errorLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            errorLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
 }

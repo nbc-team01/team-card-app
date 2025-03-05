@@ -51,7 +51,7 @@ class CreateMemberCardView: UIView {
     }()
     
     // 정보 스택뷰
-    private let infoStackView: UIStackView = {
+    public let infoStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 15
