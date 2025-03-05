@@ -9,6 +9,7 @@ import UIKit
 
 class CreateMemberCardViewController: UIViewController {
     private let createMemberCardView = CreateMemberCardView()
+//    private let imagePicker = ImagePicker() // 이미지 피커
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,10 @@ class CreateMemberCardViewController: UIViewController {
         
         // Cancel 버튼 액션
         createMemberCardView.cancelButton.addTarget(self, action: #selector(touchUpInsideCancelButton), for: .touchUpInside)
+        
+        // 이미지 추가
+        let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(showImagePickerForLibrary))
+        createMemberCardView.imageView.addGestureRecognizer(imageTapGesture)
     }
     
     // Save 버튼 액션
@@ -46,7 +51,8 @@ class CreateMemberCardViewController: UIViewController {
             var customContents = [(String, String)]()
             
             // API 저장 로직 처리
-            guard let name = self.createMemberCardView.nameView.textField.text,
+            guard let image = self.createMemberCardView.imageView.image,
+                  let name = self.createMemberCardView.nameView.textField.text,
                   let mbti = self.createMemberCardView.mbtiView.textField.text,
                   let age = self.createMemberCardView.ageView.textField.text,
                   let gitAddress = self.createMemberCardView.gitAddress.textField.text,
@@ -94,6 +100,14 @@ class CreateMemberCardViewController: UIViewController {
     // 필수 데이터가 모두 들어갔는지 확인
     private func validationData() -> Bool {
         var flag = true
+        
+        // 이미지룰 추가했는지 확인
+        if createMemberCardView.imageView.image == UIImage(systemName: "photo.badge.plus") {
+            createMemberCardView.errorLabel.isHidden = false
+            flag = false
+        } else {
+            createMemberCardView.errorLabel.isHidden = true
+        }
         
         // 기본 정보뷰를 돌면서 nil 데이터가 있는지 확인
         createMemberCardView.infoStackView.arrangedSubviews.forEach { view in
@@ -164,6 +178,19 @@ class CreateMemberCardViewController: UIViewController {
             }
         }
     }
+    
+    
+    // 이미지뷰 선택 액션
+    @objc private func showImagePickerForLibrary() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.modalPresentationStyle = UIModalPresentationStyle.popover
+        imagePickerController.allowsEditing = true
+
+        self.present(imagePickerController, animated: true)
+//        showImagePicker(sourceType: UIImagePickerController.SourceType.photoLibrary, imagePickerController: imagePicker.imagePickerController)
+    }
 }
 
 // 텍스트뷰 딜리게이트
@@ -180,5 +207,36 @@ extension CreateMemberCardViewController: UITextViewDelegate {
             textView.text = (textView as? CustomTextView)?.placeHolderText
             textView.textColor = .placeholderText
         }
+    }
+}
+
+
+extension CreateMemberCardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    // MARK: UIImagePickerControllerDelegate Method
+    /// 이미지 피커 컨트롤러에서 이미지를 선택하거나 카메라 촬영을 완료했을 때 호출되는 메소드
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
+        
+        guard let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage else {
+
+            return
+        }
+        
+        dismiss(animated: false) {
+            // TODO: 본인 UIImageView에 맞게 변경
+            // MARK: - 선택된 이미지를 UIImageView에 넣는 코드
+            self.createMemberCardView.imageView.image = image
+        }
+    }
+    
+    // MARK: - Utilities
+    private func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+        return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
+    }
+
+    private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+        return input.rawValue
     }
 }

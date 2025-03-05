@@ -42,14 +42,28 @@ class CreateMemberCardView: UIView {
     }()
     
     // 사진 올리기 버튼뷰 -> 컴포넌트 완성되면 교체할 예정
-    private let imageView: UIImageView = {
+    public let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = .githubMark
+        view.image = UIImage(systemName: "photo.badge.plus")
+        view.tintColor = .black
         view.contentMode = .scaleAspectFit
+        view.backgroundColor = .systemGray5
+        view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    // 에러 라벨
+    public let errorLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "프로필 사진을 선택해주세요"
+        lbl.textColor = .red
+        lbl.font = .systemFont(ofSize: 10, weight: .medium)
+        lbl.isHidden = true
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
+
     // 정보 스택뷰
     public let infoStackView: UIStackView = {
         let view = UIStackView()
@@ -160,6 +174,7 @@ class CreateMemberCardView: UIView {
         
         [
             imageView,
+            errorLabel,
             infoStackView,
             contentStackView,
             addContentButton,
@@ -214,10 +229,15 @@ class CreateMemberCardView: UIView {
             imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 256),
             
+            // 에러 라벨
+            errorLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 3),
+            errorLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 5),
+            errorLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            
             // infoStackView
-            infoStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            infoStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            infoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            infoStackView.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 10),
+            infoStackView.leadingAnchor.constraint(equalTo: errorLabel.leadingAnchor, constant: 12),
+            infoStackView.trailingAnchor.constraint(equalTo: errorLabel.trailingAnchor, constant: -12),
             
             // 컨텐츠 스택 뷰
             contentStackView.topAnchor.constraint(equalTo: infoStackView.bottomAnchor, constant: 10),
