@@ -19,6 +19,9 @@ class CreateMemberInfoView: UIView {
     // 텍스트 필드 높이 설정
     private let isLongText: Bool
     
+    // 삭제 가능 유무
+    private let isEnableReomve: Bool
+    
     // 타이틀 라벨
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -27,6 +30,16 @@ class CreateMemberInfoView: UIView {
         lbl.numberOfLines = 1
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
+    }()
+    
+    // 삭제 버튼
+    public lazy var removeButton: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(systemName: "minus.circle.fill"), for: .normal)
+        btn.tintColor = .red
+        btn.isHidden = !isEnableReomve
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
     }()
     
     // 텍스트 뷰
@@ -45,7 +58,7 @@ class CreateMemberInfoView: UIView {
     }()
     
 //    // 텍스트 필드
-    private lazy var textField: UITextField = {
+    public lazy var textField: UITextField = {
         let field = UITextField()
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 1))
         field.leftView = leftView
@@ -60,10 +73,11 @@ class CreateMemberInfoView: UIView {
         return field
     }()
     
-    init(title: String, placeholder: String, isLongText: Bool = false) {
+    init(title: String, placeholder: String, isLongText: Bool = false, isEnableRemove: Bool = false) {
         self.title = title
         self.placeholder = placeholder
         self.isLongText = isLongText
+        self.isEnableReomve = isEnableRemove
         super.init(frame: .zero)
         
         self.backgroundColor = .clear
@@ -83,6 +97,7 @@ class CreateMemberInfoView: UIView {
     private func setSubView(){
         [
             titleLabel,
+            removeButton,
             isLongText ? textView : textField,
         ].forEach{self.addSubview($0)}
     }
@@ -94,8 +109,13 @@ class CreateMemberInfoView: UIView {
             // 타이틀 라벨
             titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: removeButton.leadingAnchor, constant: 10),
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            removeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            removeButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            removeButton.widthAnchor.constraint(equalToConstant: 17),
+            removeButton.heightAnchor.constraint(equalToConstant: 17),
             
             // 텍스트 필드
             textSpace.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
