@@ -26,7 +26,7 @@ class CreateMemberCardView: UIView {
     }()
     
     // 스크롤뷰
-    private let scrollView: UIScrollView = {
+    public let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.isScrollEnabled = true
         view.showsHorizontalScrollIndicator = false

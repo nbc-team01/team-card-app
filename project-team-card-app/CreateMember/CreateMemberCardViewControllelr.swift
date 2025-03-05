@@ -20,6 +20,7 @@ class CreateMemberCardViewController: UIViewController {
     
     private func setDelegate(){
         createMemberCardView.introduceView.textView.delegate = self
+//        createMemberCardView.scrollView.delegate = self
     }
     
     private func setAction(){
@@ -28,13 +29,26 @@ class CreateMemberCardViewController: UIViewController {
     
     // Add Content 버튼 액션
     @objc private func touchUpInsideAddContentButton() {
-        let contentView = ContentView() // ContentView 생성 -> ID 생성
-        let removeButtonTapGesutre = CustomTapGesture(target: self, action: #selector(removeButtonTapGesture(_:))) // 삭제 제스처 추가
-        removeButtonTapGesutre.id = contentView.id // 탭 제스처에 id 값 추가
-        contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre) // 삭제 버튼에 삭제 제스처 추가
-        createMemberCardView.contentStackView.addArrangedSubview(contentView) // 생성한 View, StackView에 추가
+        // ContentView 생성 -> ID 생성
+        let contentView = ContentView()
         
-        contentView.contentsView.textView.delegate = self // 딜리게이트 설정 (텍스트 뷰)
+        // 삭제 제스처 추가
+        let removeButtonTapGesutre = CustomTapGesture(target: self, action: #selector(removeButtonTapGesture(_:)))
+        
+        // 탭 제스처에 id 값 추가
+        removeButtonTapGesutre.id = contentView.id
+        
+        // 삭제 버튼에 삭제 제스처 추가
+        contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre)
+        
+        // 생성한 View, StackView에 추가
+        createMemberCardView.contentStackView.addArrangedSubview(contentView)
+        
+        // 딜리게이트 설정 (텍스트 뷰)
+        contentView.contentsView.textView.delegate = self
+        
+        // 스크롤뷰 이동
+        createMemberCardView.scrollView.scroll(to: .bottom)
     }
     
     // ContentView 삭제 버튼 액션
@@ -66,3 +80,5 @@ extension CreateMemberCardViewController: UITextViewDelegate {
         }
     }
 }
+
+//extension CreateMemberCardViewController: UIScrollViewDelegate {}
