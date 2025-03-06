@@ -107,7 +107,7 @@ class TemplateHeaderViewController: UIViewController {
         case .soo:
             newViewController = SooTemplateViewController(userId: userId)
         case .hakyung:
-            newViewController = HakyungTemplateViewController()
+            newViewController = HakyungTemplateViewController(userId: userId)
         case .wonsik:
             newViewController = WonsikTemplateViewController(userId:userId)
         case .quarang:
