@@ -9,7 +9,7 @@ import UIKit
 
 class CreateMemberCardViewController: UIViewController {
     private let createMemberCardView = CreateMemberCardView()
-    private var contentViews: [UUID: ContentView] = [:]
+//    private var contentViews: [UUID: ContentView] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,7 @@ class CreateMemberCardViewController: UIViewController {
     }
     
     private func setDelegate(){
+        // 자기소개 텍스트뷰 딜리게이트
         createMemberCardView.introduceView.textView.delegate = self
     }
     
@@ -147,14 +148,14 @@ class CreateMemberCardViewController: UIViewController {
     @objc private func touchUpInsideAddContentButton() {
         // ContentView 생성
         let contentView = ContentView()
-        let id = UUID() // 컨텐츠 ID 생성
-        contentViews[id] = contentView // 딕셔너리에 저장
+//        let id = UUID() // 컨텐츠 ID 생성
+//        contentViews[id] = contentView // 딕셔너리에 저장
         
         // 삭제 제스처 추가
         let removeButtonTapGesutre = CustomTapGesture(target: self, action: #selector(removeButtonTapGesture(_:)))
         
         // 탭 제스처에 id 값 추가
-        removeButtonTapGesutre.id = id
+        removeButtonTapGesutre.id = contentView.id
         
         // 삭제 버튼에 삭제 제스처 추가
         contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre)
@@ -173,6 +174,7 @@ class CreateMemberCardViewController: UIViewController {
     @objc private func removeButtonTapGesture(_ gesture: CustomTapGesture) {
         guard let id = gesture.id else { return } // 제스처에 저장된 ID 값 추출
         
+        /*
         // 제스처의 ID와 동일한 ContentView를 딕셔너리에서 찾아 삭제 (서버 저장 시 순서 보장 X)
         if let removeView = contentViews[id] {
             // 0.4초 동안 view의 투명도를 0으로 만들고, 이후 뷰 삭제
@@ -185,19 +187,20 @@ class CreateMemberCardViewController: UIViewController {
             // 컨텐츠 뷰 딕셔너리에 값 제거
             contentViews.removeValue(forKey: id)
         }
+         */
         
 
         // ContentView의 내부 ID 사용 (순서 보장)
         // contentStackView를 순회하면서 제스처 ID와 같으면 뷰 삭제
-//        createMemberCardView.contentStackView.arrangedSubviews.forEach{ view in
-//            if (view as? ContentView)?.id == id {
-//                UIView.animate(withDuration: 0.3, animations: {
-//                    view.alpha = 0
-//                }){ _ in
-//                    view.removeFromSuperview()
-//                }
-//            }
-//        }
+        createMemberCardView.contentStackView.arrangedSubviews.forEach{ view in
+            if (view as? ContentView)?.id == id {
+                UIView.animate(withDuration: 0.3, animations: {
+                    view.alpha = 0
+                }){ _ in
+                    view.removeFromSuperview()
+                }
+            }
+        }
     }
     
     

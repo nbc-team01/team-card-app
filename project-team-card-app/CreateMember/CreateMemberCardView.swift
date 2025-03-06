@@ -81,7 +81,12 @@ class CreateMemberCardView: UIView {
     public let mbtiView = CreateMemberInfoView(title: "MBTI", placeholder: "Enter your MBTI")
     
     // 나이
-    public let ageView = CreateMemberInfoView(title: "나이", placeholder: "Enter your Age")
+    public let ageView: CreateMemberInfoView = {
+        let view = CreateMemberInfoView(title: "나이", placeholder: "Enter your Age")
+        view.textField.keyboardType = .numberPad // 숫자 패드로 변경
+        
+        return view
+    }()
     
     // 깃허브
     public let gitAddress = CreateMemberInfoView(title: "GitHub URL", placeholder: "Enter your Github URL")
