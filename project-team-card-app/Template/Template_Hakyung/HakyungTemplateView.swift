@@ -7,41 +7,33 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class HakyungTemplateView: UIView {
     
-    struct Constants {
-        static let spacing20: CGFloat = 20
-        static let spacing8: CGFloat = 8
-        static let lableColor: UIColor = .label
-        static let stackHeight: CGFloat = 50
-    }
+    let tableView = UITableView()
     
-    // 수정 / 삭제는, navigation controller 사용
-
     private let scrollView: UIScrollView = {
         var view = UIScrollView()
         view.isScrollEnabled = true
         return view
     }()
     
-    private let vStack: UIStackView = {
-        var vstack = UIStackView()
-        vstack.axis = .vertical
-//        vstack.spacing = Constants.spacing20
-        return vstack
+    private let vstack: UIStackView = {
+        var view = UIStackView()
+        view.axis = .vertical
+        return view
     }()
     
+    /// 상단 뷰
     private let contentView: UIView = {
         var view = UIView()
-        view.backgroundColor = .red
         
         return view
     }()
     
     private let profileView: UIImageView = {
         var imageView = UIImageView()
-        imageView.backgroundColor = .brown
         return imageView
     }()
     
@@ -55,7 +47,6 @@ class HakyungTemplateView: UIView {
     
     private let nameLabel: UILabel = {
         var label = UILabel()
-        label.text = "손하경"
         label.font = .systemFont(ofSize: 43, weight: .bold)
         label.textColor = Constants.lableColor
         return label
@@ -65,13 +56,13 @@ class HakyungTemplateView: UIView {
         var vstack = UIStackView()
         vstack.axis = .vertical
         vstack.alignment = .leading
+        vstack.spacing = 1
         vstack.distribution = .fillEqually
         return vstack
     }()
     
     private let nicknameLable: UILabel = {
         var label = UILabel()
-        label.text = "a.k.a 비둘기 🐦"
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = Constants.lableColor
         return label
@@ -79,7 +70,6 @@ class HakyungTemplateView: UIView {
     
     private let ageLable: UILabel = {
         var label = UILabel()
-        label.text = "만 2x세"
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = Constants.lableColor
         return label
@@ -101,7 +91,6 @@ class HakyungTemplateView: UIView {
     
     private let mbtiLable: UILabel = {
         var label = UILabel()
-        label.text = "ISFP"
         label.font = .systemFont(ofSize: 11, weight: .regular)
         label.textColor = Constants.lableColor
         return label
@@ -118,15 +107,26 @@ class HakyungTemplateView: UIView {
     }
 }
 
-private extension HakyungTemplateView {
+extension HakyungTemplateView {
     
-    func configureUI() {
+    func setUserInfo(user: User) {
+        self.profileView.kf.setImage(with: URL(string: user.imagePathURL!))
+        self.nameLabel.text = user.name
+        self.nicknameLable.text = user.nickname
+        self.ageLable.text = "\(user.age!)"
+        self.mbtiLable.text = user.mbti
+    }
+    
+    private func configureUI() {
         backgroundColor = .label
         
         addSubview(scrollView)
-        scrollView.addSubview(vStack)
         
-        vStack.addSubview(contentView)
+        scrollView.addSubview(vstack)
+        
+        vstack.addArrangedSubview(contentView)
+        vstack.addArrangedSubview(tableView)
+        
         contentView.addSubview(profileView)
         contentView.addSubview(hStack)
         
@@ -138,25 +138,29 @@ private extension HakyungTemplateView {
             hStack.addArrangedSubview($0)
         }
         
+        tableView.backgroundColor = .clear
+        tableView.isScrollEnabled = false
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
-    func configureAutoLayout() {
+    private func configureAutoLayout() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalToSuperview()
         }
         
-        vStack.translatesAutoresizingMaskIntoConstraints = false
-        vStack.snp.makeConstraints { make in
+        vstack.translatesAutoresizingMaskIntoConstraints = false
+        vstack.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalTo(scrollView)
             make.width.equalTo(scrollView.snp.width)
-            make.height.equalTo(scrollView.snp.height)
+//            make.height.equalTo(scrollView.snp.height)
         }
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(vStack)
-            make.width.equalTo(vStack.snp.width)
+            make.top.leading.trailing.equalTo(vstack)
+            make.width.equalTo(scrollView.snp.width)
             make.height.equalTo(UIScreen.main.bounds.size.height * 0.44)
         }
         
@@ -183,22 +187,22 @@ private extension HakyungTemplateView {
         vStackForLabel.snp.makeConstraints { make in
             make.height.equalTo(Constants.stackHeight)
             make.top.equalTo(hStack.snp.top)
-            make.leading.equalTo(nameLabel.snp.trailing).offset(10)
+            make.leading.equalTo(nameLabel.snp.trailing).offset(14)
         }
         
         nicknameLable.translatesAutoresizingMaskIntoConstraints = false
         nicknameLable.snp.makeConstraints { make in
-            make.top.equalTo(vStackForLabel.snp.top).offset(2)
+//            make.top.equalTo(vStackForLabel.snp.top).offset(2)
         }
         
         ageLable.translatesAutoresizingMaskIntoConstraints = false
         ageLable.snp.makeConstraints { make in
-            make.top.equalTo(nicknameLable.snp.bottom).offset(-3)
+//            make.top.equalTo(nicknameLable.snp.bottom).offset(-3)
         }
         
         githubButton.translatesAutoresizingMaskIntoConstraints = false
         githubButton.snp.makeConstraints { make in
-            make.trailing.equalTo(blogButton.snp.leading).offset(-25)
+            make.trailing.equalTo(blogButton.snp.leading).offset(-23)
         }
         
         blogButton.translatesAutoresizingMaskIntoConstraints = false
@@ -206,5 +210,20 @@ private extension HakyungTemplateView {
             make.trailing.equalTo(profileView.snp.trailing).offset(-20)
         }
         
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.snp.makeConstraints { make in
+            make.width.equalTo(contentView.snp.width)
+            make.height.equalTo(600)
+            make.top.equalTo(contentView.snp.bottom)
+            make.bottom.leading.trailing.equalTo(scrollView)
+        }
     }
+    
+}
+
+struct Constants {
+    static let spacing20: CGFloat = 20
+    static let spacing8: CGFloat = 8
+    static let lableColor: UIColor = .black
+    static let stackHeight: CGFloat = 50
 }
