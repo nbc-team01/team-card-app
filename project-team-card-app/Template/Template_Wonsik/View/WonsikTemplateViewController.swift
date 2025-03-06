@@ -12,7 +12,7 @@ class WonsikTemplateViewController: UIViewController {
     //MARK: - UI 요소 정의
     private let templateView = WonsikTemplateView()
     private var user: User? // Firebase에서 가져온 유저 정보 저장
-    
+    private var userId:String
     //MARK: - 라이프사이클 메서드
     override func loadView() {
         self.view = templateView // 커스텀 뷰 적용
@@ -23,11 +23,18 @@ class WonsikTemplateViewController: UIViewController {
         fetchUserData() // Firestore에서 유저 데이터 가져오기
     }
 
+    init(userId:String){
+        self.userId = userId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     //MARK: - Firestore에서 유저 정보 가져오기
     private func fetchUserData() {
         Task {
             do {
-                let userId = "1165D3AE-E962-4825-9139-648CC254B035" // 실제 유저 ID 설정 필요
                 let fetchedUser = try await UserAPIService.fetchUser(userId: userId)
                 self.user = fetchedUser
                 updateUI(with: fetchedUser) // UI 업데이트
@@ -57,5 +64,5 @@ class WonsikTemplateViewController: UIViewController {
 }
 
 #Preview{
-    WonsikTemplateViewController()
+    WonsikTemplateViewController(userId: "1165D3AE-E962-4825-9139-648CC254B035")
 }
