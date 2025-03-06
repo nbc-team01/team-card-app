@@ -37,7 +37,7 @@ class CustomData{
             }
           ],
           "password": "hashed_password",
-          "image_path_URL": "https://example.com/profile.jpg"
+          "image_path_URL": "https://upload.wikimedia.org/wikipedia/ko/4/4a/%EC%8B%A0%EC%A7%B1%EA%B5%AC.png"
         }
         """
         return try! JSONDecoder().decode(User.self, from: user.data(using: .utf8)!)
@@ -69,7 +69,7 @@ class CustomData{
             }
           ],
           "password": "hashed_password",
-          "image_path_URL": "https://example.com/profile.jpg"
+          "image_path_URL": "https://upload.wikimedia.org/wikipedia/ko/4/4a/%EC%8B%A0%EC%A7%B1%EA%B5%AC.png"
         },
         {
           "user_id": "UUID",
@@ -93,7 +93,7 @@ class CustomData{
             }
           ],
           "password": "hashed_password",
-          "image_path_URL": "https://example.com/profile.jpg"
+          "image_path_URL": "https://upload.wikimedia.org/wikipedia/ko/4/4a/%EC%8B%A0%EC%A7%B1%EA%B5%AC.png"
         }
         ]
         """
