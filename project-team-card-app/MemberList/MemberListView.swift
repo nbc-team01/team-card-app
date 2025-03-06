@@ -43,15 +43,8 @@ class MemberListView: UIView {
         return collectionView
     }()
     
-    // Add MemberButton (컴포넌트로 교체 예정)
-    public let addMemberButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Add Member", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        btn.backgroundColor = .green
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
+    // Add MemberButton
+    public let addMemberButton = AddButton(type: .member)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

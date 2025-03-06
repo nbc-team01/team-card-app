@@ -113,17 +113,8 @@ class CreateMemberCardView: UIView {
     
     
     // 커스텀 내용 추가
-    public let addContentButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Add Content", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 12, weight: .bold)
-        btn.layer.cornerRadius = 8
-        btn.backgroundColor = .black
-        btn.isUserInteractionEnabled = true
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
+    public let addContentButton = AddButton(type: .content)
+
     // 바텀 버튼 스택뷰
     private let bottomButtonStackView: UIStackView = {
         let view = UIStackView()
