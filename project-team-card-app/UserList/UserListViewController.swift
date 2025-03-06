@@ -16,18 +16,30 @@ class UserListViewController: UIViewController {
         
         view = userListView
         setDelegate()
+        setAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        fetchUsers()
+        fetchUsers() // 유저 리스트 정보 가져오기
     }
     
     // 딜리게이트 설정
     private func setDelegate() {
         userListView.collectionView.dataSource = self
         userListView.collectionView.delegate = self
+    }
+    
+    // 액션 설정
+    private func setAction() {
+        // Add User 버튼 액션
+        userListView.addUserButton.addTarget(self, action: #selector(touchUpInsideAddUserButton), for: .touchUpInside)
+    }
+    
+    // Add User 버튼 액션
+    @objc private func touchUpInsideAddUserButton() {
+        let nextVC = CreateUserCardViewController(type: .create)
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     // 유저 배열 가져오기
