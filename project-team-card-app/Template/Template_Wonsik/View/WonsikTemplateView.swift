@@ -82,9 +82,6 @@ class WonsikTemplateView: UIView {
     // MBTI 섹션
     private let mbtiSection = CustomMbtiView(mbti: "ESFP")
     
-    // Style 섹션
-    private let styleSection = CustomSectionView(title: "Style", content: "내용")
-    
     // Contents 섹션
     private var contentsSections: [CustomSectionView] = []
     
@@ -113,7 +110,6 @@ class WonsikTemplateView: UIView {
         contentView.addSubview(tistoryIcon)
         contentView.addSubview(aboutMeSection)
         contentView.addSubview(mbtiSection)
-        contentView.addSubview(styleSection)
         
         // 스크롤 뷰 설정
         scrollView.snp.makeConstraints { make in
@@ -164,23 +160,19 @@ class WonsikTemplateView: UIView {
             make.width.height.equalTo(40)
         }
         
-        // About Me 섹션
+        // About 섹션
         aboutMeSection.snp.makeConstraints { make in
             make.top.equalTo(githubIcon.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
-        // About Me 섹션
+        // mbti Me 섹션
         mbtiSection.snp.makeConstraints { make in
             make.top.equalTo(aboutMeSection.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().offset(-20)
         }
         
-        // Style 섹션
-        styleSection.snp.makeConstraints { make in
-            make.top.equalTo(mbtiSection.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
-        }
         
     }
     
@@ -229,10 +221,9 @@ class WonsikTemplateView: UIView {
     
     
     /// About Me 및 Style 섹션 업데이트
-    func updateSections(aboutMeTitle: String, aboutMeContent: String, mbti: String, styleTitle: String, styleContent: String, contents: [Content]?) {
+    func updateSections(aboutMeTitle: String, aboutMeContent: String, mbti: String, contents: [Content]?) {
         aboutMeSection.updateSection(title: aboutMeTitle, content: aboutMeContent)
         mbtiSection.updateSection(mbti: mbti)
-        styleSection.updateSection(title: styleTitle, content: styleContent)
         updateContentsSections(contents: contents)
     }
     
@@ -253,8 +244,8 @@ class WonsikTemplateView: UIView {
         guard let contents = contents, !contents.isEmpty else { return } // 내용이 없으면 아무것도 추가하지 않음
         
         
-        // 새로운 CustomSectionView를 styleSection 바로 아래에 배치해야 하기 때문
-        var lastView: UIView = styleSection // 마지막으로 배치된 뷰를 기준으로 새 섹션을 추가하기 위해 저장
+        // 새로운 CustomSectionView를 mbtiSection 바로 아래에 배치해야 하기 때문
+        var lastView: UIView = mbtiSection // 마지막으로 배치된 뷰를 기준으로 새 섹션을 추가하기 위해 저장
         
         
         // lastView를 업데이트하지 않으면 모든 섹션이 같은 위치에 쌓이게 됨
@@ -275,10 +266,17 @@ class WonsikTemplateView: UIView {
         //contentView의 bottom이 지정되지 않으면 스크롤이 작동하지 않음
         // 마지막 섹션의 bottom이 contentView.bottom에 닿아야 스크롤 뷰가 정상 작동
         
-        // 마지막으로 추가된 섹션의 bottom을 contentView의 bottom과 연결
-        lastView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-20)
+        // 마지막 섹션의 bottom을 contentView의 bottom과 연결
+        if let lastSection = contentsSections.last {
+            lastSection.snp.makeConstraints { make in
+                make.bottom.equalToSuperview().offset(-20)
+            }
+        } else {
+            mbtiSection.snp.makeConstraints { make in
+                make.bottom.equalToSuperview().offset(-20)
+            }
         }
+
     }
     
     
