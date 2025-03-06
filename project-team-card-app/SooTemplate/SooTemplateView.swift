@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SooTemplateView: UIView {
     // 탑 버튼 크기 (편집, 삭제)
@@ -13,33 +14,7 @@ class SooTemplateView: UIView {
     
     // 링크 버튼 크기 (깃, 블로그)
     private let linkButtonWidthHeight: CGFloat = 40
-    
-    // 수정 버튼
-    public lazy var editButton: UIButton = {
-        let btn = UIButton()
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "square.and.pencil")
-        config.contentInsets = .zero
-        btn.configuration = config
-        btn.tintColor = .black
 
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
-    // 삭제 버튼
-    public lazy var deleteButton: UIButton = {
-        let btn = UIButton()
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "trash.fill")
-        config.contentInsets = .zero
-        btn.configuration = config
-        btn.tintColor = .black
-
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
     // 스크롤뷰
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -60,10 +35,9 @@ class SooTemplateView: UIView {
     // 프로필 이미지 뷰
     private let profileImageView: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = .githubMark
-        imgView.contentMode = .scaleAspectFit
-//        imgView.layer.cornerRadius = 8
-//        imgView.clipsToBounds = true
+//        imgView.image = .githubMark
+        imgView.backgroundColor = .placeholderText
+        imgView.contentMode = .scaleToFill
         imgView.translatesAutoresizingMaskIntoConstraints = false
         return imgView
     }()
@@ -74,12 +48,15 @@ class SooTemplateView: UIView {
         let layer = CAGradientLayer()
         layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 150)
         layer.colors = [
-            UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.2).cgColor,
+//            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.8).cgColor,
             UIColor.black.withAlphaComponent(0.5).cgColor,
-            UIColor.black.withAlphaComponent(0.7).cgColor
+            UIColor.black.withAlphaComponent(0.3).cgColor,
+            UIColor.black.withAlphaComponent(0.1).cgColor,
+            UIColor.clear.cgColor
         ]
         view.layer.addSublayer(layer)
+        view.backgroundColor = .clear
         view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -94,36 +71,7 @@ class SooTemplateView: UIView {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    
-//    // 이름
-//    private let nameLabel: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "임시 이름"
-//        lbl.textColor = .white
-//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
-//    
-//    // 닉네임
-//    private let nicknameLabel: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "닉네임"
-//        lbl.textColor = .white
-//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
-//    
-//    // 나이
-//    private let ageLabel: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "26"
-//        lbl.textColor = .white
-//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
+
 //    
     // MBTI
     private let mbtiLabel: UILabel = {
@@ -140,6 +88,9 @@ class SooTemplateView: UIView {
         let btn = UIButton()
         btn.setImage(.githubMark, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = linkButtonWidthHeight / 2
+        btn.clipsToBounds = true
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -187,8 +138,6 @@ class SooTemplateView: UIView {
     
     private func setSubView(){
         [
-            editButton,
-            deleteButton,
             scrollView,
         ].forEach{self.addSubview($0)}
         
@@ -198,9 +147,6 @@ class SooTemplateView: UIView {
             profileImageView,
             gradientView,
             userInfoLabel,
-//            nameLabel,
-//            nicknameLabel,
-//            ageLabel,
             mbtiLabel,
             gitButton,
             blogButton,
@@ -212,20 +158,9 @@ class SooTemplateView: UIView {
     
     private func setUI() {
         NSLayoutConstraint.activate([
-            // 삭제 버튼
-            deleteButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            deleteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            deleteButton.widthAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            deleteButton.heightAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            
-            // 수정버튼
-            editButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            editButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -16),
-            editButton.widthAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            editButton.heightAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            
+
             // 스크롤뷰
-            scrollView.topAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 10),
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -245,34 +180,26 @@ class SooTemplateView: UIView {
             profileImageView.heightAnchor.constraint(equalToConstant: 400),
             
             // 그라이데이션 뷰
-            gradientView.bottomAnchor.constraint(equalTo: mbtiLabel.bottomAnchor, constant: 25),
+            gradientView.topAnchor.constraint(equalTo: userInfoLabel.topAnchor, constant: -20),
             gradientView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             gradientView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            gradientView.heightAnchor.constraint(equalToConstant: 150),
+            gradientView.bottomAnchor.constraint(equalTo: mbtiLabel.bottomAnchor, constant: 10),
+//            gradientView.heightAnchor.constraint(equalToConstant: 100),
             
             // 유저 정보 라벨
-            userInfoLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
+            userInfoLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: -75),
             userInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             userInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16),
             userInfoLabel.heightAnchor.constraint(equalToConstant: 30),
-            
-//            // 닉네임
-//            nicknameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
-//            nicknameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            nicknameLabel.heightAnchor.constraint(equalToConstant: 30),
-//            
-//            // 이름
-//            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
-//            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            nameLabel.heightAnchor.constraint(equalToConstant: 30),
-//            
+
             // MBTI
             mbtiLabel.topAnchor.constraint(equalTo: userInfoLabel.bottomAnchor, constant: 10),
             mbtiLabel.leadingAnchor.constraint(equalTo: userInfoLabel.leadingAnchor),
             mbtiLabel.heightAnchor.constraint(equalToConstant: 30),
             
             // 깃 버튼
-            gitButton.centerYAnchor.constraint(equalTo: mbtiLabel.centerYAnchor),
+//            gitButton.centerYAnchor.constraint(equalTo: mbtiLabel.centerYAnchor),
+            gitButton.bottomAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: -15),
             gitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             gitButton.heightAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
             gitButton.widthAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
@@ -284,7 +211,7 @@ class SooTemplateView: UIView {
             blogButton.widthAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
             
             // 자기 소개
-            introduceView.topAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: 15),
+            introduceView.topAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: 25),
             introduceView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             introduceView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
 //            introduceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -306,6 +233,8 @@ class SooTemplateView: UIView {
     public func config(user: User) {
         if let imagePathURL = user.imagePathURL {
             profileImageView.kf.setImage(with: URL(string: imagePathURL))
+        } else {
+            print("이미지 없음")
         }
         
         let age = Int(user.age ?? 0)

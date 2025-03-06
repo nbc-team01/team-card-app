@@ -38,14 +38,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CB6DA9E42D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */ = {
+		CB6DAB552D79CA64008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"GoogleService-Info.plist",
 			);
 			target = D6AEF1772D75ACC600F8EA4E /* project-team-card-appTests */;
 		};
-		CB6DA9E52D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */ = {
+		CB6DAB562D79CA64008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"GoogleService-Info.plist",
@@ -66,8 +66,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D6AEF18A2D75ACC600F8EA4E /* Exceptions for "project-team-card-app" folder in "project-team-card-app" target */,
-				CB6DA9E42D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */,
-				CB6DA9E52D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */,
+				CB6DAB552D79CA64008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */,
+				CB6DAB562D79CA64008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */,
 			);
 			path = "project-team-card-app";
 			sourceTree = "<group>";
@@ -331,6 +331,7 @@
 				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME}가 사진을 등록하는 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다. ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -359,6 +360,7 @@
 				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME}가 사진을 등록하는 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다. ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
