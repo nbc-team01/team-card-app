@@ -17,7 +17,12 @@ class CreateMemberCardViewController: UIViewController {
         view = createMemberCardView
         setDelegate()
         setAction()
-        
+        keyboardHidetapGesture()
+
+    }
+    
+    // 키보드 숨기는 탭 제스처 등록
+    private func keyboardHidetapGesture() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         createMemberCardView.addGestureRecognizer(tap)
     }

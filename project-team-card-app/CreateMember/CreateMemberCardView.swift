@@ -217,7 +217,7 @@ class CreateMemberCardView: UIView {
             
             // 스크롤뷰
             scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
