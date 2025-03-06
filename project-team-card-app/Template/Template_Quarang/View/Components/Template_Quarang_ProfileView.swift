@@ -102,8 +102,12 @@ class Template_Quarang_ProfileView:UIView{
         contentsView.snp.makeConstraints {
             $0.top.equalTo(detailsVStackView.snp.bottom).inset(-30)
             $0.left.right.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(100)
         }
     }
+}
+#Preview{
+    Template_Quarang_ViewController(userId:"UUID")
 }
 
 

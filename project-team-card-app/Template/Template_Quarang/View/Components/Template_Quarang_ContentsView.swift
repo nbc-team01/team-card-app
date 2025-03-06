@@ -15,38 +15,34 @@ class Template_Quarang_ContentsView:UIView{
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
-        view.spacing = 20
-        view.alignment = .fill
         return view
     }()
-    private func createItemView(title: String, content: String) -> UIView {
-       let containerView = UIView()
-       
-       let titleLabel = UILabel()
-       titleLabel.text = title
-       titleLabel.font = .boldSystemFont(ofSize: 25)
-       titleLabel.textAlignment = .left
-       
-       let contentLabel = UILabel()
-       contentLabel.text = content
-       contentLabel.font = .systemFont(ofSize: 20)
-       contentLabel.textAlignment = .left
-       
-       containerView.addSubview(titleLabel)
-       containerView.addSubview(contentLabel)
-       
-       titleLabel.snp.makeConstraints {
-           $0.top.left.right.equalToSuperview()
-           $0.bottom.equalToSuperview().inset(60)
-       }
-       
-       contentLabel.snp.makeConstraints {
-           $0.left.right.equalToSuperview().inset(15)
-           $0.top.equalTo(titleLabel.snp.bottom).inset(-10)
-       }
-       
-       return containerView
-   }
+    private func createItemView(title: String, content: String) -> UIStackView {
+        
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.font = .boldSystemFont(ofSize: 25)
+        titleLabel.textAlignment = .left
+        
+        let contentLabel = UILabel()
+        contentLabel.text = content
+        contentLabel.numberOfLines = 0
+        contentLabel.lineBreakMode = .byWordWrapping
+        contentLabel.font = .systemFont(ofSize: 20)
+        contentLabel.textAlignment = .left
+        contentLabel.sizeToFit()
+        
+        let contentContainerView = UIView()
+        contentContainerView.addSubview(contentLabel)
+        
+        contentLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(15) // contentLabel에 padding을 20씩 적용
+        }
+        
+        let stackView = UIStackView(arrangedSubviews: [titleLabel,contentContainerView])
+        stackView.axis = .vertical
+        return stackView
+    }
     init(contents:[Content]){
         super.init(frame: .zero)
         self.contents = contents
@@ -57,14 +53,18 @@ class Template_Quarang_ContentsView:UIView{
     }
     private func configureView(){
         addSubview(stackView)
-                
+        
         stackView.snp.makeConstraints {
             $0.top.left.right.bottom.equalToSuperview()
         }
         
         contents.forEach { item in
-            let containerView = createItemView(title: item.title ?? "", content: item.content ?? "")
+            let containerView = createItemView(title: item.title ?? "", content: item.content?.replacingOccurrences(of: "\\n", with: "\n") ?? "")
             stackView.addArrangedSubview(containerView)
         }
     }
+}
+
+#Preview{
+    Template_Quarang_ViewController(userId:"UUID")
 }
