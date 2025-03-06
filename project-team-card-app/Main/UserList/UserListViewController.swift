@@ -23,6 +23,11 @@ class UserListViewController: UIViewController {
         super.viewWillAppear(animated)
         fetchUsers() // 유저 리스트 정보 가져오기
         
+        // 숨긴 탭바 띄우기
+        if let mainVC = self.navigationController?.parent as? MainViewController {
+            mainVC.setTabBar(isHidden: false)
+        }
+        
         // 내비게이션 컨트롤러 숨김
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -30,6 +35,11 @@ class UserListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        // 탭바 숨기기
+        if let mainVC = self.navigationController?.parent as? MainViewController {
+            mainVC.setTabBar(isHidden: true)
+        }
+
         // 내비게이션 컨트롤러
         self.navigationController?.navigationBar.isHidden = false
     }

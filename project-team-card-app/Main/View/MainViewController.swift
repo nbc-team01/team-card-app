@@ -21,6 +21,13 @@ class MainViewController: UIViewController {
         showHomeView() // 앱 실행 시 홈 뷰를 먼저 표시
     }
     
+    // 디테일 뷰 이동 시 탭바 숨기기
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("MainVC - willDisAppear")
+        tabBarView.isHidden = true
+    }
+    
     private func setupUI() {
         view.backgroundColor = .white
         
@@ -60,5 +67,10 @@ class MainViewController: UIViewController {
     // 앱 실행 시 홈 뷰가 보이도록 설정
     private func showHomeView() {
         switchView(to: 0)
+    }
+    
+    // 탭바 hidden처리
+    public func setTabBar(isHidden: Bool) {
+        self.tabBarView.isHidden = isHidden
     }
 }
