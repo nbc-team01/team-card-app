@@ -17,14 +17,14 @@ public extension UIScrollView {
 
     func scroll(to direction: ScrollDirection) {
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             switch direction {
             case .top:
-                self.scrollToTop()
+                self?.scrollToTop()
             case .center:
-                self.scrollToCenter()
+                self?.scrollToCenter()
             case .bottom:
-                self.scrollToBottom()
+                self?.scrollToBottom()
             }
         }
     }

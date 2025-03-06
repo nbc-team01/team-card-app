@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CreateMemberCardView: UIView {
     // 타이틀 라벨
@@ -266,5 +267,23 @@ class CreateMemberCardView: UIView {
             bottomButtonStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             bottomButtonStackView.heightAnchor.constraint(equalToConstant: 42),
         ])
+    }
+    
+    public func config(user: User) {
+        if let imagePathURL = user.imagePathURL {
+            imageView.kf.setImage(with: URL(string: imagePathURL))
+        }
+        
+        if let age = user.age {
+            ageView.textField.text = "\(age)"
+        }
+
+        nameView.textField.text = user.name
+        mbtiView.textField.text = user.mbti
+        nicknameView.textField.text = user.nickname
+        gitAddress.textField.text = user.gitHubPathURL
+        blogAddress.textField.text = user.blogPathURL
+        introduceView.textView.text = user.introduce
+        introduceView.textView.textColor = .black
     }
 }

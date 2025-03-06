@@ -7,9 +7,34 @@
 
 import UIKit
 
+// 생성인지 수정인지 구분
+public enum MemberCardType {
+    case create
+    case modify(userId: String)
+}
+
 class CreateMemberCardViewController: UIViewController {
     private let createMemberCardView = CreateMemberCardView()
 //    private var contentViews: [UUID: ContentView] = [:]
+    private let type: MemberCardType // 생성인지 수정인지 구분
+    private var userId: String? // 수정일 때는 userId로 업데이트
+    
+    init(type: MemberCardType) {
+        self.type = type
+        super.init(nibName: nil, bundle: nil)
+        
+        switch type {
+        case .create:
+            return
+        case .modify(let userId):
+            // 정보 불러오기
+            fetchUserInfo(userId: userId)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,37 +72,79 @@ class CreateMemberCardViewController: UIViewController {
         createMemberCardView.imageView.addGestureRecognizer(imageTapGesture)
     }
     
+    // 수정 시 정보 불러오기
+    private func fetchUserInfo(userId: String) {
+        Task {
+            do {
+                let user = try await UserAPIService.fetchUser(userId: userId)
+                self.userId = user.userID
+                DispatchQueue.main.async {
+                    self.createMemberCardView.config(user: user)
+                    self.setUserContents(user: user)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // 수정 시 컨텐츠뷰 추가 로직
+    private func setUserContents(user: User) {
+        user.contents?.forEach({ content in
+            // ContentView 생성
+            let contentView = ContentView()
+            contentView.config(content: content)
+            
+            // 삭제 제스처 추가
+            let removeButtonTapGesutre = CustomTapGesture(target: self, action: #selector(removeButtonTapGesture(_:)))
+            
+            // 탭 제스처에 id 값 추가
+            removeButtonTapGesutre.id = contentView.id
+            
+            // 삭제 버튼에 삭제 제스처 추가
+            contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre)
+            
+            // 생성한 View, StackView에 추가
+            createMemberCardView.contentStackView.addArrangedSubview(contentView)
+            
+            // 딜리게이트 설정 (텍스트 뷰)
+            contentView.contentsView.textView.delegate = self
+        })
+    }
+    
     // Save 버튼 액션
     @objc private func touchUpInsideSaveButton() {
         // nil 값이 있는지 확인
         guard self.validationData() else { return }
         
         // 얼럿 띄우기
-        presentAlert() { password in
+        presentAlert() {[weak self] password in
             Task {
                 do {
-                    try await self.setUserData(password: password)
-                    print("서버 저장 성공")
+                    try await self?.setUserData(password: password)
+                    // 홈뷰로 돌아가기 (통신 이후)
+                    self?.navigationController?.popViewController(animated: true)
                 }
                 catch {
                     print(error.localizedDescription)
                 }
             }
-            
         }
     }
     
     // API 통신
     private func setUserData(password: String) async throws {
-        // 모델 만들어서 DB에 저장      
+        // 모델 만들어서 DB에 저장
         // 커스텀 컨텐츠 배열
         var customContents = [Content]()
         
         // API 저장 로직 처리
+//        let userId = UUID().uuidString
         guard let image = self.createMemberCardView.imageView.image,
               let name = self.createMemberCardView.nameView.textField.text,
               let mbti = self.createMemberCardView.mbtiView.textField.text,
-              let age = self.createMemberCardView.ageView.textField.text,
+              let ageText = self.createMemberCardView.ageView.textField.text,
+              let age = Int(ageText),
               let nickname = self.createMemberCardView.nicknameView.textField.text,
               let gitAddress = self.createMemberCardView.gitAddress.textField.text,
               let blogAddress = self.createMemberCardView.blogAddress.textField.text,
@@ -100,22 +167,32 @@ class CreateMemberCardViewController: UIViewController {
         
         print(password, name, mbti, age, nickname, gitAddress, blogAddress, introduce, customContents)
         
-        // API
-        let user = User(userID: UUID().uuidString,
+        // 수정일 때는 값이 있으니 그대로 사용, 없으면 새로 생성
+        let userId = self.userId ?? UUID().uuidString
+        let user = User(userID: userId,
                         name: name,
                         mbti: mbti,
                         nickname: nickname,
+                        age: age,
                         gitHubPathURL: gitAddress,
                         blogPathURL: blogAddress,
                         introduce: introduce,
                         contents: customContents,
                         password: password)
     
-        try await UserAPIService.setUser(user: user)
-        
-        DispatchQueue.main.async {
-            // 홈뷰로 돌아가기 (통신 이후)
-            self.navigationController?.popViewController(animated: true)
+        switch type {
+        case .create:
+            // 정보 저장 API
+            try await UserAPIService.setUser(user: user)
+            
+            // 이미지 저장 API
+            let _ = try await StorageAPIService.setImage(image, userId: userId)
+        case .modify(let userId):
+            // 정보 수정 API
+            try await UserAPIService.updateUser(user: user)
+            
+            // 이미지 저장 API
+            let _ = try await StorageAPIService.setImage(image, userId: userId)
         }
     }
     

@@ -50,4 +50,10 @@ class ContentView: UIView {
             contentsView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
+    
+    public func config(content: Content) {
+        titleView.textField.text = content.title
+        contentsView.textView.text = content.content
+        contentsView.textView.textColor = .black
+    }
 }
