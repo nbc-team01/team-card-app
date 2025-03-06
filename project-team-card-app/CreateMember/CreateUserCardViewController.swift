@@ -180,19 +180,37 @@ class CreateUserCardViewController: UIViewController {
                         contents: customContents,
                         password: password)
     
-        switch type {
-        case .create:
-            // 정보 저장 API
-            try await UserAPIService.setUser(user: user)
-            
-            // 이미지 저장 API
-            let _ = try await StorageAPIService.setImage(image, userId: userId)
-        case .modify(let userId):
-            // 정보 수정 API
-            try await UserAPIService.updateUser(user: user)
-            
-            // 이미지 저장 API
-            let _ = try await StorageAPIService.setImage(image, userId: userId)
+        Task {
+            switch type {
+            case .create:
+                do {
+                    // 정보 저장 API
+                    try await UserAPIService.setUser(user: user)
+                    
+                    // 이미지 저장 API
+                    let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+                    print("이미지 저장 성공: \(imagePath)")
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+            case .modify(let userId):
+                do {
+                    // 정보 수정 API
+                    try await UserAPIService.updateUser(user: user)
+                    
+                    // 이미지 저장 API
+                    let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+                    print("이미지 저장 성공: \(imagePath)")
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
