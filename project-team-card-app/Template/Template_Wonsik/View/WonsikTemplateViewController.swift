@@ -27,7 +27,7 @@ class WonsikTemplateViewController: UIViewController {
     private func fetchUserData() {
         Task {
             do {
-                let userId = "UUID" // 실제 유저 ID 설정 필요
+                let userId = "1165D3AE-E962-4825-9139-648CC254B035" // 실제 유저 ID 설정 필요
                 let fetchedUser = try await UserAPIService.fetchUser(userId: userId)
                 self.user = fetchedUser
                 updateUI(with: fetchedUser) // UI 업데이트
@@ -50,9 +50,7 @@ class WonsikTemplateViewController: UIViewController {
         templateView.updateSections(
             aboutMeTitle: "About Me",
             aboutMeContent: user.introduce ?? "",
-            mbti: user.mbti ?? "정보 없음",
-            styleTitle: "Style",
-            styleContent: user.contents?.first(where: { $0.title == "Style" })?.content ?? "정보 없음",
+            mbti: user.mbti?.uppercased() ?? "정보 없음",
             contents: user.contents
         )
     }
