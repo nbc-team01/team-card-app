@@ -1,0 +1,19 @@
+//
+//  HomeView.swift
+//  project-team-card-app
+//
+//  Created by 양원식 on 3/6/25.
+//
+
+import UIKit
+import SnapKit
+
+class HomeViewController: UIViewController {
+    private let homeView = HomeView()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view = homeView
+        
+    }
+}

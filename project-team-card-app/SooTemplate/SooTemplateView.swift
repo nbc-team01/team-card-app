@@ -12,7 +12,7 @@ class SooTemplateView: UIView {
     private let topButtonWidthHeight: CGFloat = 30
     
     // 링크 버튼 크기 (깃, 블로그)
-    private let linkButtonWidthHeight: CGFloat = 50
+    private let linkButtonWidthHeight: CGFloat = 40
     
     // 수정 버튼
     public lazy var editButton: UIButton = {
@@ -147,17 +147,17 @@ class SooTemplateView: UIView {
     // 블로그 버튼
     public lazy var blogButton: UIButton = {
         let btn = UIButton()
-        btn.setImage(.blogIcon, for: .normal)
+        btn.setImage(.blogIconTistory, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
 
     // 자기 소개
-    private let introduceView = SooInfoView(title: "자기소개")
+    private let introduceView = SooInfoView(title: "자기소개", content: "")
     
    // 커스텀 스택뷰
-    public let infoStackView: UIStackView = {
+    public let contentStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 15
@@ -166,9 +166,17 @@ class SooTemplateView: UIView {
         return view
     }()
     
+    // emptyView
+    private let emptyView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
+    
         setSubView()
         setUI()
     }
@@ -197,7 +205,8 @@ class SooTemplateView: UIView {
             gitButton,
             blogButton,
             introduceView,
-            infoStackView
+            contentStackView,
+            emptyView
         ].forEach{contentView.addSubview($0)}
     }
     
@@ -244,6 +253,7 @@ class SooTemplateView: UIView {
             // 유저 정보 라벨
             userInfoLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
             userInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            userInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16),
             userInfoLabel.heightAnchor.constraint(equalToConstant: 30),
             
 //            // 닉네임
@@ -280,23 +290,41 @@ class SooTemplateView: UIView {
 //            introduceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             // 커스텀 정보 뷰
-            infoStackView.topAnchor.constraint(equalTo: introduceView.bottomAnchor, constant: 15),
-            infoStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            infoStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            infoStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            contentStackView.topAnchor.constraint(equalTo: introduceView.bottomAnchor, constant: 15),
+            contentStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            contentStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+//            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            emptyView.topAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: 15),
+            emptyView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            emptyView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            emptyView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            emptyView.heightAnchor.constraint(equalToConstant: 1)
         ])
     }
     
-    // 커스텀 데이터
-    public func setInfoData(infoData: (title: String, content: String)) {
-        let infoView = SooInfoView(title: infoData.title, content: infoData.content)
+    public func config(user: User) {
+        if let imagePathURL = user.imagePathURL {
+            profileImageView.kf.setImage(with: URL(string: imagePathURL))
+        }
         
-        infoStackView.addArrangedSubview(infoView)
+        let age = Int(user.age ?? 0)
+        userInfoLabel.text = "\(user.nickname ?? "") / \(user.name ?? "") (\(age)세)"
+        mbtiLabel.text = user.mbti
+        
+        if let introduce = user.introduce {
+            introduceView.config(title: "자기소개", content: introduce)
+        }
+        
+        if let contents = user.contents {
+            contents.forEach({ content in
+                guard let title = content.title, let content = content.content else {
+                    return
+                }
+                let infoView = SooInfoView(title: title, content: content)
+                contentStackView.addArrangedSubview(infoView)
+            })
+        }
     }
-    
-    // 유저 정보 데이터
-    public func setUserInfoData(nickname: String, name: String, age: Int, mbti: String) {
-        userInfoLabel.text = "\(nickname) / \(name) (\(age)세)"
-        mbtiLabel.text = mbti
-    }
+
 }

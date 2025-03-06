@@ -16,25 +16,30 @@ class SooInfoView: UIView {
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = title
-        lbl.font = .systemFont(ofSize: 28, weight: .bold)
+        lbl.font = .systemFont(ofSize: 24, weight: .bold)
         lbl.numberOfLines = 1
+        lbl.setContentCompressionResistancePriority(.required, for: .vertical)
+
         lbl.translatesAutoresizingMaskIntoConstraints = false
+        
         return lbl
     }()
     
     // content 라벨
-    private lazy var contentLabel: UILabel = {
-        let lbl = UILabel()
+    private lazy var contentLabel: PaddingLabel = {
+        let lbl = PaddingLabel(topPadding: 10, leftPadding: 10, bottomPadding: 10, rightPadding: 10)
         lbl.text = content
-//        lbl.text = "임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시임시"
-        lbl.font = . systemFont(ofSize: 24)
+        lbl.font = . systemFont(ofSize: 20)
         lbl.numberOfLines = 0
-        lbl.backgroundColor = .systemPink
+        lbl.backgroundColor = .systemGray5
+        lbl.layer.cornerRadius = 8
+        lbl.clipsToBounds = true
         lbl.translatesAutoresizingMaskIntoConstraints = false
+        
         return lbl
     }()
     
-    init(title: String, content: String = "") {
+    init(title: String, content: String) {
         self.title = title
         self.content = content
         
@@ -71,7 +76,12 @@ class SooInfoView: UIView {
             contentLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             contentLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             contentLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            contentLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            contentLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    public func config(title: String, content: String){
+        titleLabel.text = title
+        contentLabel.text = content
     }
 }
