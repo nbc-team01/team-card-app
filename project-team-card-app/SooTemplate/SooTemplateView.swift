@@ -13,33 +13,7 @@ class SooTemplateView: UIView {
     
     // 링크 버튼 크기 (깃, 블로그)
     private let linkButtonWidthHeight: CGFloat = 40
-    
-    // 수정 버튼
-    public lazy var editButton: UIButton = {
-        let btn = UIButton()
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "square.and.pencil")
-        config.contentInsets = .zero
-        btn.configuration = config
-        btn.tintColor = .black
 
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
-    // 삭제 버튼
-    public lazy var deleteButton: UIButton = {
-        let btn = UIButton()
-        var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "trash.fill")
-        config.contentInsets = .zero
-        btn.configuration = config
-        btn.tintColor = .black
-
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
-    
     // 스크롤뷰
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
@@ -62,8 +36,6 @@ class SooTemplateView: UIView {
         let imgView = UIImageView()
         imgView.image = .githubMark
         imgView.contentMode = .scaleAspectFit
-//        imgView.layer.cornerRadius = 8
-//        imgView.clipsToBounds = true
         imgView.translatesAutoresizingMaskIntoConstraints = false
         return imgView
     }()
@@ -94,36 +66,7 @@ class SooTemplateView: UIView {
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
-    
-//    // 이름
-//    private let nameLabel: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "임시 이름"
-//        lbl.textColor = .white
-//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
-//    
-//    // 닉네임
-//    private let nicknameLabel: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "닉네임"
-//        lbl.textColor = .white
-//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
-//    
-//    // 나이
-//    private let ageLabel: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "26"
-//        lbl.textColor = .white
-//        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
+
 //    
     // MBTI
     private let mbtiLabel: UILabel = {
@@ -187,8 +130,6 @@ class SooTemplateView: UIView {
     
     private func setSubView(){
         [
-            editButton,
-            deleteButton,
             scrollView,
         ].forEach{self.addSubview($0)}
         
@@ -198,9 +139,6 @@ class SooTemplateView: UIView {
             profileImageView,
             gradientView,
             userInfoLabel,
-//            nameLabel,
-//            nicknameLabel,
-//            ageLabel,
             mbtiLabel,
             gitButton,
             blogButton,
@@ -212,20 +150,9 @@ class SooTemplateView: UIView {
     
     private func setUI() {
         NSLayoutConstraint.activate([
-            // 삭제 버튼
-            deleteButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            deleteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            deleteButton.widthAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            deleteButton.heightAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            
-            // 수정버튼
-            editButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
-            editButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -16),
-            editButton.widthAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            editButton.heightAnchor.constraint(equalToConstant: topButtonWidthHeight),
-            
+
             // 스크롤뷰
-            scrollView.topAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 10),
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -255,17 +182,7 @@ class SooTemplateView: UIView {
             userInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             userInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16),
             userInfoLabel.heightAnchor.constraint(equalToConstant: 30),
-            
-//            // 닉네임
-//            nicknameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
-//            nicknameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            nicknameLabel.heightAnchor.constraint(equalToConstant: 30),
-//            
-//            // 이름
-//            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
-//            nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-//            nameLabel.heightAnchor.constraint(equalToConstant: 30),
-//            
+
             // MBTI
             mbtiLabel.topAnchor.constraint(equalTo: userInfoLabel.bottomAnchor, constant: 10),
             mbtiLabel.leadingAnchor.constraint(equalTo: userInfoLabel.leadingAnchor),

@@ -22,6 +22,16 @@ class UserListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchUsers() // 유저 리스트 정보 가져오기
+        
+        // 내비게이션 컨트롤러 숨김
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 내비게이션 컨트롤러
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     // 딜리게이트 설정

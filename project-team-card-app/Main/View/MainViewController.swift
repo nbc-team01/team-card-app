@@ -12,7 +12,7 @@ import SnapKit
 class MainViewController: UIViewController {
     // 홈 뷰와 카드 뷰 인스턴스를 생성
     private let homeView = HomeViewController()
-    private let cardView = CardViewController()
+    private let cardView = UINavigationController(rootViewController: UserListViewController())
     private let tabBarView = CustomTabBarView()
     
     override func viewDidLoad() {
