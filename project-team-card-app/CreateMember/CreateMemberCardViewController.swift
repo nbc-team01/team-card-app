@@ -17,6 +17,9 @@ class CreateMemberCardViewController: UIViewController {
         view = createMemberCardView
         setDelegate()
         setAction()
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        createMemberCardView.addGestureRecognizer(tap)
     }
     
     private func setDelegate(){
