@@ -12,13 +12,20 @@ import SnapKit
 class MainViewController: UIViewController {
     // 홈 뷰와 카드 뷰 인스턴스를 생성
     private let homeView = HomeViewController()
-    private let cardView = CardViewController()
+    private let cardView = UINavigationController(rootViewController: UserListViewController())
     private let tabBarView = CustomTabBarView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         showHomeView() // 앱 실행 시 홈 뷰를 먼저 표시
+    }
+    
+    // 디테일 뷰 이동 시 탭바 숨기기
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("MainVC - willDisAppear")
+        tabBarView.isHidden = true
     }
     
     private func setupUI() {
@@ -60,5 +67,13 @@ class MainViewController: UIViewController {
     // 앱 실행 시 홈 뷰가 보이도록 설정
     private func showHomeView() {
         switchView(to: 0)
+    }
+    
+    // 탭바 hidden처리
+    public func setTabBar(isHidden: Bool) {
+        self.tabBarView.isHidden = isHidden
+        tabBarView.snp.updateConstraints { make in
+            make.height.equalTo(isHidden ? 1 : 100)
+        }
     }
 }
