@@ -14,7 +14,7 @@ class UserCell: UICollectionViewCell {
     // 메인 이미지뷰
     private let mainImageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleToFill
         view.backgroundColor = .black.withAlphaComponent(0.05)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

@@ -37,7 +37,7 @@ class SooTemplateView: UIView {
         let imgView = UIImageView()
 //        imgView.image = .githubMark
         imgView.backgroundColor = .placeholderText
-        imgView.contentMode = .scaleAspectFill
+        imgView.contentMode = .scaleToFill
         imgView.translatesAutoresizingMaskIntoConstraints = false
         return imgView
     }()
@@ -48,7 +48,7 @@ class SooTemplateView: UIView {
         let layer = CAGradientLayer()
         layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 150)
         layer.colors = [
-            UIColor.clear.cgColor,
+//            UIColor.clear.cgColor,
             UIColor.black.withAlphaComponent(0.8).cgColor,
             UIColor.black.withAlphaComponent(0.5).cgColor,
             UIColor.black.withAlphaComponent(0.3).cgColor,

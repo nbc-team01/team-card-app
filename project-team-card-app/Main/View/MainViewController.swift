@@ -72,5 +72,8 @@ class MainViewController: UIViewController {
     // 탭바 hidden처리
     public func setTabBar(isHidden: Bool) {
         self.tabBarView.isHidden = isHidden
+        tabBarView.snp.updateConstraints { make in
+            make.height.equalTo(isHidden ? 1 : 100)
+        }
     }
 }
