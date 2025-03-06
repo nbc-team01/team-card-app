@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class Template_Quarang_HeaderView: UIView {
+class TemplateHeaderView: UIView {
     
     private let headerSafe:UIView = {
         let view = UIView()
