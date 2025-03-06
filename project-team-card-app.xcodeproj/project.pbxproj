@@ -331,6 +331,7 @@
 				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME}가 사진을 등록하는 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다. ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -359,6 +360,7 @@
 				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME}가 사진을 등록하는 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다. ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

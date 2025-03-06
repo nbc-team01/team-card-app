@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SooTemplateView: UIView {
     // 탑 버튼 크기 (편집, 삭제)
@@ -34,8 +35,9 @@ class SooTemplateView: UIView {
     // 프로필 이미지 뷰
     private let profileImageView: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = .githubMark
-        imgView.contentMode = .scaleAspectFit
+//        imgView.image = .githubMark
+        imgView.backgroundColor = .placeholderText
+        imgView.contentMode = .scaleAspectFill
         imgView.translatesAutoresizingMaskIntoConstraints = false
         return imgView
     }()
@@ -47,11 +49,14 @@ class SooTemplateView: UIView {
         layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 150)
         layer.colors = [
             UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.2).cgColor,
+            UIColor.black.withAlphaComponent(0.8).cgColor,
             UIColor.black.withAlphaComponent(0.5).cgColor,
-            UIColor.black.withAlphaComponent(0.7).cgColor
+            UIColor.black.withAlphaComponent(0.3).cgColor,
+            UIColor.black.withAlphaComponent(0.1).cgColor,
+            UIColor.clear.cgColor
         ]
         view.layer.addSublayer(layer)
+        view.backgroundColor = .clear
         view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -83,6 +88,9 @@ class SooTemplateView: UIView {
         let btn = UIButton()
         btn.setImage(.githubMark, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
+        btn.backgroundColor = .white
+        btn.layer.cornerRadius = linkButtonWidthHeight / 2
+        btn.clipsToBounds = true
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -172,13 +180,14 @@ class SooTemplateView: UIView {
             profileImageView.heightAnchor.constraint(equalToConstant: 400),
             
             // 그라이데이션 뷰
-            gradientView.bottomAnchor.constraint(equalTo: mbtiLabel.bottomAnchor, constant: 25),
+            gradientView.topAnchor.constraint(equalTo: userInfoLabel.topAnchor, constant: -20),
             gradientView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             gradientView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            gradientView.heightAnchor.constraint(equalToConstant: 150),
+            gradientView.bottomAnchor.constraint(equalTo: mbtiLabel.bottomAnchor, constant: 10),
+//            gradientView.heightAnchor.constraint(equalToConstant: 100),
             
             // 유저 정보 라벨
-            userInfoLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
+            userInfoLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: -75),
             userInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             userInfoLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 16),
             userInfoLabel.heightAnchor.constraint(equalToConstant: 30),
@@ -189,7 +198,8 @@ class SooTemplateView: UIView {
             mbtiLabel.heightAnchor.constraint(equalToConstant: 30),
             
             // 깃 버튼
-            gitButton.centerYAnchor.constraint(equalTo: mbtiLabel.centerYAnchor),
+//            gitButton.centerYAnchor.constraint(equalTo: mbtiLabel.centerYAnchor),
+            gitButton.bottomAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: -15),
             gitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             gitButton.heightAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
             gitButton.widthAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
@@ -201,7 +211,7 @@ class SooTemplateView: UIView {
             blogButton.widthAnchor.constraint(equalToConstant: self.linkButtonWidthHeight),
             
             // 자기 소개
-            introduceView.topAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: 15),
+            introduceView.topAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: 25),
             introduceView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             introduceView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
 //            introduceView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -223,6 +233,8 @@ class SooTemplateView: UIView {
     public func config(user: User) {
         if let imagePathURL = user.imagePathURL {
             profileImageView.kf.setImage(with: URL(string: imagePathURL))
+        } else {
+            print("이미지 없음")
         }
         
         let age = Int(user.age ?? 0)

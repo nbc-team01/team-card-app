@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class UserCell: UICollectionViewCell {
     static let id = "UserCell"
@@ -13,7 +14,7 @@ class UserCell: UICollectionViewCell {
     // 메인 이미지뷰
     private let mainImageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.backgroundColor = .black.withAlphaComponent(0.05)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -54,7 +55,7 @@ class UserCell: UICollectionViewCell {
         let view = UIImageView()
         view.layer.cornerRadius = 20 / 2
         view.clipsToBounds = true
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleToFill
         view.backgroundColor = .black.withAlphaComponent(0.05)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -94,6 +95,12 @@ class UserCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        mainImageView.image = nil
+        nicknameLabel.text = nil
+        mbtiLabel.text = nil
+        nameLabel.text = nil
+        subImageView.image = nil
+        introduceLabel.text = nil
     }
     
     private func setSubView(){
@@ -152,6 +159,7 @@ class UserCell: UICollectionViewCell {
         if let imagePathURL = user.imagePathURL {
             mainImageView.kf.setImage(with: URL(string: imagePathURL))
             subImageView.kf.setImage(with: URL(string: imagePathURL))
+        } else {
         }
         
         nicknameLabel.text = user.nickname

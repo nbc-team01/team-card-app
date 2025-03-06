@@ -68,7 +68,7 @@ class UserListViewController: UIViewController {
             do {
                 let users = try await UserAPIService.fetchUsers()
                 self.users = users
-                
+
                 DispatchQueue.main.async { [weak self] in
                     self?.userListView.collectionView.reloadData()
                 }
