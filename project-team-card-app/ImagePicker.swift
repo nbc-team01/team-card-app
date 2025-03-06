@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 /// Image Picker Component
 class ImagePicker: UIView {
@@ -13,8 +14,18 @@ class ImagePicker: UIView {
     /// Image Picker Controller instance
     var imagePickerController = UIImagePickerController()
     
+    var imageView: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .red
+        imageView.image = UIImage(systemName: "plus")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        configureUI()
+        configureAutoLayout()
     }
         
     required init?(coder: NSCoder) {
@@ -22,59 +33,18 @@ class ImagePicker: UIView {
     }
 }
 
+extension ImagePicker {
 
-/// ** 해당 주석 아래 코드를 UIViewController에서 사용 후 삭제 **
-// TODO: 1. 본인 UIViewController 이름으로 변경
-// TODO: 2. ImagePicker 객체 생성
-//          > ImagePicker 프로퍼티 imagePickerController 사용을 위함
-// TODO: 3. UIImagePickerControllerDelegate & UINavigationControllerDelegate Protocol 을 extension 하여, 아래 메소드 모두 추가
-// TODO: 4. viewDidLoad()에 imagePickerAction() 선언
-
-extension 뷰컨트롤러: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    
-    private func imagePickerAction() {
-        
-        // TODO: 본인 UIButton에 맞게 변경
-        ImagePicker버튼.addTarget(뷰컨트롤러.self, action: #selector(showImagePickerForLibrary), for: .touchUpInside)
-        ImagePicker버튼.imagePickerController.delegate = 뷰컨트롤러.self
+    private func configureUI() {
+        backgroundColor = .systemBackground
+        addSubview(imageView)
     }
     
-    @objc func showImagePickerForLibrary() {
-        showImagePicker(sourceType: UIImagePickerController.SourceType.photoLibrary, imagePickerController: ImagePicker객체.imagePickerController)
-    }
-    
-    private func showImagePicker(sourceType: UIImagePickerController.SourceType, imagePickerController: UIImagePickerController) {
-        imagePickerController.sourceType = sourceType
-        imagePickerController.modalPresentationStyle = UIModalPresentationStyle.popover
-        imagePickerController.allowsEditing = true
-
-        self.present(imagePickerController, animated: true)
-    }
-    
-    // MARK: UIImagePickerControllerDelegate Method
-    /// 이미지 피커 컨트롤러에서 이미지를 선택하거나 카메라 촬영을 완료했을 때 호출되는 메소드
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-        
-        guard let image = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.editedImage)] as? UIImage else {
-            return
-        }
-        
-        dismiss(animated: false) {
-            // TODO: 본인 UIImageView에 맞게 변경
-            // MARK: - 선택된 이미지를 UIImageView에 넣는 코드
-            본인ImageView.image = image
+    private func configureAutoLayout() {
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.snp.makeConstraints { make in
+            make.width.height.equalTo(UIScreen.main.bounds.size.width * 0.7)
+            make.center.equalToSuperview()
         }
     }
-    
-    // MARK: - Utilities
-    private func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-        return Dictionary(uniqueKeysWithValues: input.map { key, value in (key.rawValue, value) })
-    }
-
-    private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-        return input.rawValue
-    }
-
 }
