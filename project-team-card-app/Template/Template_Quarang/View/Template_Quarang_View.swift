@@ -25,7 +25,6 @@ class Template_Quarang_View:UIView{
         view.axis = .vertical
         return view
     }()
-    var headerView = Template_Quarang_HeaderView()
     private var profileView:UIView?
     
     init(userId:String) {
@@ -39,15 +38,9 @@ class Template_Quarang_View:UIView{
     }
     func configureView(){
         addSubview(scrollView)
-        addSubview(headerView)
         
         scrollView.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
-        }
-        headerView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
-            $0.bottom.equalTo(headerView.divider.snp.bottom)
+            $0.top.left.right.bottom.equalToSuperview()
         }
         
         if let profileView{

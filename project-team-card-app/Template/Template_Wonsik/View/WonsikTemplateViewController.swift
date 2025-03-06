@@ -57,3 +57,7 @@ class WonsikTemplateViewController: UIViewController {
         )
     }
 }
+
+#Preview{
+    WonsikTemplateViewController()
+}

@@ -32,6 +32,9 @@ class Template_Quarang_ProfileView:UIView{
     private lazy var profileHStackView:UIStackView = {
         let view = UIStackView(arrangedSubviews: [profileImage,profileVStackView])
         view.axis = .horizontal
+        view.alignment = .center
+        view.isLayoutMarginsRelativeArrangement = true
+        view.layoutMargins = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         view.spacing = 10
         return view
     }()
@@ -107,7 +110,7 @@ class Template_Quarang_ProfileView:UIView{
     }
 }
 #Preview{
-    Template_Quarang_ViewController(userId:"UUID")
+    Template_Quarang_ViewController(userId:"A302A37B-E577-4F4B-B2CD-3FD878B3788D")
 }
 
 
