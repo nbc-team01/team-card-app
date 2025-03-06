@@ -10,13 +10,13 @@ import SnapKit
 
 class Template_Quarang_DetailsView: UIView {
     
-    private lazy var emojiView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.95, alpha: 1) // 아주 흰색에 가까운 회색
-        view.layer.cornerRadius = 30 // 동그랗게 만들기
-        view.layer.masksToBounds = true
-        view.addSubview(emojiLabel)
-        return view
+    lazy var emojiButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(white: 0.95, alpha: 1) // 아주 흰색에 가까운 회색
+        button.layer.cornerRadius = 30 // 동그랗게 만들기
+        button.layer.masksToBounds = true
+        button.addSubview(emojiLabel)
+        return button
     }()
     
     private let emojiLabel: UILabel = {
@@ -51,7 +51,7 @@ class Template_Quarang_DetailsView: UIView {
         return view
     }()
     private lazy var stackView:UIStackView = {
-        let view = UIStackView(arrangedSubviews: [emojiView,vstackView,spacerView,valueLabel])
+        let view = UIStackView(arrangedSubviews: [emojiButton,vstackView,spacerView,valueLabel])
         view.axis = .horizontal
         view.spacing = 10
         return view
@@ -89,7 +89,7 @@ class Template_Quarang_DetailsView: UIView {
         emojiLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
-        emojiView.snp.makeConstraints{
+        emojiButton.snp.makeConstraints{
             $0.width.height.equalTo(50)
         }
         stackView.snp.makeConstraints {

@@ -107,6 +107,20 @@ class Template_Quarang_ProfileView:UIView{
             $0.left.right.equalToSuperview().inset(10)
             $0.bottom.equalToSuperview().inset(100)
         }
+        if let githubView = detailsVStackView.arrangedSubviews[2] as? Template_Quarang_DetailsView,
+           let blogView = detailsVStackView.arrangedSubviews[3] as? Template_Quarang_DetailsView{
+            githubView.emojiButton.addTarget(self, action: #selector(openGitHub), for: .touchUpInside)
+            blogView.emojiButton.addTarget(self, action: #selector(openBlog), for: .touchUpInside)
+        }
+    }
+    @objc func openGitHub() {
+        guard let url = URL(string: user?.gitHubPathURL ?? "") else {return}
+        UIApplication.shared.open(url)
+    }
+    
+    @objc func openBlog() {
+        guard let url = URL(string: user?.blogPathURL ?? "") else {return}
+        UIApplication.shared.open(url)
     }
 }
 #Preview{
