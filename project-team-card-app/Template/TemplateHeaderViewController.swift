@@ -32,7 +32,7 @@ class TemplateHeaderViewController: UIViewController {
         configureView()
     }
     private func configureView(){
-        containerView = SooTemplateView()
+        containerView = Template_Quarang_ViewController(userId: userId).view
         
         view.addSubview(containerView)
         view.addSubview(headerView)
@@ -55,9 +55,8 @@ class TemplateHeaderViewController: UIViewController {
         
         let editAction = UIAlertAction(title: "수정", style: .default) { _ in
             let vc = CreateUserCardViewController(type: .modify(userId: self.userId))
-            vc.modalPresentationStyle = .overCurrentContext
-            vc.modalTransitionStyle = .coverVertical
-            self.present(vc, animated: true)
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
@@ -76,7 +75,7 @@ class TemplateHeaderViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     @objc func dismissButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     @objc private func setupPicker() {
         let alertController = UIAlertController(title: "옵션 선택", message: nil, preferredStyle: .actionSheet)
@@ -106,7 +105,7 @@ class TemplateHeaderViewController: UIViewController {
         
         switch option {
         case .soo:
-            newViewController = SooTemplateViewController(user: CustomData.shared.user)
+            newViewController = SooTemplateViewController(userId: userId)
         case .hakyung:
             newViewController = HakyungTemplateViewController()
         case .wonsik:

@@ -98,7 +98,8 @@ extension UserListViewController: UICollectionViewDataSource {
 extension UserListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let userId = users[indexPath.row].userID else { return }
-        let nextVC = SooTemplateViewController(userId: userId)
+        let nextVC = TemplateHeaderViewController(userId: userId)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
