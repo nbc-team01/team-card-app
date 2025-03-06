@@ -266,10 +266,16 @@ class WonsikTemplateView: UIView {
         //contentView의 bottom이 지정되지 않으면 스크롤이 작동하지 않음
         // 마지막 섹션의 bottom이 contentView.bottom에 닿아야 스크롤 뷰가 정상 작동
         
-        // 마지막 섹션의 bottom을 contentView의 bottom과 연결
         if let lastSection = contentsSections.last {
             lastSection.snp.makeConstraints { make in
                 make.bottom.equalToSuperview().offset(-20)
+            }
+
+            // contentView의 높이를 lastSection에 맞춰 확장 (스크롤 가능하게)
+            contentView.snp.remakeConstraints { make in
+                make.edges.equalToSuperview()
+                make.width.equalToSuperview()
+                make.bottom.equalTo(lastSection.snp.bottom).offset(20) // 마지막 섹션 아래까지 확장
             }
         } else {
             mbtiSection.snp.makeConstraints { make in
