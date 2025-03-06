@@ -38,6 +38,16 @@ class SooTemplateViewController: UIViewController {
         // 임시로 수정 / 생성 로직 테스트
         templateView.editButton.addTarget(self, action: #selector(goToCreateMember), for: .touchUpInside)
         templateView.deleteButton.addTarget(self, action: #selector(goToModifyMember), for: .touchUpInside)
+        
+        // 깃허브 탭 제스처 구현
+        let gitButtonTapGesture = CustomTapGesture(target: self, action: #selector(openURLTapGeusture))
+        gitButtonTapGesture.openURL = user.gitHubPathURL
+        templateView.gitButton.addGestureRecognizer(gitButtonTapGesture)
+        
+        // 블로그 탭 제스처 구현
+        let blogButtonTapGesture = CustomTapGesture(target: self, action: #selector(openURLTapGeusture))
+        blogButtonTapGesture.openURL = user.blogPathURL
+        templateView.blogButton.addGestureRecognizer(blogButtonTapGesture)
     }
     
     @objc private func goToCreateMember(){
@@ -48,6 +58,11 @@ class SooTemplateViewController: UIViewController {
     @objc private func goToModifyMember(){
         let nextVC = CreateMemberCardViewController(type: .modify(userId: "CEA20844-8180-4F35-873D-834283863213"))
         navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    @objc private func openURLTapGeusture(_ gesture: CustomTapGesture){
+        guard let openURL = gesture.openURL, let url = URL(string: openURL) else {return}
+        UIApplication.shared.open(url)
     }
     
     public func setInfoData(user: User) {
