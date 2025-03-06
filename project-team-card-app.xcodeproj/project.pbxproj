@@ -38,6 +38,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CB71DB822D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = D6AEF1772D75ACC600F8EA4E /* project-team-card-appTests */;
+		};
+		CB71DB832D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = D6AEF1812D75ACC600F8EA4E /* project-team-card-appUITests */;
+		};
 		D6AEF18A2D75ACC600F8EA4E /* Exceptions for "project-team-card-app" folder in "project-team-card-app" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -52,6 +66,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D6AEF18A2D75ACC600F8EA4E /* Exceptions for "project-team-card-app" folder in "project-team-card-app" target */,
+				CB71DB822D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */,
+				CB71DB832D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */,
 			);
 			path = "project-team-card-app";
 			sourceTree = "<group>";
@@ -143,7 +159,6 @@
 				D6AEF2122D76F97400F8EA4E /* FirebaseStorage */,
 				4C96EA7D2D77334F00D6907C /* Kingfisher */,
 				4C96EA802D77337D00D6907C /* SnapKit */,
-				
 			);
 			productName = "project-team-card-app";
 			productReference = D6AEF1622D75ACC300F8EA4E /* project-team-card-app.app */;
