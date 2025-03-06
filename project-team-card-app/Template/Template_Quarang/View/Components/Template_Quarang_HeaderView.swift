@@ -59,6 +59,12 @@ class Template_Quarang_HeaderView: UIView {
         return view
     }()
     
+    let divider: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray  // 구분선 색상
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -71,7 +77,7 @@ class Template_Quarang_HeaderView: UIView {
     private func configureView() {
         addSubview(headerSafe)
         addSubview(hstackView)
-        
+        addSubview(divider)
         headerSafe.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(safeAreaLayoutGuide.snp.top)
@@ -79,6 +85,11 @@ class Template_Quarang_HeaderView: UIView {
         
         hstackView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+        }
+        divider.snp.makeConstraints {
+            $0.top.equalTo(hstackView.snp.bottom).inset(-10)
+            $0.height.equalTo(0.7)
             $0.leading.trailing.equalToSuperview()
         }
     }
