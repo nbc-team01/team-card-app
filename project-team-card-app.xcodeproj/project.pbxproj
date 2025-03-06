@@ -38,6 +38,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CB6DA9E42D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = D6AEF1772D75ACC600F8EA4E /* project-team-card-appTests */;
+		};
+		CB6DA9E52D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GoogleService-Info.plist",
+			);
+			target = D6AEF1812D75ACC600F8EA4E /* project-team-card-appUITests */;
+		};
 		D6AEF18A2D75ACC600F8EA4E /* Exceptions for "project-team-card-app" folder in "project-team-card-app" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -52,6 +66,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D6AEF18A2D75ACC600F8EA4E /* Exceptions for "project-team-card-app" folder in "project-team-card-app" target */,
+				CB6DA9E42D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */,
+				CB6DA9E52D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */,
 			);
 			path = "project-team-card-app";
 			sourceTree = "<group>";

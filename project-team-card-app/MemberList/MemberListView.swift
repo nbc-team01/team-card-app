@@ -28,6 +28,11 @@ class MemberListView: UIView {
         layout.minimumInteritemSpacing = 8
         layout.minimumLineSpacing = 12
         
+        // (스크린의 너비 - 양쪽 패딩 - 셀 간격) / 2
+        let cellWidth = (UIScreen.main.bounds.width - (12 * 2 + 8)) / 2
+        let cellHeight = cellWidth * 1.7
+        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        
         // 컬렉션 뷰
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(MemberCell.self, forCellWithReuseIdentifier: MemberCell.id)
@@ -42,12 +47,16 @@ class MemberListView: UIView {
     public let addMemberButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Add Member", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = .green
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        self.backgroundColor = .white
         setSubView()
         setUI()
     }
@@ -80,7 +89,7 @@ class MemberListView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: self.addMemberButton.topAnchor, constant: -8),
             
             // 버튼
-            addMemberButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 16),
+            addMemberButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             addMemberButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
             addMemberButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
             addMemberButton.heightAnchor.constraint(equalToConstant: 30)

@@ -114,7 +114,7 @@ class MemberCell: UICollectionViewCell {
             mainImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             mainImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             mainImageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            mainImageView.heightAnchor.constraint(equalTo: mainImageView.widthAnchor),
+            mainImageView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor),
             
             // 닉네임 라벨
             nicknameLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 8),
@@ -123,7 +123,7 @@ class MemberCell: UICollectionViewCell {
             
             // mbti 라벨 (오른쪽을 줘야 하긴 하는데 리팩토링 필요)
             mbtiLabel.centerYAnchor.constraint(equalTo: nicknameLabel.centerYAnchor),
-            mbtiLabel.leadingAnchor.constraint(equalTo: nicknameLabel.leadingAnchor, constant: 6),
+            mbtiLabel.leadingAnchor.constraint(equalTo: nicknameLabel.trailingAnchor, constant: 6),
             mbtiLabel.heightAnchor.constraint(equalToConstant: 20),
             
             // 서브 이미지
@@ -134,7 +134,7 @@ class MemberCell: UICollectionViewCell {
             
             // 이름
             nameLabel.centerYAnchor.constraint(equalTo: subImageView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: subImageView.leadingAnchor, constant: 8),
+            nameLabel.leadingAnchor.constraint(equalTo: subImageView.trailingAnchor, constant: 8),
             nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -8),
             nameLabel.heightAnchor.constraint(equalToConstant: 16),
             
