@@ -20,8 +20,8 @@ class MemberCell: UICollectionViewCell {
     }()
     
     // 닉네임 라벨
-    private let nicknameLabel: UILabel = {
-        let lbl = UILabel()
+    private let nicknameLabel: PaddingLabel = {
+        let lbl = PaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
         lbl.font = .systemFont(ofSize: 12, weight: .regular)
         lbl.layer.cornerRadius = 2
         lbl.clipsToBounds = true
@@ -35,8 +35,8 @@ class MemberCell: UICollectionViewCell {
     }()
     
     // mbti 라벨
-    private let mbtiLabel: UILabel = {
-        let lbl = UILabel()
+    private let mbtiLabel: PaddingLabel = {
+        let lbl = PaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
         lbl.font = .systemFont(ofSize: 12, weight: .regular)
         lbl.layer.cornerRadius = 2
         lbl.clipsToBounds = true
