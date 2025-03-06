@@ -1,5 +1,5 @@
 //
-//  CreateMemberCardView.swift
+//  CreateUserCardView.swift
 //  project-team-card-app
 //
 //  Created by 이수현 on 3/4/25.
@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class CreateMemberCardView: UIView {
+class CreateUserCardView: UIView {
     // 타이틀 라벨
     public let titleLabel: UILabel = {
         let lbl = UILabel()
@@ -76,30 +76,30 @@ class CreateMemberCardView: UIView {
     }()
     
     // 이름
-    public let nameView = CreateMemberInfoView(title: "이름", placeholder: "Enter your name")
+    public let nameView = CreateUserInfoView(title: "이름", placeholder: "Enter your name")
     
     // MBTI
-    public let mbtiView = CreateMemberInfoView(title: "MBTI", placeholder: "Enter your MBTI")
+    public let mbtiView = CreateUserInfoView(title: "MBTI", placeholder: "Enter your MBTI")
     
     // 나이
-    public let ageView: CreateMemberInfoView = {
-        let view = CreateMemberInfoView(title: "나이", placeholder: "Enter your Age")
+    public let ageView: CreateUserInfoView = {
+        let view = CreateUserInfoView(title: "나이", placeholder: "Enter your Age")
         view.textField.keyboardType = .numberPad // 숫자 패드로 변경
         
         return view
     }()
     
     // 닉네임
-    public let nicknameView = CreateMemberInfoView(title: "닉네임", placeholder: "Enter your Nickname")
+    public let nicknameView = CreateUserInfoView(title: "닉네임", placeholder: "Enter your Nickname")
     
     // 깃허브
-    public let gitAddress = CreateMemberInfoView(title: "GitHub URL", placeholder: "Enter your Github URL")
+    public let gitAddress = CreateUserInfoView(title: "GitHub URL", placeholder: "Enter your Github URL")
     
     // 블로그
-    public let blogAddress = CreateMemberInfoView(title: "Blog URL", placeholder: "Enter your Blog URL")
+    public let blogAddress = CreateUserInfoView(title: "Blog URL", placeholder: "Enter your Blog URL")
     
     // 자기소개
-    public let introduceView = CreateMemberInfoView(title: "자기소개", placeholder: "Introduce yourself", isLongText: true)
+    public let introduceView = CreateUserInfoView(title: "자기소개", placeholder: "Introduce yourself", isLongText: true)
     
     // 컨텐츠 스택뷰
     public let contentStackView: UIStackView = {

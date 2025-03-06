@@ -1,5 +1,5 @@
 //
-//  MemberListView.swift
+//  UserListView.swift
 //  project-team-card-app
 //
 //  Created by 이수현 on 3/6/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemberListView: UIView {
+class UserListView: UIView {
     
     // 해더
     private let headerLabel: UILabel = {
@@ -35,7 +35,7 @@ class MemberListView: UIView {
         
         // 컬렉션 뷰
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MemberCell.self, forCellWithReuseIdentifier: MemberCell.id)
+        collectionView.register(UserCell.self, forCellWithReuseIdentifier: UserCell.id)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
@@ -43,8 +43,8 @@ class MemberListView: UIView {
         return collectionView
     }()
     
-    // Add MemberButton
-    public let addMemberButton = AddButton(type: .member)
+    // Add User Button
+    public let addUserButton = AddButton(type: .user)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,7 +62,7 @@ class MemberListView: UIView {
         [
             headerLabel,
             collectionView,
-            addMemberButton
+            addUserButton
         ].forEach{self.addSubview($0)}
     }
     
@@ -79,13 +79,13 @@ class MemberListView: UIView {
             collectionView.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
             collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-            collectionView.bottomAnchor.constraint(equalTo: self.addMemberButton.topAnchor, constant: -8),
+            collectionView.bottomAnchor.constraint(equalTo: self.addUserButton.topAnchor, constant: -8),
             
-            // 버튼
-            addMemberButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            addMemberButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            addMemberButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-            addMemberButton.heightAnchor.constraint(equalToConstant: 30)
+            // 유저 추가 버튼
+            addUserButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            addUserButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            addUserButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
+            addUserButton.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 }

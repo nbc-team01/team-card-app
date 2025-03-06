@@ -1,5 +1,5 @@
 //
-//  CreateMemberInfoView.swift
+//  CreateUserInfoView.swift
 //  project-team-card-app
 //
 //  Created by 이수현 on 3/4/25.
@@ -8,7 +8,7 @@
 import UIKit
 
 // 텍스트 필드 그룹
-class CreateMemberInfoView: UIView {
+class CreateUserInfoView: UIView {
     
     // 타이틀
     private let title: String

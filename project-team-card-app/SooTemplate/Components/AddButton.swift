@@ -8,7 +8,7 @@
 import UIKit
 
 enum AddButtonType: String {
-    case member = "Member" // 멤버 추가 버튼
+    case user = "User" // 유저 추가 버튼
     case content = "Content" // 컨텐츠 추가 버튼
 }
 

@@ -1,5 +1,5 @@
 //
-//  MemberCell.swift
+//  UserCell.swift
 //  project-team-card-app
 //
 //  Created by 이수현 on 3/6/25.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MemberCell: UICollectionViewCell {
-    static let id = "MemberCell"
+class UserCell: UICollectionViewCell {
+    static let id = "UserCell"
     
     // 메인 이미지뷰
     private let mainImageView: UIImageView = {
