@@ -8,7 +8,7 @@
 import UIKit
 
 class RootViewController: UIViewController {
-    let userId = "CEA20844-8180-4F35-873D-834283863213"
+    let userId = "UUID"
     let button: UIButton = {
         let btn = UIButton()
         btn.setTitle("버튼", for: .normal)

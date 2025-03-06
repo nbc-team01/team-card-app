@@ -7,23 +7,6 @@
 
 import UIKit
 
-class CustomLabel: UILabel {
-    private var padding = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-
-    // UILabel에 패딩 추가
-    override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.inset(by: padding))
-    }
-    
-    // intrinsicContentSize를 직접 조정하여 최소 높이를 보장하면
-    override var intrinsicContentSize: CGSize {
-        let size = super.intrinsicContentSize
-        let minHeight = padding.top + padding.bottom + size.height // 최소 높이 보장
-        return CGSize(width: size.width + padding.left + padding.right,
-                      height: max(size.height + padding.top + padding.bottom, minHeight))
-    }
-}
-
 // 정보를 담을 공통 컴포넌트
 class SooInfoView: UIView {
     private let title: String
@@ -43,8 +26,8 @@ class SooInfoView: UIView {
     }()
     
     // content 라벨
-    private lazy var contentLabel: CustomLabel = {
-        let lbl = CustomLabel()
+    private lazy var contentLabel: PaddingLabel = {
+        let lbl = PaddingLabel(topPadding: 10, leftPadding: 10, bottomPadding: 10, rightPadding: 10)
         lbl.text = content
         lbl.font = . systemFont(ofSize: 20)
         lbl.numberOfLines = 0

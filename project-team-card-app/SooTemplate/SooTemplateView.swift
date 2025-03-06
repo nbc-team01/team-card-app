@@ -147,7 +147,7 @@ class SooTemplateView: UIView {
     // 블로그 버튼
     public lazy var blogButton: UIButton = {
         let btn = UIButton()
-        btn.setImage(.blogIcon, for: .normal)
+        btn.setImage(.blogIconTistory, for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn

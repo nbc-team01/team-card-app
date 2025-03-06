@@ -1,5 +1,5 @@
 //
-//  CreateMemberCardViewController.swift
+//  CreateUserCardViewController.swift
 //  project-team-card-app
 //
 //  Created by 이수현 on 3/4/25.
@@ -8,18 +8,18 @@
 import UIKit
 
 // 생성인지 수정인지 구분
-public enum MemberCardType {
+public enum UserCardType {
     case create
     case modify(userId: String)
 }
 
-class CreateMemberCardViewController: UIViewController {
-    private let createMemberCardView = CreateMemberCardView()
+class CreateUserCardViewController: UIViewController {
+    private let createUserCardView = CreateUserCardView()
 //    private var contentViews: [UUID: ContentView] = [:]
-    private let type: MemberCardType // 생성인지 수정인지 구분
+    private let type: UserCardType // 생성인지 수정인지 구분
     private var userId: String? // 수정일 때는 userId로 업데이트
     
-    init(type: MemberCardType) {
+    init(type: UserCardType) {
         self.type = type
         super.init(nibName: nil, bundle: nil)
         
@@ -39,7 +39,7 @@ class CreateMemberCardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view = createMemberCardView
+        view = createUserCardView
         setDelegate()
         setAction()
         keyboardHidetapGesture()
@@ -49,27 +49,27 @@ class CreateMemberCardViewController: UIViewController {
     // 키보드 숨기는 탭 제스처 등록
     private func keyboardHidetapGesture() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
-        createMemberCardView.addGestureRecognizer(tap)
+        createUserCardView.addGestureRecognizer(tap)
     }
     
     private func setDelegate(){
         // 자기소개 텍스트뷰 딜리게이트
-        createMemberCardView.introduceView.textView.delegate = self
+        createUserCardView.introduceView.textView.delegate = self
     }
     
     private func setAction(){
         // Add Content 버튼 액션
-        createMemberCardView.addContentButton.addTarget(self, action: #selector(touchUpInsideAddContentButton), for: .touchUpInside)
+        createUserCardView.addContentButton.addTarget(self, action: #selector(touchUpInsideAddContentButton), for: .touchUpInside)
         
         // Save 버튼 액션
-        createMemberCardView.saveButton.addTarget(self, action: #selector(touchUpInsideSaveButton), for: .touchUpInside)
+        createUserCardView.saveButton.addTarget(self, action: #selector(touchUpInsideSaveButton), for: .touchUpInside)
         
         // Cancel 버튼 액션
-        createMemberCardView.cancelButton.addTarget(self, action: #selector(touchUpInsideCancelButton), for: .touchUpInside)
+        createUserCardView.cancelButton.addTarget(self, action: #selector(touchUpInsideCancelButton), for: .touchUpInside)
         
         // 이미지 추가
         let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(showImagePickerForLibrary))
-        createMemberCardView.imageView.addGestureRecognizer(imageTapGesture)
+        createUserCardView.imageView.addGestureRecognizer(imageTapGesture)
     }
     
     // 수정 시 정보 불러오기
@@ -79,7 +79,7 @@ class CreateMemberCardViewController: UIViewController {
                 let user = try await UserAPIService.fetchUser(userId: userId)
                 self.userId = user.userID
                 DispatchQueue.main.async {
-                    self.createMemberCardView.config(user: user)
+                    self.createUserCardView.config(user: user)
                     self.setUserContents(user: user)
                 }
             } catch {
@@ -105,7 +105,7 @@ class CreateMemberCardViewController: UIViewController {
             contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre)
             
             // 생성한 View, StackView에 추가
-            createMemberCardView.contentStackView.addArrangedSubview(contentView)
+            createUserCardView.contentStackView.addArrangedSubview(contentView)
             
             // 딜리게이트 설정 (텍스트 뷰)
             contentView.contentsView.textView.delegate = self
@@ -140,21 +140,21 @@ class CreateMemberCardViewController: UIViewController {
         
         // API 저장 로직 처리
 //        let userId = UUID().uuidString
-        guard let image = self.createMemberCardView.imageView.image,
-              let name = self.createMemberCardView.nameView.textField.text,
-              let mbti = self.createMemberCardView.mbtiView.textField.text,
-              let ageText = self.createMemberCardView.ageView.textField.text,
+        guard let image = self.createUserCardView.imageView.image,
+              let name = self.createUserCardView.nameView.textField.text,
+              let mbti = self.createUserCardView.mbtiView.textField.text,
+              let ageText = self.createUserCardView.ageView.textField.text,
               let age = Int(ageText),
-              let nickname = self.createMemberCardView.nicknameView.textField.text,
-              let gitAddress = self.createMemberCardView.gitAddress.textField.text,
-              let blogAddress = self.createMemberCardView.blogAddress.textField.text,
-              let introduce = self.createMemberCardView.introduceView.textView.text
+              let nickname = self.createUserCardView.nicknameView.textField.text,
+              let gitAddress = self.createUserCardView.gitAddress.textField.text,
+              let blogAddress = self.createUserCardView.blogAddress.textField.text,
+              let introduce = self.createUserCardView.introduceView.textView.text
         else {
             return
         }
 
         // 커스텀 컨텐츠 데이터 (빈 값 제외)
-        self.createMemberCardView.contentStackView.arrangedSubviews.forEach { view in
+        self.createUserCardView.contentStackView.arrangedSubviews.forEach { view in
             guard let title = (view as? ContentView)?.titleView.textField.text,
                   title != "",
                   let content = (view as? ContentView)?.contentsView.textView.text,
@@ -180,19 +180,37 @@ class CreateMemberCardViewController: UIViewController {
                         contents: customContents,
                         password: password)
     
-        switch type {
-        case .create:
-            // 정보 저장 API
-            try await UserAPIService.setUser(user: user)
-            
-            // 이미지 저장 API
-            let _ = try await StorageAPIService.setImage(image, userId: userId)
-        case .modify(let userId):
-            // 정보 수정 API
-            try await UserAPIService.updateUser(user: user)
-            
-            // 이미지 저장 API
-            let _ = try await StorageAPIService.setImage(image, userId: userId)
+        Task {
+            switch type {
+            case .create:
+                do {
+                    // 정보 저장 API
+                    try await UserAPIService.setUser(user: user)
+                    
+                    // 이미지 저장 API
+                    let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+                    print("이미지 저장 성공: \(imagePath)")
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+            case .modify(let userId):
+                do {
+                    // 정보 수정 API
+                    try await UserAPIService.updateUser(user: user)
+                    
+                    // 이미지 저장 API
+                    let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+                    print("이미지 저장 성공: \(imagePath)")
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -219,16 +237,16 @@ class CreateMemberCardViewController: UIViewController {
         var flag = true
         
         // 이미지룰 추가했는지 확인
-        if createMemberCardView.imageView.image == UIImage(systemName: "photo.badge.plus") {
-            createMemberCardView.errorLabel.isHidden = false
+        if createUserCardView.imageView.image == UIImage(systemName: "photo.badge.plus") {
+            createUserCardView.errorLabel.isHidden = false
             flag = false
         } else {
-            createMemberCardView.errorLabel.isHidden = true
+            createUserCardView.errorLabel.isHidden = true
         }
         
         // 기본 정보뷰를 돌면서 nil 데이터가 있는지 확인
-        createMemberCardView.infoStackView.arrangedSubviews.forEach { view in
-            guard let infoView = view as? CreateMemberInfoView else {
+        createUserCardView.infoStackView.arrangedSubviews.forEach { view in
+            guard let infoView = view as? CreateUserInfoView else {
                 flag = false
                 return
             }
@@ -277,13 +295,13 @@ class CreateMemberCardViewController: UIViewController {
         contentView.titleView.removeButton.addGestureRecognizer(removeButtonTapGesutre)
         
         // 생성한 View, StackView에 추가
-        createMemberCardView.contentStackView.addArrangedSubview(contentView)
+        createUserCardView.contentStackView.addArrangedSubview(contentView)
         
         // 딜리게이트 설정 (텍스트 뷰)
         contentView.contentsView.textView.delegate = self
         
         // 스크롤뷰 이동
-        createMemberCardView.scrollView.scroll(to: .bottom)
+        createUserCardView.scrollView.scroll(to: .bottom)
     }
     
     // ContentView 삭제 버튼 액션
@@ -308,7 +326,7 @@ class CreateMemberCardViewController: UIViewController {
 
         // ContentView의 내부 ID 사용 (순서 보장)
         // contentStackView를 순회하면서 제스처 ID와 같으면 뷰 삭제
-        createMemberCardView.contentStackView.arrangedSubviews.forEach{ view in
+        createUserCardView.contentStackView.arrangedSubviews.forEach{ view in
             if (view as? ContentView)?.id == id {
                 UIView.animate(withDuration: 0.3, animations: {
                     view.alpha = 0
@@ -334,7 +352,7 @@ class CreateMemberCardViewController: UIViewController {
 }
 
 // 텍스트뷰 딜리게이트
-extension CreateMemberCardViewController: UITextViewDelegate {
+extension CreateUserCardViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .placeholderText {
             textView.text = nil
@@ -351,7 +369,7 @@ extension CreateMemberCardViewController: UITextViewDelegate {
 }
 
 
-extension CreateMemberCardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension CreateUserCardViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: UIImagePickerControllerDelegate Method
     /// 이미지 피커 컨트롤러에서 이미지를 선택하거나 카메라 촬영을 완료했을 때 호출되는 메소드
@@ -367,7 +385,7 @@ extension CreateMemberCardViewController: UIImagePickerControllerDelegate, UINav
         dismiss(animated: false) {
             // TODO: 본인 UIImageView에 맞게 변경
             // MARK: - 선택된 이미지를 UIImageView에 넣는 코드
-            self.createMemberCardView.imageView.image = image
+            self.createUserCardView.imageView.image = image
         }
     }
     

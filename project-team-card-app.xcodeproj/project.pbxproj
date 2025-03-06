@@ -38,14 +38,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		CB71DB822D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */ = {
+		CB6DA9E42D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"GoogleService-Info.plist",
 			);
 			target = D6AEF1772D75ACC600F8EA4E /* project-team-card-appTests */;
 		};
-		CB71DB832D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */ = {
+		CB6DA9E52D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"GoogleService-Info.plist",
@@ -66,8 +66,8 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D6AEF18A2D75ACC600F8EA4E /* Exceptions for "project-team-card-app" folder in "project-team-card-app" target */,
-				CB71DB822D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */,
-				CB71DB832D785B50005FA299 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */,
+				CB6DA9E42D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appTests" target */,
+				CB6DA9E52D798E27008C4BA3 /* Exceptions for "project-team-card-app" folder in "project-team-card-appUITests" target */,
 			);
 			path = "project-team-card-app";
 			sourceTree = "<group>";
@@ -328,7 +328,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N676ZFA7W8;
+				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -356,7 +356,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N676ZFA7W8;
+				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "project-team-card-app/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -502,7 +502,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N676ZFA7W8;
+				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -521,7 +521,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N676ZFA7W8;
+				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -539,7 +539,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N676ZFA7W8;
+				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "quarang.project-team-card-appUITests";
@@ -556,7 +556,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N676ZFA7W8;
+				DEVELOPMENT_TEAM = X7TYNR98TC;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "quarang.project-team-card-appUITests";
