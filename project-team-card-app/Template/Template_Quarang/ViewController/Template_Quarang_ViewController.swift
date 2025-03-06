@@ -10,24 +10,8 @@ import SnapKit
 
 class Template_Quarang_ViewController: UIViewController {
     
-    var userId:String
-    
-    private let scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.isScrollEnabled = true
-        view.showsHorizontalScrollIndicator = false
-        view.showsVerticalScrollIndicator = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private lazy var stackView:UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        return view
-    }()
-    private let headerView = Template_Quarang_HeaderView()
-    private var profileView:UIView?
+    var userId:String?
+    lazy var templateView = Template_Quarang_View(userId: userId ?? "")
     
     init(userId:String) {
         self.userId = userId
@@ -36,54 +20,46 @@ class Template_Quarang_ViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    override func viewWillAppear(_ animated: Bool){
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchUser()
+        view = templateView
     }
     override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        configureView()
+        templateView.headerView.menuButton.addTarget(self, action: #selector(showAlert), for: .touchUpInside)
+        templateView.headerView.dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
     }
-    func configureView(){
-        view.addSubview(scrollView)
-        view.addSubview(headerView)
+    @objc func changeTemplateButtonTapped(){
+        //템플릿 변환
+    }
+    @objc func showAlert() {
+        let alertController = UIAlertController(title: "Please select option", message: nil, preferredStyle: .alert)
         
-        scrollView.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
-            $0.left.right.bottom.equalToSuperview()
-        }
-        headerView.snp.makeConstraints {
-            $0.top.left.right.equalToSuperview()
-            $0.bottom.equalTo(headerView.divider.snp.bottom)
+        let editAction = UIAlertAction(title: "수정", style: .default) { _ in
+            let vc = SooTemplateViewController()    //<- VC수정
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.modalTransitionStyle = .coverVertical
+            self.present(vc, animated: true)
         }
         
-        if let profileView{
-            let stack : UIStackView = {
-                let view = UIStackView(arrangedSubviews: [profileView])
-                view.axis = .vertical
-                return view
-            }()
-            stackView = stack
-            scrollView.addSubview(stackView)
-            stackView.snp.makeConstraints {
-                $0.edges.width.equalToSuperview()
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            Task{
+                try await UserAPIService.deleteUser(userId: self.userId ?? "")
+                self.dismissButtonTapped()
             }
         }
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        alertController.addAction(editAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
-    func fetchUser(){
-        Task{
-            let user = try await UserAPIService.fetchUser(userId: self.userId)
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                
-                self.profileView?.removeFromSuperview()
-                self.profileView = Template_Quarang_ProfileView(user: user)
-                self.configureView()
-            }
-        }
+    @objc func dismissButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
     }
+    
 }
 #Preview{
     Template_Quarang_ViewController(userId: "UUID")

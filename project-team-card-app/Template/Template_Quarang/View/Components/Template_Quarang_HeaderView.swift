@@ -16,7 +16,7 @@ class Template_Quarang_HeaderView: UIView {
         return view
     }()
     
-    private let dismissButton: UIButton = {
+    var dismissButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.tintColor = .label
@@ -35,14 +35,14 @@ class Template_Quarang_HeaderView: UIView {
         return view
     }()
     
-    private let changeTemplateButton: UIButton = {
+    var changeTemplateButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "dice"), for: .normal)
         button.tintColor = .label
         return button
     }()
     
-    private let menuButton: UIButton = {
+    var menuButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.tintColor = .label
