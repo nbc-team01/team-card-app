@@ -8,31 +8,31 @@
 import UIKit
 
 class SooTemplateViewController: UIViewController {
-    private let templateView = SooTemplateView()
-    private let dummyData = [
-        (title: "123", content: "123123"),
-        (title: "123", content: "123123"),
-        (title: "123", content: "123123"),
-        (title: "123", content: "123123"),
-        (title: "123", content: "123123"),
-        (title: "123", content: "123123"),
-        (title: "123", content: "123123"),
-    ]
-    private let userDummyDaya: [Any] = ["고니", "이수현", 26, "ISTJ"]
+    private lazy var templateView = SooTemplateView()
+    private let user: User
+    
+    init(user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = templateView
-        setInfoData()
         setAction()
     }
     
-    private func setInfoData() {
-        dummyData.forEach{templateView.setInfoData(infoData: $0)}
-        templateView.setUserInfoData(nickname: userDummyDaya[0] as! String, name: userDummyDaya[1] as! String, age: userDummyDaya[2] as! Int, mbti: userDummyDaya[3] as! String)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        fetchUserData()
+        setInfoData(user: user)
     }
-    
+
     private func setAction() {
         
         // 임시로 수정 / 생성 로직 테스트
@@ -49,4 +49,23 @@ class SooTemplateViewController: UIViewController {
         let nextVC = CreateMemberCardViewController(type: .modify(userId: "CEA20844-8180-4F35-873D-834283863213"))
         navigationController?.pushViewController(nextVC, animated: true)
     }
+    
+    public func setInfoData(user: User) {
+        DispatchQueue.main.async {[weak self] in
+            self?.templateView.config(user: user)   
+        }
+    }
+    
+//    public func fetchUserData(){
+//        Task {
+//            do {
+//                let user = try await UserAPIService.fetchUser(userId: userId)
+//                DispatchQueue.main.async {[weak self] in
+//                    self?.templateView.config(user: user)
+//                }
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
 }
