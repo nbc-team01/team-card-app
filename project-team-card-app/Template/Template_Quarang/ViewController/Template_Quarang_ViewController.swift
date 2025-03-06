@@ -35,7 +35,7 @@ class Template_Quarang_ViewController: UIViewController {
         let alertController = UIAlertController(title: "Please select option", message: nil, preferredStyle: .alert)
         
         let editAction = UIAlertAction(title: "수정", style: .default) { _ in
-            let vc = SooTemplateViewController()    //<- VC수정
+            let vc = SooTemplateViewController(user: CustomData.shared.user)    //<- VC수정
             vc.modalPresentationStyle = .overCurrentContext
             vc.modalTransitionStyle = .coverVertical
             self.present(vc, animated: true)
