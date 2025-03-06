@@ -54,38 +54,69 @@ class CreateMemberCardViewController: UIViewController {
         
         // 얼럿 띄우기
         presentAlert() { password in
-            // 모델 만들어서 DB에 저장
-            
-            // 커스텀 컨텐츠 배열
-            var customContents = [(String, String)]()
-            
-            // API 저장 로직 처리
-            guard let image = self.createMemberCardView.imageView.image,
-                  let name = self.createMemberCardView.nameView.textField.text,
-                  let mbti = self.createMemberCardView.mbtiView.textField.text,
-                  let age = self.createMemberCardView.ageView.textField.text,
-                  let gitAddress = self.createMemberCardView.gitAddress.textField.text,
-                  let blogAddress = self.createMemberCardView.blogAddress.textField.text,
-                  let introduce = self.createMemberCardView.introduceView.textView.text
-            else {
-                return
+            Task {
+                do {
+                    try await self.setUserData(password: password)
+                    print("서버 저장 성공")
+                }
+                catch {
+                    print(error.localizedDescription)
+                }
             }
+            
+        }
+    }
+    
+    // API 통신
+    private func setUserData(password: String) async throws {
+        // 모델 만들어서 DB에 저장      
+        // 커스텀 컨텐츠 배열
+        var customContents = [Content]()
+        
+        // API 저장 로직 처리
+        guard let image = self.createMemberCardView.imageView.image,
+              let name = self.createMemberCardView.nameView.textField.text,
+              let mbti = self.createMemberCardView.mbtiView.textField.text,
+              let age = self.createMemberCardView.ageView.textField.text,
+              let nickname = self.createMemberCardView.nicknameView.textField.text,
+              let gitAddress = self.createMemberCardView.gitAddress.textField.text,
+              let blogAddress = self.createMemberCardView.blogAddress.textField.text,
+              let introduce = self.createMemberCardView.introduceView.textView.text
+        else {
+            return
+        }
 
-            // 커스텀 컨텐츠 데이터 (빈 값 제외)
-            self.createMemberCardView.contentStackView.arrangedSubviews.forEach { view in
-                guard let title = (view as? ContentView)?.titleView.textField.text,
-                      title != "",
-                      let content = (view as? ContentView)?.contentsView.textView.text,
-                      (view as? ContentView)?.contentsView.textView.textColor != .placeholderText
-                else { return }
-                customContents.append((title, content))
-            }
+        // 커스텀 컨텐츠 데이터 (빈 값 제외)
+        self.createMemberCardView.contentStackView.arrangedSubviews.forEach { view in
+            guard let title = (view as? ContentView)?.titleView.textField.text,
+                  title != "",
+                  let content = (view as? ContentView)?.contentsView.textView.text,
+                  (view as? ContentView)?.contentsView.textView.textColor != .placeholderText, content != ""
+            else { return }
             
-            print(password, name, mbti, age, gitAddress, blogAddress, introduce, customContents)
+            let customContent = Content(contentsId: UUID().uuidString, title: title, content: content)
+            customContents.append(customContent)
         }
         
-        // 홈뷰로 돌아가기 (통신 이후)
-        self.navigationController?.popToRootViewController(animated: true)
+        print(password, name, mbti, age, nickname, gitAddress, blogAddress, introduce, customContents)
+        
+        // API
+        let user = User(userID: UUID().uuidString,
+                        name: name,
+                        mbti: mbti,
+                        nickname: nickname,
+                        gitHubPathURL: gitAddress,
+                        blogPathURL: blogAddress,
+                        introduce: introduce,
+                        contents: customContents,
+                        password: password)
+    
+        try await UserAPIService.setUser(user: user)
+        
+        DispatchQueue.main.async {
+            // 홈뷰로 돌아가기 (통신 이후)
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     // 비밀번호 얼럿

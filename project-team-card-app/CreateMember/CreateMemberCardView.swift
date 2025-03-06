@@ -88,6 +88,9 @@ class CreateMemberCardView: UIView {
         return view
     }()
     
+    // 닉네임
+    public let nicknameView = CreateMemberInfoView(title: "닉네임", placeholder: "Enter your Nickname")
+    
     // 깃허브
     public let gitAddress = CreateMemberInfoView(title: "GitHub URL", placeholder: "Enter your Github URL")
     
@@ -195,6 +198,7 @@ class CreateMemberCardView: UIView {
             nameView,
             mbtiView,
             ageView,
+            nicknameView,
             gitAddress,
             blogAddress,
             introduceView,
