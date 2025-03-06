@@ -143,7 +143,6 @@
 				D6AEF2122D76F97400F8EA4E /* FirebaseStorage */,
 				4C96EA7D2D77334F00D6907C /* Kingfisher */,
 				4C96EA802D77337D00D6907C /* SnapKit */,
-				
 			);
 			productName = "project-team-card-app";
 			productReference = D6AEF1622D75ACC300F8EA4E /* project-team-card-app.app */;
