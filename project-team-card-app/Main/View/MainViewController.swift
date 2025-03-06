@@ -56,6 +56,7 @@ class MainViewController: UIViewController {
         tabBarView.onTabSelected = { [weak self] selectedIndex in
             self?.switchView(to: selectedIndex)
         }
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     // 선택된 탭에 따라 화면을 변경하는 함수
