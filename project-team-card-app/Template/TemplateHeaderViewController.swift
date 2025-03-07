@@ -61,8 +61,12 @@ class TemplateHeaderViewController: UIViewController {
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
             Task{
-                try await UserAPIService.deleteUser(userId: self.userId)
-                self.dismissButtonTapped()
+                self.presentAlert {[weak self] password in
+                    guard let self = self else { return }
+                    self.checkPassword(password: password)
+                }
+//                try await UserAPIService.deleteUser(userId: self.userId)
+//                self.dismissButtonTapped()
             }
         }
         
@@ -118,6 +122,44 @@ class TemplateHeaderViewController: UIViewController {
         newViewController.view.frame = containerView.bounds
         containerView.addSubview(newViewController.view)
         newViewController.didMove(toParent: self)
+    }
+    
+    // 비밀번호 확인 후 삭제
+    private func checkPassword(password: String){
+        Task {
+            // 비밀번호 검사 성공
+            if try await UserAPIService.isValidPassword(userId: userId, password: password){
+                // 성공 시 멤버 삭제
+                try await UserAPIService.deleteUser(userId: self.userId)
+                self.dismissButtonTapped()
+            } else {
+                // 비밀번호가 틀렸습니다.
+                print("비밀번호가 틀렸습니다")
+                let alert = UIAlertController(title: "비밀번호 확인", message: "비밀번호가 일치하지 않습니다.", preferredStyle: .alert)
+                let action = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(action)
+                self.present(alert, animated: true)
+            }
+        }
+    }
+    
+    // 비밀번호 얼럿
+    private func presentAlert(completion: @escaping (String) -> Void) {
+        let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields?.first?.isSecureTextEntry = true
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .destructive)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            let password = alert.textFields?.first?.text ?? ""
+            completion(password) // 입력된 비밀번호 전달
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        
+        // 모델 생성 후 통신 처리
+        present(alert, animated: true)
     }
 }
 #Preview{
