@@ -136,7 +136,7 @@ class CreateUserCardViewController: UIViewController {
                 }
                 
                 // 수정일 때
-            case .modify(let userId):
+            case .modify:
                 Task {
                     do {
                         // 비밀번호 확인
