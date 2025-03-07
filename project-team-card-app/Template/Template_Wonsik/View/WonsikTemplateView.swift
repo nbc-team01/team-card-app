@@ -170,7 +170,6 @@ class WonsikTemplateView: UIView {
         mbtiSection.snp.makeConstraints { make in
             make.top.equalTo(aboutMeSection.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().offset(-20)
         }
         
         
