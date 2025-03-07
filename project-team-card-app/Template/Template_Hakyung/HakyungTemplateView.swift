@@ -75,6 +75,7 @@ class HakyungTemplateView: UIView {
         return label
     }()
     
+    private var githubUrl: String?
     private let githubButton: UIButton = {
         var button = UIButton()
         button.tintColor = Constants.lableColor
@@ -82,6 +83,7 @@ class HakyungTemplateView: UIView {
         return button
     }()
     
+    private var blogUrl: String?
     private let blogButton: UIButton = {
         var button = UIButton()
         button.tintColor = Constants.lableColor
@@ -98,6 +100,7 @@ class HakyungTemplateView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        configureAction()
         configureUI()
         configureAutoLayout()
     }
@@ -115,6 +118,33 @@ extension HakyungTemplateView {
         self.nicknameLable.text = user.nickname
         self.ageLable.text = "\(user.age!)"
         self.mbtiLable.text = user.mbti
+        self.githubUrl = user.gitHubPathURL!
+        self.blogUrl = user.blogPathURL!
+    }
+    
+    private func configureAction() {
+        self.githubButton.addTarget(self, action: #selector(openSafariGithub), for: .touchUpInside)
+        self.blogButton.addTarget(self, action: #selector(openSafariBlog), for: .touchUpInside)
+    }
+    
+    @objc func openSafariGithub() {
+        if let urlString = githubUrl, let url = URL(string: urlString) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                print("Cant Open Safari")
+            }
+        }
+    }
+    
+    @objc func openSafariBlog() {
+        if let urlString = blogUrl, let url = URL(string: urlString) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            } else {
+                print("Cant Open Safari")
+            }
+        }
     }
     
     private func configureUI() {
