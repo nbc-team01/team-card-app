@@ -60,7 +60,7 @@ class CreateUserCardViewController: UIViewController {
     private func setAction(){
         // Add Content 버튼 액션
         createUserCardView.addContentButton.addTarget(self, action: #selector(touchUpInsideAddContentButton), for: .touchUpInside)
-        
+    
         // Save 버튼 액션
         createUserCardView.saveButton.addTarget(self, action: #selector(touchUpInsideSaveButton), for: .touchUpInside)
         
@@ -120,17 +120,71 @@ class CreateUserCardViewController: UIViewController {
         
         // 얼럿 띄우기
         presentAlert() {[weak self] password in
-            Task {
-                do {
-                    try await self?.setUserData(password: password)
-                    // 홈뷰로 돌아가기 (통신 이후)
-                    self?.navigationController?.popViewController(animated: true)
+            guard let self = self else {return}
+            switch self.type {
+                // 생성일 때
+            case .create:
+                Task {
+                    do {
+                        try await self.setUserData(password: password)
+                        // 홈뷰로 돌아가기 (통신 이후)
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                    }
                 }
-                catch {
-                    print(error.localizedDescription)
+                
+                // 수정일 때
+            case .modify(let userId):
+                Task {
+                    do {
+                        // 비밀번호 확인
+                        try await self.checkPassword(password: password)
+                    }
+                    catch {
+                        print(error.localizedDescription)
+                    }
                 }
+                
             }
         }
+    }
+    
+    // 비밀 번호 확인
+    private func checkPassword(password: String) async throws {
+        guard let userId = self.userId else { return }
+        Task {
+            // 비밀번호 검사 성공
+            if try await UserAPIService.isValidPassword(userId: userId, password: password){
+                try await updateUserData(password: password, userId: userId)
+            } else {
+                // 비밀번호가 틀렸습니다.
+                print("비밀번호가 틀렸습니다")
+                let alert = UIAlertController(title: "비밀번호 확인", message: "비밀번호가 일치하지 않습니다.", preferredStyle: .alert)
+                let action = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(action)
+                self.present(alert, animated: true)
+            }
+        }
+    }
+    
+    // 수정일 때
+    private func updateUserData(password: String, userId: String) async throws {
+//        // 수정일 때는 값이 있으니 그대로 사용, 없으면 새로 생성
+//        let userId = self.userId ?? UUID().uuidString
+        guard let image = self.createUserCardView.imageView.image else { return }
+        
+        Task {
+            // 이미지 저장 API
+            let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+            guard let user = self.createUser(userId: userId, password: password, imagePath: imagePath) else { return }
+            
+            // 정보 수정 API
+            try await UserAPIService.updateUser(user: user)
+            self.navigationController?.popViewController(animated: true)
+        }
+
     }
     
     // API 통신 - 이미지 저장 후 리턴 값으로 받은 이미지 URL과 함께 user 정보 저장
@@ -141,34 +195,14 @@ class CreateUserCardViewController: UIViewController {
         guard let image = self.createUserCardView.imageView.image else { return }
     
         Task {
-            switch type {
-            case .create:
-                do {
-                    // 이미지 저장 API
-                    let imagePath = try await StorageAPIService.setImage(image, userId: userId)
-                    guard let user = self.createUser(userId: userId, password: password, imagePath: imagePath) else { return }
-                
-                    // 정보 저장 API
-                    try await UserAPIService.setUser(user: user)
-                }
-                catch {
-                    print(error.localizedDescription)
-                }
-            case .modify(let userId):
-                do {
-                    // 이미지 저장 API
-                    let imagePath = try await StorageAPIService.setImage(image, userId: userId)
-                    guard let user = self.createUser(userId: userId, password: password, imagePath: imagePath) else { return }
-                    
-                    // 정보 수정 API
-                    try await UserAPIService.updateUser(user: user)
-                }
-                catch {
-                    print(error.localizedDescription)
-                }
-            }
-        }
+            // 이미지 저장 API
+            let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+            guard let user = self.createUser(userId: userId, password: password, imagePath: imagePath) else { return }
         
+            // 정보 저장 API
+            try await UserAPIService.setUser(user: user)
+        }
+
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: true)
         }
@@ -223,6 +257,7 @@ class CreateUserCardViewController: UIViewController {
     private func presentAlert(completion: @escaping (String) -> Void) {
         let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField()
+        alert.textFields?.first?.isSecureTextEntry = true
         
         let cancelAction = UIAlertAction(title: "취소", style: .destructive)
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
