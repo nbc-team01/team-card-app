@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 class SooTemplateViewController: UIViewController {
     private lazy var templateView = SooTemplateView()
@@ -34,7 +35,10 @@ class SooTemplateViewController: UIViewController {
 
     @objc private func openURLTapGeusture(_ gesture: CustomTapGesture){
         guard let openURL = gesture.openURL, let url = URL(string: openURL) else {return}
-        UIApplication.shared.open(url)
+//        UIApplication.shared.open(url)
+        let safariViewController = SFSafariViewController(url: url)
+          present(safariViewController, animated: true, completion: nil)
+
     }
     
 //    public func setInfoData(user: User) {
