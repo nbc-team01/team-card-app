@@ -36,13 +36,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func showMainView() {
-        let mainVC = MainViewController() // 메인 화면
+        let mainVC = TabBarView() // 메인 화면
         let navVC = UINavigationController(rootViewController: mainVC)
-        navVC.modalPresentationStyle = .fullScreen
         
-        UIView.transition(with: window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: window!,duration: 0.5,options: .transitionCrossDissolve){
             self.window?.rootViewController = navVC
-        }, completion: nil)
+        }
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
