@@ -17,6 +17,7 @@ class UserListViewController: UIViewController {
         view = userListView
         setDelegate()
         setAction()
+        setNavigationTitle(text: "Team Card", font: .systemFont(ofSize: 18, weight: .medium), alignment: .left)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,9 +28,7 @@ class UserListViewController: UIViewController {
         if let mainVC = self.navigationController?.parent as? MainViewController {
             mainVC.setTabBar(isHidden: false)
         }
-        
-        // 내비게이션 컨트롤러 숨김
-        self.navigationController?.navigationBar.isHidden = true
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -39,9 +38,6 @@ class UserListViewController: UIViewController {
         if let mainVC = self.navigationController?.parent as? MainViewController {
             mainVC.setTabBar(isHidden: true)
         }
-
-        // 내비게이션 컨트롤러
-        self.navigationController?.navigationBar.isHidden = false
     }
     
     // 딜리게이트 설정

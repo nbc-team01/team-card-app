@@ -40,6 +40,7 @@ class CreateUserCardViewController: UIViewController {
         super.viewDidLoad()
         
         view = createUserCardView
+        setNavigationTitle(text: "User Profile", font:  .systemFont(ofSize: 20, weight: .medium), alignment: .left)
         setDelegate()
         setAction()
         keyboardHidetapGesture()
@@ -70,7 +71,6 @@ class CreateUserCardViewController: UIViewController {
         // 이미지 추가
         let imageTapGesture = UITapGestureRecognizer(target: self, action: #selector(showImagePickerForLibrary))
         createUserCardView.imageView.addGestureRecognizer(imageTapGesture)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     // 수정 시 정보 불러오기

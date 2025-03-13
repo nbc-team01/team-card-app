@@ -9,17 +9,6 @@ import UIKit
 
 class UserListView: UIView {
     
-    // 해더
-    private let headerLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Team Card"
-        lbl.font = .systemFont(ofSize: 18, weight: .medium)
-        
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
-    
-    
     // 컬렉션 뷰
     public let collectionView: UICollectionView = {
         // 레이아웃
@@ -60,7 +49,6 @@ class UserListView: UIView {
     
     private func setSubView() {
         [
-            headerLabel,
             collectionView,
             addUserButton
         ].forEach{self.addSubview($0)}
@@ -69,14 +57,8 @@ class UserListView: UIView {
     private func setUI() {
         NSLayoutConstraint.activate([
             
-            // 헤더
-            headerLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
-            headerLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            headerLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-            headerLabel.heightAnchor.constraint(equalToConstant: 24),
-            
             // 컬렉션 뷰
-            collectionView.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 8),
+            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
             collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
             collectionView.bottomAnchor.constraint(equalTo: self.addUserButton.topAnchor, constant: -8),

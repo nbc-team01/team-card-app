@@ -165,7 +165,6 @@ class CreateUserCardView: UIView {
     private func setSubView(){
         
         [
-            titleLabel,
             seperatorLine,
             scrollView,
         ].forEach{self.addSubview($0)}
@@ -199,20 +198,15 @@ class CreateUserCardView: UIView {
     
     private func setUI() {
         NSLayoutConstraint.activate([
-            // titleLabel
-            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 48),
-            
+
             // 경계선
-            seperatorLine.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            seperatorLine.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             seperatorLine.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             seperatorLine.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             seperatorLine.heightAnchor.constraint(equalToConstant: 1),
             
             // 스크롤뷰
-            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            scrollView.topAnchor.constraint(equalTo: seperatorLine.bottomAnchor, constant: 10),
             scrollView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
