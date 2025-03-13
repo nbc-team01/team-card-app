@@ -9,15 +9,6 @@ import UIKit
 import Kingfisher
 
 class CreateUserCardView: UIView {
-    // 타이틀 라벨
-    public let titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "User Profile"
-        lbl.font = .systemFont(ofSize: 20, weight: .medium)
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
-    
     // 경계션
     private let seperatorLine: UIView = {
         let view = UIView()
