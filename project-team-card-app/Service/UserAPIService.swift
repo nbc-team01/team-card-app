@@ -27,7 +27,7 @@ class UserAPIService{
         }
     }
     //유저정보 저장
-    static func setUser(user: User) async throws {
+    static func setUser(user: User) async throws -> Bool{
         //경로 설정 users/user_uid
         let ref = db.collection("users").document(user.userID ?? "")
         
@@ -35,6 +35,7 @@ class UserAPIService{
             //DB에 데이터 저장
             try ref.setData(from: user)
             print("User 데이터 저장 성공")
+            return true
         } catch {
             throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
         }

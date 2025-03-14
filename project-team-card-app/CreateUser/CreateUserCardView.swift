@@ -9,6 +9,26 @@ import UIKit
 import Kingfisher
 
 class CreateUserCardView: UIView {
+    // 네트워크 통신 인디게이터 뷰
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = .large
+        indicator.startAnimating()
+        indicator.isHidden = true
+        indicator.center = self.center
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
+    // 네트워크 통신 시 백그라운드
+    private var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBackground.withAlphaComponent(0.5)
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     // 경계션
     private let seperatorLine: UIView = {
         let view = UIView()
@@ -158,6 +178,8 @@ class CreateUserCardView: UIView {
         [
             seperatorLine,
             scrollView,
+            backgroundView,
+            activityIndicator
         ].forEach{self.addSubview($0)}
         
         scrollView.addSubview(contentView)
@@ -242,6 +264,18 @@ class CreateUserCardView: UIView {
             bottomButtonStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             bottomButtonStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             bottomButtonStackView.heightAnchor.constraint(equalToConstant: 42),
+            
+            // 인디게이터
+            activityIndicator.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            activityIndicator.widthAnchor.constraint(equalToConstant: 50),
+            activityIndicator.heightAnchor.constraint(equalToConstant: 50),
+            
+            // 백그라운드
+            backgroundView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
     
@@ -261,5 +295,10 @@ class CreateUserCardView: UIView {
         blogAddress.textField.text = user.blogPathURL
         introduceView.textView.text = user.introduce
         introduceView.textView.textColor = .black
+    }
+    
+    public func startIndicator(){
+        self.activityIndicator.isHidden = false
+        self.backgroundView.isHidden = false
     }
 }

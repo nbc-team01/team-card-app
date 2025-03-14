@@ -121,14 +121,17 @@ class CreateUserCardViewController: UIViewController {
         // 얼럿 띄우기
         presentAlert() {[weak self] password in
             guard let self = self else {return}
+            self.createUserCardView.startIndicator() // 인디게이터 실행
             switch self.type {
                 // 생성일 때
             case .create:
                 Task {
                     do {
-                        try await self.setUserData(password: password)
+                        let isSuccess = try await self.setUserData(password: password)
                         // 홈뷰로 돌아가기 (통신 이후)
-                        self.navigationController?.popViewController(animated: true)
+                        if isSuccess {
+                            self.navigationController?.popViewController(animated: true)
+                        }
                     }
                     catch {
                         print(error.localizedDescription)
@@ -188,24 +191,20 @@ class CreateUserCardViewController: UIViewController {
     }
     
     // API 통신 - 이미지 저장 후 리턴 값으로 받은 이미지 URL과 함께 user 정보 저장
-    private func setUserData(password: String) async throws {
+    private func setUserData(password: String) async throws -> Bool{
         // 수정일 때는 값이 있으니 그대로 사용, 없으면 새로 생성
         let userId = self.userId ?? UUID().uuidString
         
-        guard let image = self.createUserCardView.imageView.image else { return }
+        guard let image = self.createUserCardView.imageView.image else { return false}
     
-        Task {
-            // 이미지 저장 API
-            let imagePath = try await StorageAPIService.setImage(image, userId: userId)
-            guard let user = self.createUser(userId: userId, password: password, imagePath: imagePath) else { return }
-        
-            // 정보 저장 API
-            try await UserAPIService.setUser(user: user)
-        }
 
-        DispatchQueue.main.async {
-            self.navigationController?.popViewController(animated: true)
-        }
+        // 이미지 저장 API
+        let imagePath = try await StorageAPIService.setImage(image, userId: userId)
+        guard let user = createUser(userId: userId, password: password, imagePath: imagePath) else { return false }
+        
+        // 정보 저장 API
+        return try await UserAPIService.setUser(user: user)
+        
     }
     
     // User 객체  생성 후 반환
