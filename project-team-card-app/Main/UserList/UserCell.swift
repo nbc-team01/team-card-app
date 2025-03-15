@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 class UserCell: UICollectionViewCell {
-    static let id = "UserCell"
+    static let identifier = "UserCell"
     
     // 메인 이미지뷰
     private let mainImageView: UIImageView = {
@@ -84,7 +84,6 @@ class UserCell: UICollectionViewCell {
         self.clipsToBounds = true
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        
         setSubView()
         setUI()
     }
@@ -115,6 +114,7 @@ class UserCell: UICollectionViewCell {
     }
     
     private func setUI() {
+        isUserInteractionEnabled = true
         NSLayoutConstraint.activate([
             
             // 메인 이미지 뷰
@@ -153,18 +153,14 @@ class UserCell: UICollectionViewCell {
         ])
     }
     
-    public func config(user: User) {
-        
-        // 이미지 설정
-        if let imagePathURL = user.imagePathURL {
-            mainImageView.kf.setImage(with: URL(string: imagePathURL))
-            subImageView.kf.setImage(with: URL(string: imagePathURL))
-        } else {
-        }
-        
+    public func configure(user: User) {
         nicknameLabel.text = user.nickname
         mbtiLabel.text = user.mbti
         nameLabel.text = user.name
         introduceLabel.text = user.introduce
+        
+        guard let imagePathURL = user.imagePathURL else { return }
+        mainImageView.kf.setImage(with: URL(string: imagePathURL))
+        subImageView.kf.setImage(with: URL(string: imagePathURL))
     }
 }

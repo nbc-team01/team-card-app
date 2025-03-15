@@ -6,86 +6,102 @@
 //
 
 import UIKit
+import SnapKit
 
-class UserListView: UIView {
+
+// MARK: - UserListView
+class UserListView: UIView, UICollectionViewDelegateFlowLayout {
     
-    // 해더
-    private let headerLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Team Card"
-        lbl.font = .systemFont(ofSize: 18, weight: .medium)
-        
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
-    
-    
-    // 컬렉션 뷰
-    public let collectionView: UICollectionView = {
-        // 레이아웃
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 8
-        layout.minimumLineSpacing = 12
-        
-        // (스크린의 너비 - 양쪽 패딩 - 셀 간격) / 2
-        let cellWidth = (UIScreen.main.bounds.width - (12 * 2 + 8)) / 2
-        let cellHeight = cellWidth * 1.7
-        layout.itemSize = CGSize(width: cellWidth, height: cellHeight)
-        
-        // 컬렉션 뷰
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UserCell.self, forCellWithReuseIdentifier: UserCell.id)
-        collectionView.backgroundColor = .clear
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
+    var users: [User] = []
+    weak var delegate: UserListViewDelegate?
     
     // Add User Button
-    public let addUserButton = AddButton(type: .user)
+    public lazy var addUserButton = AddButton(type: .user)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private let layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 103)
+        return layout
+    }()
+    public lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifier)
+        view.register(UserListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserListHeaderView.identifier)
+        view.backgroundColor = .clear
+        view.isScrollEnabled = true
+        view.showsHorizontalScrollIndicator = false
+        view.showsVerticalScrollIndicator = false
+        return view
+    }()
+    
+    private func configureUI() {
+        backgroundColor = .white
         
-        self.backgroundColor = .white
-        setSubView()
-        setUI()
+        [collectionView, addUserButton].forEach { addSubview($0) }
+        
+        collectionView.contentInsetAdjustmentBehavior = .never
+        
+        collectionView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().offset(-150)
+        }
+        addUserButton.snp.makeConstraints { make in
+            make.top.equalTo(collectionView.snp.bottom)
+            make.leading.trailing.equalToSuperview().inset(15)
+            make.height.equalTo(50)
+        }
+        collectionView.delegate = self
+        collectionView.dataSource = self
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setSubView() {
-        [
-            headerLabel,
-            collectionView,
-            addUserButton
-        ].forEach{self.addSubview($0)}
+}
+
+extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
+    // MARK: - UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return users.count
     }
     
-    private func setUI() {
-        NSLayoutConstraint.activate([
-            
-            // 헤더
-            headerLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
-            headerLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            headerLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-            headerLabel.heightAnchor.constraint(equalToConstant: 24),
-            
-            // 컬렉션 뷰
-            collectionView.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 8),
-            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-            collectionView.bottomAnchor.constraint(equalTo: self.addUserButton.topAnchor, constant: -8),
-            
-            // 유저 추가 버튼
-            addUserButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            addUserButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 12),
-            addUserButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -12),
-            addUserButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserCell.identifier, for: indexPath) as? UserCell else {
+            return UICollectionViewCell()
+        }
+        let user = users[indexPath.row]
+        cell.configure(user: user)
+        return cell
     }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UserListHeaderView.identifier, for: indexPath) as? UserListHeaderView else {
+            return UICollectionReusableView()
+        }
+        return header
+    }
+    
+    // MARK: - UICollectionViewDelegateFlowLayout (Grid 설정)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let totalWidth = collectionView.frame.width
+        let cellWidth = (totalWidth - 10) / 2
+        let cellHeight: CGFloat = 300
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let userId = users[indexPath.row].userID else {return}
+        delegate?.didSelectUser(userId: userId)
+    }
+}
+#Preview {
+    UserListViewController()
 }

@@ -80,7 +80,7 @@ class TemplateHeaderView: UIView {
         addSubview(divider)
         headerSafe.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.bottom.equalTo(safeAreaLayoutGuide.snp.top).offset(15)
         }
         
         hstackView.snp.makeConstraints {

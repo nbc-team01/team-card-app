@@ -40,6 +40,7 @@ class TabBarView: UITabBarController,UITabBarControllerDelegate {
         tabItemTag = viewController.tabBarItem.tag
         tabItemUpdate()
     }
+    
 }
 
 #Preview{

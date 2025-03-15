@@ -18,7 +18,6 @@ class AddButton: UIButton {
     init(type: AddButtonType) {
         self.type = type
         super.init(frame: .zero)
-        
         setUI()
     }
     
@@ -31,7 +30,5 @@ class AddButton: UIButton {
         self.titleLabel?.font = .systemFont(ofSize: 12, weight: .bold)
         self.layer.cornerRadius = 8
         self.backgroundColor = .black
-        self.isUserInteractionEnabled = true
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
 }

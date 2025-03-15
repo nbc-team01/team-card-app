@@ -59,7 +59,6 @@ class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-//        configureRules()
     }
     
     required init?(coder: NSCoder) {
@@ -71,6 +70,7 @@ class HomeView: UIView {
         backgroundColor = .white
         addSubview(scrollView)
         //각 요소 추가
+//        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.addSubview(contentView)
         contentView.addSubview(teamTitleLabal)
         contentView.addSubview(subTitleLabal)
@@ -87,7 +87,6 @@ class HomeView: UIView {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
         // contentView 설정
         contentView.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview()
@@ -133,4 +132,8 @@ class HomeView: UIView {
             make.bottom.equalToSuperview()
         }
     }
+}
+
+#Preview{
+    TabBarView()
 }

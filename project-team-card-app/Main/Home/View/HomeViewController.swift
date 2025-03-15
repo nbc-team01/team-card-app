@@ -17,3 +17,7 @@ class HomeViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 }
+
+#Preview{
+    HomeViewController()
+}
