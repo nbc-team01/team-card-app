@@ -51,7 +51,6 @@ class UserListViewController: UIViewController,UserListViewDelegate {
     }
     func didSelectUser(userId: String) {
         let detailVC = TemplateHeaderViewController(userId: userId)
-        print("gfg")
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
