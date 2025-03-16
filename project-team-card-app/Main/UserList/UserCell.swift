@@ -7,49 +7,20 @@
 
 import UIKit
 import Kingfisher
+import SnapKit
 
 class UserCell: UICollectionViewCell {
-    static let id = "UserCell"
-    
+    static let identifier = "UserCell"
+    //닉네임&MBTI
+    private let nickNameLabel = StyledPaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
+    private let mbtiLabel = StyledPaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
     // 메인 이미지뷰
     private let mainImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleToFill
         view.backgroundColor = .black.withAlphaComponent(0.05)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    // 닉네임 라벨
-    private let nicknameLabel: PaddingLabel = {
-        let lbl = PaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
-        lbl.font = .systemFont(ofSize: 12, weight: .regular)
-        lbl.layer.cornerRadius = 2
-        lbl.clipsToBounds = true
-        lbl.backgroundColor = .black.withAlphaComponent(0.05)
-        lbl.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        lbl.layer.borderWidth = 0.5
-        lbl.textAlignment = .center
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        
-        return lbl
-    }()
-    
-    // mbti 라벨
-    private let mbtiLabel: PaddingLabel = {
-        let lbl = PaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
-        lbl.font = .systemFont(ofSize: 12, weight: .regular)
-        lbl.layer.cornerRadius = 2
-        lbl.clipsToBounds = true
-        lbl.backgroundColor = .black.withAlphaComponent(0.05)
-        lbl.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        lbl.layer.borderWidth = 0.5
-        lbl.textAlignment = .center
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        
-        return lbl
-    }()
-    
     // subImageView
     private let subImageView: UIImageView = {
         let view = UIImageView()
@@ -60,22 +31,21 @@ class UserCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     // 이름
     private let nameLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 12, weight: .regular)
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     // 자기소개
     private let introduceLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 12, weight: .regular)
-        lbl.numberOfLines = 0
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -84,7 +54,6 @@ class UserCell: UICollectionViewCell {
         self.clipsToBounds = true
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        
         setSubView()
         setUI()
     }
@@ -96,17 +65,17 @@ class UserCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         mainImageView.image = nil
-        nicknameLabel.text = nil
-        mbtiLabel.text = nil
         nameLabel.text = nil
         subImageView.image = nil
         introduceLabel.text = nil
+        nickNameLabel.text = nil
+        mbtiLabel.text = nil
     }
     
     private func setSubView(){
         [
             mainImageView,
-            nicknameLabel,
+            nickNameLabel,
             mbtiLabel,
             nameLabel,
             subImageView,
@@ -115,56 +84,58 @@ class UserCell: UICollectionViewCell {
     }
     
     private func setUI() {
-        NSLayoutConstraint.activate([
-            
-            // 메인 이미지 뷰
-            mainImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            mainImageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            mainImageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            mainImageView.heightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor),
-            
-            // 닉네임 라벨
-            nicknameLabel.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 8),
-            nicknameLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            nicknameLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            // mbti 라벨 (오른쪽을 줘야 하긴 하는데 리팩토링 필요)
-            mbtiLabel.centerYAnchor.constraint(equalTo: nicknameLabel.centerYAnchor),
-            mbtiLabel.leadingAnchor.constraint(equalTo: nicknameLabel.trailingAnchor, constant: 6),
-            mbtiLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            // 서브 이미지
-            subImageView.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 8),
-            subImageView.leadingAnchor.constraint(equalTo: nicknameLabel.leadingAnchor),
-            subImageView.heightAnchor.constraint(equalToConstant: 20),
-            subImageView.widthAnchor.constraint(equalToConstant: 20),
-            
-            // 이름
-            nameLabel.centerYAnchor.constraint(equalTo: subImageView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: subImageView.trailingAnchor, constant: 8),
-            nameLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            nameLabel.heightAnchor.constraint(equalToConstant: 16),
-            
-            // 자기소개
-            introduceLabel.topAnchor.constraint(equalTo: subImageView.bottomAnchor, constant: 8),
-            introduceLabel.leadingAnchor.constraint(equalTo: nicknameLabel.leadingAnchor, constant: 8),
-            introduceLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            introduceLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -8)
-        ])
+        // 메인 이미지 뷰
+        mainImageView.snp.makeConstraints{ make in
+            make.edges.equalToSuperview()
+            make.height.equalTo(self.snp.width)
+        }
+        // 닉네임 라벨
+        nickNameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(self.snp.leading).offset(8)
+            make.top.equalTo(mainImageView.snp.bottom).offset(8)
+            make.height.equalTo(20)
+        }
+        // MBTI 라벨 (오른쪽에 위치하도록 수정)
+        mbtiLabel.snp.makeConstraints { make in
+            make.leading.equalTo(nickNameLabel.snp.trailing).offset(8)
+            make.centerY.equalTo(nickNameLabel.snp.centerY)
+            make.height.equalTo(20)
+        }
+        // 서브 이미지
+        subImageView.snp.makeConstraints { make in
+            make.top.equalTo(nickNameLabel.snp.bottom).offset(8)
+            make.leading.equalTo(nickNameLabel.snp.leading)
+            make.width.height.equalTo(20)
+        }
+        // 이름
+        nameLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(subImageView.snp.centerY)
+            make.leading.equalTo(subImageView.snp.trailing).offset(8)
+            make.trailing.equalTo(self.snp.trailing).offset(-8)
+            make.height.equalTo(16)
+        }
+        // 자기소개
+        introduceLabel.snp.makeConstraints { make in
+            make.top.equalTo(subImageView.snp.bottom).offset(8)
+            make.leading.equalTo(nickNameLabel.snp.leading)
+            make.trailing.equalTo(self.snp.trailing).offset(-8)
+            make.bottom.equalTo(self.snp.bottom).offset(-8)
+        }
     }
     
-    public func config(user: User) {
-        
-        // 이미지 설정
-        if let imagePathURL = user.imagePathURL {
-            mainImageView.kf.setImage(with: URL(string: imagePathURL))
-            subImageView.kf.setImage(with: URL(string: imagePathURL))
-        } else {
-        }
-        
-        nicknameLabel.text = user.nickname
+    public func configure(user: User) {
+        nickNameLabel.text = user.nickname
         mbtiLabel.text = user.mbti
         nameLabel.text = user.name
         introduceLabel.text = user.introduce
+        
+        guard let imagePathURL = user.imagePathURL else { return }
+        mainImageView.kf.setImage(with: URL(string: imagePathURL))
+        subImageView.kf.setImage(with: URL(string: imagePathURL))
+        
     }
+}
+
+#Preview{
+    UserListViewController()
 }

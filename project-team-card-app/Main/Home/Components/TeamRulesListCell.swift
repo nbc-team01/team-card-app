@@ -8,17 +8,18 @@
 import UIKit
 import SnapKit
 
+
 // MARK: - 커스텀 팀 룰 리스트 셀
-class CustomTeamRulesListCell: UITableViewCell {
+class TeamRulesListCell: UIView {
     
     // MARK: - 식별자 (셀 재사용을 위한 Identifier)
-    static let identifier = "CustomTeamRulesListCell"
+    var rule:Team
 
     // MARK: - UI 요소 정의
 
     // 아이콘 이미지 뷰
-    private let iconImageView: UIImageView = {
-        let imageView = UIImageView()
+    private lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView(image: rule.image)
         imageView.contentMode = .scaleAspectFit // 이미지 비율 유지
         imageView.clipsToBounds = true // 이미지가 뷰 영역을 넘지 않도록 설정
         imageView.layer.cornerRadius = 20 // 둥근 모서리 적용
@@ -26,16 +27,18 @@ class CustomTeamRulesListCell: UITableViewCell {
     }()
 
     // 타이틀 라벨
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.text = rule.title
         label.font = UIFont.boldSystemFont(ofSize: 16) // 볼드체 적용
         label.textColor = .black // 기본 텍스트 색상
         return label
     }()
 
     // 설명 라벨
-    private let descriptionLabel: UILabel = {
+    private lazy var contentLabel: UILabel = {
         let label = UILabel()
+        label.text = rule.content
         label.font = UIFont.systemFont(ofSize: 14) // 일반 폰트
         label.textColor = .gray // 서브 텍스트 색상
         return label
@@ -50,9 +53,11 @@ class CustomTeamRulesListCell: UITableViewCell {
 
     // MARK: - 초기화 메서드
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    init(rule:Team) {
+        self.rule = rule
+        super.init(frame: .zero)
         setupUI()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -63,12 +68,10 @@ class CustomTeamRulesListCell: UITableViewCell {
 
     private func setupUI() {
         // 셀 내부에 UI 요소 추가
-        contentView.addSubview(iconImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(separatorView)
-
-        setupConstraints()
+        addSubview(iconImageView)
+        addSubview(titleLabel)
+        addSubview(contentLabel)
+        addSubview(separatorView)
     }
 
     // MARK: - 오토레이아웃 설정
@@ -89,7 +92,7 @@ class CustomTeamRulesListCell: UITableViewCell {
         }
 
         // 설명 라벨
-        descriptionLabel.snp.makeConstraints { make in
+        contentLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(4) // 타이틀 아래 여백 4
             make.leading.equalTo(titleLabel) // 타이틀과 정렬
             make.trailing.equalToSuperview().offset(-16) // 우측 여백 16
@@ -103,18 +106,5 @@ class CustomTeamRulesListCell: UITableViewCell {
             make.bottom.equalToSuperview() // 하단에 위치
             make.height.equalTo(1) // 높이 1
         }
-    }
-
-    // MARK: - 셀 데이터 설정 메서드
-
-    /// 셀에 표시할 데이터를 설정하는 메서드
-    /// - Parameters:
-    ///   - image: 아이콘 이미지 (UIImage)
-    ///   - title: 타이틀 텍스트 (String)
-    ///   - description: 설명 텍스트 (String)
-    func configure(with image: UIImage?, title: String, description: String) {
-        iconImageView.image = image // 아이콘 설정
-        titleLabel.text = title // 타이틀 설정
-        descriptionLabel.text = description // 설명 설정
     }
 }
