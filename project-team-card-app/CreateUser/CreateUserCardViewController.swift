@@ -8,18 +8,14 @@
 import UIKit
 
 // 생성인지 수정인지 구분
-public enum UserCardType {
-    case create
-    case modify(userId: String)
-}
+
 
 class CreateUserCardViewController: UIViewController {
     private let createUserCardView = CreateUserCardView()
-//    private var contentViews: [UUID: ContentView] = [:]
-    private let type: UserCardType // 생성인지 수정인지 구분
+    private let type: UserCardOption // 생성인지 수정인지 구분
     private var userId: String? // 수정일 때는 userId로 업데이트
     
-    init(type: UserCardType) {
+    init(type: UserCardOption) {
         self.type = type
         super.init(nibName: nil, bundle: nil)
         
@@ -437,4 +433,8 @@ extension CreateUserCardViewController: UIImagePickerControllerDelegate, UINavig
     private func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
         return input.rawValue
     }
+}
+
+#Preview{
+    CreateUserCardViewController(type: .create)
 }
