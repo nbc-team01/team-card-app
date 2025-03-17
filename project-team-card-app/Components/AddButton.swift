@@ -7,16 +7,22 @@
 
 import UIKit
 
-enum AddButtonType: String {
-    case user = "User" // 유저 추가 버튼
-    case content = "Content" // 컨텐츠 추가 버튼
+enum ButtonThemeType{
+    case normal
+    case border
 }
 
 class AddButton: UIButton {
-    private let type: AddButtonType
+    private let type:ButtonThemeType
+    private let text: String
+    private let buttonColor: UIColor
+    private let themeColor: UIColor
     
-    init(type: AddButtonType) {
+    init(type:ButtonThemeType,text:String,buttonColor:UIColor,themeColor:UIColor) {
         self.type = type
+        self.text = text
+        self.buttonColor = buttonColor
+        self.themeColor = themeColor
         super.init(frame: .zero)
         setUI()
     }
@@ -26,9 +32,17 @@ class AddButton: UIButton {
     }
     
     private func setUI() {
-        self.setTitle("Add \(type.rawValue)", for: .normal)
+        self.setTitle(text, for: .normal)
+        self.setTitleColor(themeColor, for: .normal)
+        self.backgroundColor = buttonColor
         self.titleLabel?.font = .systemFont(ofSize: 12, weight: .bold)
         self.layer.cornerRadius = 8
-        self.backgroundColor = .black
+        switch self.type{
+        case .normal: return
+        case .border:
+            self.layer.borderColor = themeColor.cgColor
+            self.layer.borderWidth = 1
+            self.clipsToBounds = true
+        }
     }
 }

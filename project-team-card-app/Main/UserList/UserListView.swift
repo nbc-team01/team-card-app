@@ -16,7 +16,7 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
     weak var delegate: UserListViewDelegate?
     
     // Add User Button
-    public lazy var addUserButton = AddButton(type: .user)
+    public lazy var addUserButton = AddButton(type: .normal,text: "Add User",buttonColor: .black,themeColor: .white)
     
     private let layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
