@@ -29,7 +29,8 @@ class UserListViewController: UIViewController,UserListViewDelegate {
     // Add User 버튼 액션
     @objc private func touchUpInsideAddUserButton() {
         let nextVC = CreateUserCardViewController(type: .create)
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        nextVC.modalPresentationStyle = .fullScreen
+        present(nextVC, animated: true)
     }
     // 유저 배열 가져오기
     private func fetchUsers() {
@@ -51,6 +52,7 @@ class UserListViewController: UIViewController,UserListViewDelegate {
     }
     func didSelectUser(userId: String) {
         let detailVC = TemplateHeaderViewController(userId: userId)
+        detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }

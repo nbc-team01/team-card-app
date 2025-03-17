@@ -9,25 +9,26 @@ import UIKit
 import SnapKit
 
 // MARK: - UserListHeaderView
-class UserListHeaderView: UICollectionReusableView {
-    static let identifier = "UserListHeaderView"
+class HeaderView: UICollectionReusableView {
+    static let identifier = "HeaderView"
     
     private let headerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Team Card"
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 20, weight: .bold)
         return label
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(frame:CGRect) {
+        super.init(frame: .zero)
         configureUI()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    func configure(title: String) {
+        headerLabel.text = title
+    }
     private func configureUI() {
         backgroundColor = .white
         addSubview(headerLabel)

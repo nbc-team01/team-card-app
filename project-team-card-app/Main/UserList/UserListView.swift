@@ -27,7 +27,7 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
     public lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifier)
-        view.register(UserListHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: UserListHeaderView.identifier)
+        view.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
         view.backgroundColor = .clear
         view.isScrollEnabled = true
         view.showsHorizontalScrollIndicator = false
@@ -39,6 +39,7 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
         backgroundColor = .white
         
         [collectionView, addUserButton].forEach { addSubview($0) }
+        
         
         collectionView.contentInsetAdjustmentBehavior = .never
         
@@ -82,9 +83,10 @@ extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UserListHeaderView.identifier, for: indexPath) as? UserListHeaderView else {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.identifier, for: indexPath) as? HeaderView else {
             return UICollectionReusableView()
         }
+        header.configure(title: "Team Card")
         return header
     }
     
