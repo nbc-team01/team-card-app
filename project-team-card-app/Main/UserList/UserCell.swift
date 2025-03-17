@@ -24,18 +24,16 @@ class UserCell: UICollectionViewCell {
     // subImageView
     private let subImageView: UIImageView = {
         let view = UIImageView()
-        view.layer.cornerRadius = 20 / 2
+        view.layer.cornerRadius = 10
         view.clipsToBounds = true
         view.contentMode = .scaleToFill
         view.backgroundColor = .black.withAlphaComponent(0.05)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     // 이름
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -43,8 +41,7 @@ class UserCell: UICollectionViewCell {
     private let introduceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 2
         return label
     }()
     
