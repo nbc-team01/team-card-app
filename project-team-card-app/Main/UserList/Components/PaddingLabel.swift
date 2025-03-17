@@ -27,8 +27,8 @@ class PaddingLabel: UILabel {
     // intrinsicContentSize를 직접 조정하여 최소 높이를 보장하면
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
-        let minHeight = padding.top + padding.bottom + size.height // 최소 높이 보장
-        return CGSize(width: size.width + padding.left + padding.right,
-                      height: max(size.height + padding.top + padding.bottom, minHeight))
+        let height = padding.top + padding.bottom + size.height
+        let width = padding.left + padding.right + size.width
+        return CGSize(width: width, height: height)
     }
 }

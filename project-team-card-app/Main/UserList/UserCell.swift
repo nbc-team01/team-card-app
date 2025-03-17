@@ -12,8 +12,8 @@ import SnapKit
 class UserCell: UICollectionViewCell {
     static let identifier = "UserCell"
     //닉네임&MBTI
-    private let nickNameLabel = StyledPaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
-    private let mbtiLabel = StyledPaddingLabel(topPadding: 2, leftPadding: 4, bottomPadding: 2, rightPadding: 4)
+    private let nickNameLabel = StyledPaddingLabel(top: 2, left: 4, bottom: 2, right: 4)
+    private let mbtiLabel = StyledPaddingLabel(top: 2, left: 4, bottom: 2, right: 4)
     // 메인 이미지뷰
     private let mainImageView: UIImageView = {
         let view = UIImageView()

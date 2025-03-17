@@ -11,8 +11,8 @@ import UIKit
 class StyledPaddingLabel: PaddingLabel {
     
     // 커스텀 초기화 메서드
-    override init(topPadding: CGFloat, leftPadding: CGFloat, bottomPadding: CGFloat, rightPadding: CGFloat) {
-        super.init(topPadding: topPadding, leftPadding: leftPadding, bottomPadding: bottomPadding, rightPadding: rightPadding)
+    init(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) {
+        super.init(topPadding: top, leftPadding: left, bottomPadding: bottom, rightPadding: right)
         configureLabelStyle()  // 스타일링 설정
     }
     required init?(coder: NSCoder) {
