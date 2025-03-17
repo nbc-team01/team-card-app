@@ -25,7 +25,6 @@ class CreateUserInfoView: UIView {
         let label = UILabel()
         label.text = title
         label.font = .systemFont(ofSize: 14, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     // 삭제 버튼
@@ -34,7 +33,6 @@ class CreateUserInfoView: UIView {
         button.setImage(UIImage(systemName: "minus.circle.fill"), for: .normal)
         button.tintColor = .red
         button.isHidden = !isContent
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     // 텍스트 필드
@@ -44,7 +42,6 @@ class CreateUserInfoView: UIView {
         field.font = .systemFont(ofSize: 14, weight: .regular)
         field.borderStyle = .roundedRect
         field.clearButtonMode = .whileEditing
-        field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
     // 에러 라벨
@@ -54,7 +51,6 @@ class CreateUserInfoView: UIView {
         label.textColor = .red
         label.font = .systemFont(ofSize: 10, weight: .medium)
         label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     init(title: String, placeholder: String, isLongText: Bool = false, isContent: Bool = false) {
@@ -78,7 +74,7 @@ class CreateUserInfoView: UIView {
     }
     
     private func setUI() {
-        textView.configure(placeHolder: "adasdasd")
+        textView.configure(placeHolder: "Enter your Introduce")
         let textSpace = isLongText ? textView : textField
         
         titleLabel.snp.makeConstraints { make in

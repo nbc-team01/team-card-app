@@ -10,7 +10,7 @@ import SnapKit
 
 class CustomTextView: UITextView, UITextViewDelegate {
     
-    private lazy var placeHolderLabel: UILabel = {
+    lazy var placeHolderLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray.withAlphaComponent(0.75)
         label.font = .systemFont(ofSize: 14)
@@ -32,7 +32,7 @@ class CustomTextView: UITextView, UITextViewDelegate {
     private func setup() {
         addSubview(placeHolderLabel)
         placeHolderLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(8)
+            make.edges.equalToSuperview().inset(5)
         }
         textColor = .black
         isScrollEnabled = true
@@ -45,5 +45,7 @@ class CustomTextView: UITextView, UITextViewDelegate {
 }
 
 #Preview{
-    CreateUserCardViewController(type: .create)
+    CreateUserCardViewController(type: .modify(userId: "00978D33-1DD6-42F4-9C11-4B421A86AEF9"))
+//    CreateUserCardViewController(type: .create)
 }
+

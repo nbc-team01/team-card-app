@@ -180,6 +180,10 @@ class CreateUserCardView: UIView {
         gitAddress.textField.text = user.gitHubPathURL
         blogAddress.textField.text = user.blogPathURL
         introduceView.textView.text = user.introduce
+        if !introduceView.textView.text.isEmpty{
+            introduceView.textView.placeHolderLabel.isHidden = true
+        }
+        
     }
 }
 #Preview{
