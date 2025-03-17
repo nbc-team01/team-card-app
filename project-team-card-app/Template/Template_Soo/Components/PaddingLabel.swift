@@ -29,6 +29,6 @@ class PaddingLabel: UILabel {
         let size = super.intrinsicContentSize
         let minHeight = padding.top + padding.bottom + size.height // 최소 높이 보장
         return CGSize(width: size.width + padding.left + padding.right,
-                      height: max(size.height + padding.top + padding.bottom, minHeight))
+                      height: minHeight)
     }
 }
