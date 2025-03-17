@@ -6,95 +6,64 @@
 //
 
 import UIKit
+import SnapKit
 
 // 텍스트 필드 그룹
 class CreateUserInfoView: UIView {
-    
     // 타이틀
     private let title: String
-    
     // placeholder
     private let placeholder: String
-    
     // 텍스트 필드 높이 설정
     public let isLongText: Bool
-    
     // 삭제 가능 유무
-    private let isEnableReomve: Bool
-    
+    private let isContent: Bool
+    // 텍스트 뷰
+    lazy var textView = CustomTextView()
     // 타이틀 라벨
     private lazy var titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = title
-        lbl.font = .systemFont(ofSize: 14, weight: .bold)
-        lbl.numberOfLines = 1
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        let label = UILabel()
+        label.text = title
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
-    
     // 삭제 버튼
     public lazy var removeButton: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage(systemName: "minus.circle.fill"), for: .normal)
-        btn.tintColor = .red
-        btn.isHidden = !isEnableReomve
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "minus.circle.fill"), for: .normal)
+        button.tintColor = .red
+        button.isHidden = !isContent
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
-    
-    // 텍스트 뷰
-    public lazy var textView: UITextView = {
-        let view = CustomTextView()
-        view.text = placeholder
-        view.placeHolderText = placeholder
-        view.textColor = .placeholderText
-        view.font = .systemFont(ofSize: 14, weight: .regular)
-        view.layer.cornerRadius = 6
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        view.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-//    // 텍스트 필드
+    // 텍스트 필드
     public lazy var textField: UITextField = {
         let field = UITextField()
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 1))
-        field.leftView = leftView
-        field.leftViewMode = .always
         field.placeholder = placeholder
         field.font = .systemFont(ofSize: 14, weight: .regular)
-        field.layer.cornerRadius = 6
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        field.clearButtonMode = .always
+        field.borderStyle = .roundedRect
+        field.clearButtonMode = .whileEditing
         field.translatesAutoresizingMaskIntoConstraints = false
         return field
     }()
-    
     // 에러 라벨
     public let errorLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "필수로 입력해주세요"
-        lbl.textColor = .red
-        lbl.font = .systemFont(ofSize: 10, weight: .medium)
-        lbl.isHidden = true
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        let label = UILabel()
+        label.text = "필수로 입력해주세요"
+        label.textColor = .red
+        label.font = .systemFont(ofSize: 10, weight: .medium)
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
-    
-    init(title: String, placeholder: String, isLongText: Bool = false, isEnableRemove: Bool = false) {
+    init(title: String, placeholder: String, isLongText: Bool = false, isContent: Bool = false) {
         self.title = title
         self.placeholder = placeholder
         self.isLongText = isLongText
-        self.isEnableReomve = isEnableRemove
+        self.isContent = isContent
         super.init(frame: .zero)
-        
         self.isUserInteractionEnabled = true
-        self.backgroundColor = .clear
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
         setSubView()
         setUI()
     }
@@ -104,40 +73,34 @@ class CreateUserInfoView: UIView {
     }
     
     private func setSubView(){
-        [
-            titleLabel,
-            removeButton,
-            isLongText ? textView : textField,
-            errorLabel,
-        ].forEach{self.addSubview($0)}
+        [titleLabel,removeButton,isLongText ? textView : textField,errorLabel]
+            .forEach{ addSubview($0) }
     }
     
     private func setUI() {
+        textView.configure(placeHolder: "adasdasd")
         let textSpace = isLongText ? textView : textField
         
-        NSLayoutConstraint.activate([
-            // 타이틀 라벨
-            titleLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: removeButton.leadingAnchor, constant: 10),
-            titleLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            removeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            removeButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            removeButton.widthAnchor.constraint(equalToConstant: 17),
-            removeButton.heightAnchor.constraint(equalToConstant: 17),
-            
-            // 텍스트 필드
-            textSpace.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            textSpace.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            textSpace.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            textSpace.heightAnchor.constraint(equalToConstant: isLongText ? 111 : 36),
-            
-            // 에러 라벨
-            errorLabel.topAnchor.constraint(equalTo: textSpace.bottomAnchor, constant: 3),
-            errorLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 5),
-            errorLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            errorLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-        ])
+        titleLabel.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+        }
+        removeButton.snp.makeConstraints { make in
+            make.centerY.equalTo(titleLabel)
+            make.trailing.equalToSuperview()
+        }
+        textSpace.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.horizontalEdges.equalToSuperview()
+            guard isLongText else { return }
+            make.height.equalTo(100)
+        }
+        errorLabel.snp.makeConstraints { make in
+            make.top.equalTo(textSpace.snp.bottom)
+            make.horizontalEdges.bottom.equalToSuperview()
+        }
     }
+}
+#Preview{
+//    CreateUserCardViewController(type: .modify(userId: "00978D33-1DD6-42F4-9C11-4B421A86AEF9"))
+    CreateUserCardViewController(type: .create)
 }
