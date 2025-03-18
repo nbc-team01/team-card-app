@@ -32,10 +32,10 @@ class SooTemplateViewController: UIViewController {
 //        setInfoData(user: user)
     }
 
-    @objc private func openURLTapGeusture(_ gesture: CustomTapGesture){
-        guard let openURL = gesture.openURL, let url = URL(string: openURL) else {return}
-        UIApplication.shared.open(url)
-    }
+//    @objc private func openURLTapGeusture(_ gesture: ContentDeleteGesture){
+//        guard let openURL = gesture.openURL, let url = URL(string: openURL) else {return}
+//        UIApplication.shared.open(url)
+//    }
     
 //    public func setInfoData(user: User) {
 //        DispatchQueue.main.async {[weak self] in
@@ -62,13 +62,13 @@ class SooTemplateViewController: UIViewController {
     private func setGesture(user: User) {
 
         // 깃허브 탭 제스처 구현
-        let gitButtonTapGesture = CustomTapGesture(target: self, action: #selector(openURLTapGeusture))
-        gitButtonTapGesture.openURL = user.gitHubPathURL
-        templateView.gitButton.addGestureRecognizer(gitButtonTapGesture)
-        
-        // 블로그 탭 제스처 구현
-        let blogButtonTapGesture = CustomTapGesture(target: self, action: #selector(openURLTapGeusture))
-        blogButtonTapGesture.openURL = user.blogPathURL
-        templateView.blogButton.addGestureRecognizer(blogButtonTapGesture)
+//        let gitButtonTapGesture = CustomTapGesture(target: self, action: #selector(openURLTapGeusture))
+//        gitButtonTapGesture.openURL = user.gitHubPathURL
+//        templateView.gitButton.addGestureRecognizer(gitButtonTapGesture)
+//        
+//        // 블로그 탭 제스처 구현
+//        let blogButtonTapGesture = CustomTapGesture(target: self, action: #selector(openURLTapGeusture))
+//        blogButtonTapGesture.openURL = user.blogPathURL
+//        templateView.blogButton.addGestureRecognizer(blogButtonTapGesture)
     }
 }

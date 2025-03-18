@@ -60,11 +60,11 @@ class CreateUserCardView: UIView {
     }()
     // 사진 올리기 버튼뷰 -> 컴포넌트 완성되면 교체할 예정
     public let imageView: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(systemName: "photo.badge.plus")
+        let view = UIImageView(image: UIImage(systemName: "photo.badge.plus"))
         view.tintColor = .black
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.backgroundColor = .systemGray5
+        view.clipsToBounds = true
         view.isUserInteractionEnabled = true
         return view
     }()
@@ -187,6 +187,7 @@ class CreateUserCardView: UIView {
     }
 }
 #Preview{
-    CreateUserCardViewController(type: .modify(userId: "00978D33-1DD6-42F4-9C11-4B421A86AEF9"))
+//    CreateUserCardViewController(type: .modify(userId: "00978D33-1DD6-42F4-9C11-4B421A86AEF9"))
+    CreateUserCardViewController(type: .create)
 }
 
