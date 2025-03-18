@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CreateUserCardViewController: UIViewController {
+class CreateUserCardViewController: ImagePickerViewController {
     
     //MARK: 저장 프로퍼티
     private let createUserCardView = CreateUserCardView()
@@ -55,7 +55,7 @@ class CreateUserCardViewController: UIViewController {
     //MARK: 생성자 및 초기 설정 메서드
     init(type: UserCardOption) {
         self.type = type
-        super.init(nibName: nil, bundle: nil)
+        super.init(imagePickerView: createUserCardView)
         fetchUserInfo()
     }
     required init?(coder: NSCoder) {
@@ -111,7 +111,7 @@ class CreateUserCardViewController: UIViewController {
             
             switch mode{
             case .create: try await UserAPIService.setUser(user: user)
-            case let .modify(userId): try await UserAPIService.updateUser(user: user)
+            case .modify: try await UserAPIService.updateUser(user: user)
             }
             
             dismiss(animated: true)
@@ -148,7 +148,6 @@ class CreateUserCardViewController: UIViewController {
         // 모델 생성 후 통신 처리
         present(alert, animated: true)
     }
-    
     //MARK: 상세페이지 타겟설정
     //Add/Cancel 버튼
     //Add Content 버튼
@@ -200,4 +199,6 @@ class CreateUserCardViewController: UIViewController {
     }
 }
 
-
+#Preview{
+    CreateUserCardViewController(type: .create)
+}

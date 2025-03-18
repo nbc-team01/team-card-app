@@ -10,9 +10,11 @@ import Kingfisher
 import SnapKit
 
 
-class CreateUserCardView: UIView {
+class CreateUserCardView: ImagePickerView {
     // 컨텐츠 뷰
-    private let contentView = UIView()
+    var contentView = UIView()
+//    //이미지 피커
+//    var imagePicker = ImagePickerView()
     // 커스텀 내용 추가
     public let addContentButton = AddButton(type: .normal,text: "Add Content",buttonColor: .black,themeColor: .white)
     //cancel
@@ -56,16 +58,6 @@ class CreateUserCardView: UIView {
         view.isScrollEnabled = true
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
-        return view
-    }()
-    // 사진 올리기 버튼뷰 -> 컴포넌트 완성되면 교체할 예정
-    public let imageView: UIImageView = {
-        let view = UIImageView(image: UIImage(systemName: "photo.badge.plus"))
-        view.tintColor = .black
-        view.contentMode = .scaleAspectFill
-        view.backgroundColor = .systemGray5
-        view.clipsToBounds = true
-        view.isUserInteractionEnabled = true
         return view
     }()
     // 에러 라벨
@@ -146,7 +138,7 @@ class CreateUserCardView: UIView {
         imageView.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top)
             make.width.equalToSuperview()
-            make.height.equalTo(256)
+            make.height.equalTo(self.snp.width).inset(10)
         }
         errorLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
