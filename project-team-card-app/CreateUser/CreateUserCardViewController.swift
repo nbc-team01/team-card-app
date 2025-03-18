@@ -78,6 +78,7 @@ class CreateUserCardViewController: ImagePickerViewController {
                     self.userId = user.userID
                     DispatchQueue.main.async {
                         self.createUserCardView.config(user: user)
+    
                         self.setUserContents(user: user)
                     }
                 } catch {

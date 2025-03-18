@@ -158,12 +158,13 @@ class CreateUserCardView: ImagePickerView {
             make.bottom.equalTo(contentView).offset(-10)
         }
         bottomButtonStackView.snp.makeConstraints { make in
-            make.bottom.equalTo(safeAreaLayoutGuide).offset(-10)
+            make.bottom.equalTo(keyboardLayoutGuide.snp.top).offset(-10)
             make.horizontalEdges.equalToSuperview().inset(10)
         }
     }
     
     public func config(user: User) {
+        imageView.contentMode = .scaleAspectFill
         imageView.kf.setImage(with: URL(string: user.imagePathURL ?? ""))
         nameView.textField.text = user.name
         mbtiView.textField.text = user.mbti
