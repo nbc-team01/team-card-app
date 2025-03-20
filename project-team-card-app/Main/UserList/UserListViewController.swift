@@ -7,7 +7,10 @@
 
 import UIKit
 
-class UserListViewController: UIViewController,UserListViewDelegate {
+typealias VCDelete = UserListViewDelegate&CreateUserViewControllerDelegate
+
+class UserListViewController: UIViewController, VCDelete{
+    
     private let userListView = UserListView()
     
     // 유저 리스트 정보 가져오기
@@ -54,6 +57,10 @@ class UserListViewController: UIViewController,UserListViewDelegate {
         let detailVC = TemplateHeaderViewController(userId: userId)
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    func didSetUser() {
+        fetchUsers()
+        userListView.layoutIfNeeded()
     }
 }
 

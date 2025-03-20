@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import Kingfisher
 
+protocol CreateUserViewControllerDelegate:AnyObject{
+    func didSetUser()
+}
 class CreateUserCardViewController: ImagePickerViewController {
     
     //MARK: 저장 프로퍼티
     private let createUserCardView = CreateUserCardView()
     private let type: UserCardOption // 생성인지 수정인지 구분
-    private var userId: String? // 수정일 때는 userId로 업데이트'// 필수 데이터가 모두 들어갔는지 확인
-    
+    private var userId: String
+    weak var delegate:CreateUserViewControllerDelegate?
     //MARK: 연산 프로퍼티 및 반환값이 있는 메서드
     //유저 생성 페이지에 빈 입력 값을 검사하는 연산 프로퍼티
     //없을 경우 true 있을 경우 fasle를 반환
@@ -32,9 +36,10 @@ class CreateUserCardViewController: ImagePickerViewController {
         return isImageValid && isInfoValid
     }
     // User 객체  생성 후 반환
-    private func getUser(userId: String, password: String, imagePath: String) -> User {
+    private func getUser(password: String,imagePathURL:String) -> User {
         var user = User()
         user.userID = userId
+        user.imagePathURL = imagePathURL
         user.name = self.createUserCardView.nameView.textField.text
         user.mbti = self.createUserCardView.mbtiView.textField.text
         user.age = Int(self.createUserCardView.ageView.textField.text ?? "")
@@ -42,6 +47,7 @@ class CreateUserCardViewController: ImagePickerViewController {
         user.gitHubPathURL = self.createUserCardView.gitAddress.textField.text
         user.blogPathURL = self.createUserCardView.blogAddress.textField.text
         user.introduce = self.createUserCardView.introduceView.textView.text
+        user.password = password
         user.contents = createUserCardView.contentStackView.arrangedSubviews
             .compactMap { $0 as? ContentView }
             .compactMap { view in
@@ -54,6 +60,7 @@ class CreateUserCardViewController: ImagePickerViewController {
     }
     //MARK: 생성자 및 초기 설정 메서드
     init(type: UserCardOption) {
+        self.userId = UUID().uuidString
         self.type = type
         super.init(imagePickerView: createUserCardView)
         fetchUserInfo()
@@ -75,10 +82,9 @@ class CreateUserCardViewController: ImagePickerViewController {
             Task {
                 do {
                     let user = try await UserAPIService.fetchUser(userId: userId)
-                    self.userId = user.userID
+                    self.userId = user.userID ?? ""
                     DispatchQueue.main.async {
                         self.createUserCardView.config(user: user)
-    
                         self.setUserContents(user: user)
                     }
                 } catch {
@@ -89,7 +95,6 @@ class CreateUserCardViewController: ImagePickerViewController {
     }
     // 비밀 번호 확인
     private func checkPassword(password: String){
-        guard let userId = self.userId else { return }
         Task {
             // 비밀번호 검사 성공
             if try await UserAPIService.isValidPassword(userId: userId, password: password){
@@ -104,17 +109,15 @@ class CreateUserCardViewController: ImagePickerViewController {
     }
     // 유저정보 생성/수정 요청
     private func setUserData(password: String,mode:UserCardOption){
-        guard let userId = self.userId,let image = self.createUserCardView.imageView.image else {return}
-        
+        guard let image = self.createUserCardView.imageView.image else {return}
         Task {
             let imagePath = try await StorageAPIService.setImage(image, userId: userId)
-            let user = self.getUser(userId: userId, password: password, imagePath: imagePath)
-            
+            let user = self.getUser(password: password,imagePathURL: imagePath)
             switch mode{
             case .create: try await UserAPIService.setUser(user: user)
             case .modify: try await UserAPIService.updateUser(user: user)
             }
-            
+            delegate?.didSetUser()
             dismiss(animated: true)
         }
     }
@@ -169,7 +172,6 @@ class CreateUserCardViewController: ImagePickerViewController {
             switch self.type {
             case .create:
                 self.setUserData(password: password, mode: .create)
-                self.dismiss(animated: true)
             case .modify:
                 self.checkPassword(password: password)
             }

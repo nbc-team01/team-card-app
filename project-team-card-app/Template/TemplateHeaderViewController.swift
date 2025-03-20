@@ -55,8 +55,8 @@ class TemplateHeaderViewController: UIViewController {
         
         let editAction = UIAlertAction(title: "수정", style: .default) { _ in
             let vc = CreateUserCardViewController(type: .modify(userId: self.userId))
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
         }
         
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
@@ -65,8 +65,6 @@ class TemplateHeaderViewController: UIViewController {
                     guard let self = self else { return }
                     self.checkPassword(password: password)
                 }
-//                try await UserAPIService.deleteUser(userId: self.userId)
-//                self.dismissButtonTapped()
             }
         }
         
