@@ -11,8 +11,8 @@ import Kingfisher
 
 class Template_Quarang_ProfileView:UIView{
     
-    var user:User?
-    lazy var contentsView = Template_Quarang_ContentsView(contents: user?.contents ?? [])
+    var user:User
+    lazy var contentsView = Template_Quarang_ContentsView(contents: user.contents ?? [])
     
     private let profileImage: UIImageView = {
         let view = UIImageView()
@@ -57,18 +57,34 @@ class Template_Quarang_ProfileView:UIView{
     }()
     private lazy var detailsVStackView:UIStackView = {
         let view = UIStackView(arrangedSubviews: [
-            Template_Quarang_DetailsView(emoji: "😃", title: "MBTI", value: user?.mbti ?? "", link: nil),
-            Template_Quarang_DetailsView(emoji: "🎂", title: "Age", value: "\(user?.age ?? 0)" , link: nil),
-            Template_Quarang_DetailsView(emoji: "🌐", title: "GitHub", value: nil , link: "\(user?.gitHubPathURL ?? "")"),
-            Template_Quarang_DetailsView(emoji: "📝", title: "Blog", value: nil , link: "\(user?.blogPathURL ?? "")")
+            Template_Quarang_DetailsView(emoji: "😃", title: "MBTI", value: user.mbti ?? "", link: nil),
+            Template_Quarang_DetailsView(emoji: "🎂", title: "Age", value: "\(user.age ?? 0)" , link: nil),
+            Template_Quarang_DetailsView(emoji: "🌐", title: "GitHub", value: nil , link: "\(user.gitHubPathURL ?? "")"),
+            Template_Quarang_DetailsView(emoji: "📝", title: "Blog", value: nil , link: "\(user.blogPathURL ?? "")")
         ])
         view.axis = .vertical
         view.spacing = 30
         return view
     }()
+    private let introduceLabel:UILabel = {
+        let label = UILabel()
+        label.text = "Introduce"
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.font = .systemFont(ofSize: 25,weight: .bold)
+        label.textAlignment = .left
+        return label
+    }()
+    private lazy var introduceContentsView:PaddingLabel = {
+        let label = PaddingLabel(topPadding: 5, leftPadding: 5, bottomPadding: 5, rightPadding: 5)
+        label.text = user.introduce
+        label.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        label.layer.cornerRadius = 5
+        return label
+    }()
     init(user:User){
-        super.init(frame: .zero)
         self.user = user
+        super.init(frame: .zero)
         configureView(user:user)
     }
     required init?(coder: NSCoder) {
@@ -79,6 +95,8 @@ class Template_Quarang_ProfileView:UIView{
         addSubview(detailsLabel)
         addSubview(detailsVStackView)
         addSubview(contentsView)
+        addSubview(introduceLabel)
+        addSubview(introduceContentsView)
         
         profileImage.kf.setImage(with: URL(string:user.imagePathURL ?? ""))
         nameLabel.text = user.name
@@ -102,8 +120,16 @@ class Template_Quarang_ProfileView:UIView{
             $0.top.equalTo(detailsLabel.snp.bottom).inset(-10)
             $0.left.right.equalToSuperview().inset(10)
         }
+        introduceLabel.snp.makeConstraints { make in
+            make.top.equalTo(detailsVStackView.snp.bottom).inset(-30)
+            make.left.right.equalToSuperview().inset(10)
+        }
+        introduceContentsView.snp.makeConstraints { make in
+            make.top.equalTo(introduceLabel.snp.bottom).inset(-10)
+            make.left.right.equalToSuperview().inset(10)
+        }
         contentsView.snp.makeConstraints {
-            $0.top.equalTo(detailsVStackView.snp.bottom).inset(-30)
+            $0.top.equalTo(introduceContentsView.snp.bottom).inset(-10)
             $0.left.right.equalToSuperview().inset(10)
             $0.bottom.equalToSuperview().inset(100)
         }
@@ -114,17 +140,17 @@ class Template_Quarang_ProfileView:UIView{
         }
     }
     @objc func openGitHub() {
-        guard let url = URL(string: user?.gitHubPathURL ?? "") else {return}
+        guard let url = URL(string: user.gitHubPathURL ?? "") else {return}
         UIApplication.shared.open(url)
     }
     
     @objc func openBlog() {
-        guard let url = URL(string: user?.blogPathURL ?? "") else {return}
+        guard let url = URL(string: user.blogPathURL ?? "") else {return}
         UIApplication.shared.open(url)
     }
 }
 #Preview{
-    Template_Quarang_ViewController(userId:"A302A37B-E577-4F4B-B2CD-3FD878B3788D")
+    Template_Quarang_ViewController(userId:"00978D33-1DD6-42F4-9C11-4B421A86AEF9")
 }
 
 

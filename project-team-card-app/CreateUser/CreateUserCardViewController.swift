@@ -50,10 +50,9 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
         user.contents = createUserCardView.contentStackView.arrangedSubviews
             .compactMap { $0 as? ContentView }
             .compactMap { view in
-                let id = UUID().uuidString
-                guard let title = view.titleView.textField.text, !title.isEmpty,
-                      let content = view.contentsView.textField.text, !content.isEmpty else { return nil }
-                return Content(contentsId: id,title: title,content: content)
+                guard let title = view.titleView.textField.text,
+                      let content = view.contentsView.textView.text else { return nil }
+                return Content(contentsId: view.id.uuidString,title: title,content: content)
             }
         return user
     }
@@ -173,13 +172,13 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
     //Add Content 버튼
     //터치 시 키보드 비홀성호 버튼
     private func setAction(){
-        guard let manager else {return}
-        createUserCardView.imagePickerView.addGestureRecognizer(manager.imageViewAddTarget)
+        
         createUserCardView.addContentButton.addTarget(self, action: #selector(addContentButtonTarget), for: .touchUpInside)
         createUserCardView.saveButton.addTarget(self, action: #selector(saveButtonTarget), for: .touchUpInside)
         createUserCardView.cancelButton.addTarget(self, action: #selector(canecelButtonTarget), for: .touchUpInside)
         createUserCardView.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing)))
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        guard let manager else {return}
+        createUserCardView.imagePickerView.addGestureRecognizer(manager.imageViewAddTarget)
     }
     
     //MARK: 버튼 이벤트
