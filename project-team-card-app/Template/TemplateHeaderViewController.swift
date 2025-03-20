@@ -8,12 +8,12 @@
 import UIKit
 import SnapKit
 
-class TemplateHeaderViewController: UIViewController {
+class TemplateHeaderViewController: UIViewController,CreateUserViewControllerDelegate {
     
     var userId:String
     let headerView = TemplateHeaderView()
     let options = TemplateOption.allCases
-    var option:TemplateOption = .soo
+    var option:TemplateOption = .quarang
     private let pickerView = UIPickerView()
     private lazy var containerView = UIView()
     
@@ -30,6 +30,9 @@ class TemplateHeaderViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         configureView()
+    }
+    func didSetUser() {
+        updateContainerView()
     }
     private func configureView(){
         containerView = Template_Quarang_ViewController(userId: userId).view
@@ -55,6 +58,7 @@ class TemplateHeaderViewController: UIViewController {
         
         let editAction = UIAlertAction(title: "수정", style: .default) { _ in
             let vc = CreateUserCardViewController(type: .modify(userId: self.userId))
+            vc.delegate = self
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
         }

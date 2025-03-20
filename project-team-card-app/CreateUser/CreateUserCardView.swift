@@ -13,8 +13,6 @@ import SnapKit
 class CreateUserCardView: ImagePickerView {
     // 컨텐츠 뷰
     var contentView = UIView()
-//    //이미지 피커
-//    var imagePicker = ImagePickerView()
     // 커스텀 내용 추가
     public let addContentButton = AddButton(type: .normal,text: "Add Content",buttonColor: .black,themeColor: .white)
     //cancel
@@ -37,6 +35,35 @@ class CreateUserCardView: ImagePickerView {
     public let ageView: CreateUserInfoView = {
         let view = CreateUserInfoView(title: "나이", placeholder: "Enter your Age")
         view.textField.keyboardType = .numberPad // 숫자 패드로 변경
+        return view
+    }()
+    //인디케이터
+    public lazy var indicatorStackView:UIStackView = {
+        let view = UIStackView(arrangedSubviews: [indicator,indicatorLabel])
+        view.axis = .vertical
+        view.alignment = .center
+        view.spacing = 5
+        view.isHidden = true
+        return view
+    }()
+    private let indicatorLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Saving .."
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 15, weight: .medium)
+        return label
+    }()
+    public lazy var indicator:UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .large)
+        view.color = .white
+        view.startAnimating()
+        view.isHidden = false
+        return view
+    }()
+    public let backgorund:UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray.withAlphaComponent(0.5)
+        view.isHidden = true
         return view
     }()
     // 타이틀 라벨
@@ -67,7 +94,6 @@ class CreateUserCardView: ImagePickerView {
         label.textColor = .red
         label.font = .systemFont(ofSize: 10, weight: .medium)
         label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     // 정보 스택뷰
@@ -106,7 +132,7 @@ class CreateUserCardView: ImagePickerView {
     }
     private func setSubView(){
         scrollView.addSubview(contentView)
-        [titleLabel, divider, scrollView,bottomButtonStackView]
+        [titleLabel, divider, scrollView,bottomButtonStackView,backgorund,indicatorStackView]
             .forEach{ addSubview($0) }
         [imageView, errorLabel, infoStackView, contentStackView, addContentButton]
             .forEach{ contentView.addSubview($0) }
@@ -117,9 +143,15 @@ class CreateUserCardView: ImagePickerView {
     }
     
     private func setUI() {
+        backgorund.snp.makeConstraints { make in
+            make.width.height.equalToSuperview()
+        }
+        indicatorStackView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
-            make.horizontalEdges.equalToSuperview().inset(16)
+            make.leading.equalToSuperview().inset(16)
         }
         divider.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)

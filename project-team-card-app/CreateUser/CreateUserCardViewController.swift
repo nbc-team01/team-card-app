@@ -8,9 +8,6 @@
 import UIKit
 import Kingfisher
 
-protocol CreateUserViewControllerDelegate:AnyObject{
-    func didSetUser()
-}
 class CreateUserCardViewController: ImagePickerViewController {
     
     //MARK: 저장 프로퍼티
@@ -109,6 +106,9 @@ class CreateUserCardViewController: ImagePickerViewController {
     }
     // 유저정보 생성/수정 요청
     private func setUserData(password: String,mode:UserCardOption){
+        createUserCardView.indicatorStackView.isHidden = false
+        createUserCardView.backgorund.isHidden = false
+        createUserCardView.layoutIfNeeded()
         guard let image = self.createUserCardView.imageView.image else {return}
         Task {
             let imagePath = try await StorageAPIService.setImage(image, userId: userId)
