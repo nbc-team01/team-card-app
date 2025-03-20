@@ -12,8 +12,6 @@ import SnapKit
 /// Image Picker Component
 class ImagePickerView: UIView {
     
-    let imagePickerController = UIImagePickerController()
-    
     private let image:UIImage? = {
         let config = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular)
         return UIImage(systemName: "photo.badge.plus", withConfiguration: config)?.withTintColor(.lightGray, renderingMode: .alwaysOriginal)
@@ -25,4 +23,14 @@ class ImagePickerView: UIView {
         imageView.backgroundColor = .lightGray.withAlphaComponent(0.2)
         return imageView
     }()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

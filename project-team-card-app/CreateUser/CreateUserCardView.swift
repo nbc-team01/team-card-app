@@ -10,9 +10,11 @@ import Kingfisher
 import SnapKit
 
 
-class CreateUserCardView: ImagePickerView {
+class CreateUserCardView: UIView {
     // 컨텐츠 뷰
     var contentView = UIView()
+    // 이미지 피커
+    public let imagePickerView = ImagePickerView()
     // 커스텀 내용 추가
     public let addContentButton = AddButton(type: .normal,text: "Add Content",buttonColor: .black,themeColor: .white)
     //cancel
@@ -134,7 +136,7 @@ class CreateUserCardView: ImagePickerView {
         scrollView.addSubview(contentView)
         [titleLabel, divider, scrollView,bottomButtonStackView,backgorund,indicatorStackView]
             .forEach{ addSubview($0) }
-        [imageView, errorLabel, infoStackView, contentStackView, addContentButton]
+        [imagePickerView, errorLabel, infoStackView, contentStackView, addContentButton]
             .forEach{ contentView.addSubview($0) }
         [cancelButton,saveButton]
             .forEach{ bottomButtonStackView.addArrangedSubview($0) }
@@ -167,14 +169,14 @@ class CreateUserCardView: ImagePickerView {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
         }
-        imageView.snp.makeConstraints { make in
+        imagePickerView.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top)
             make.width.equalToSuperview()
             make.height.equalTo(self.snp.width).inset(10)
         }
         errorLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(imageView.snp.bottom)
+            make.top.equalTo(imagePickerView.snp.bottom)
         }
         infoStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
@@ -196,8 +198,8 @@ class CreateUserCardView: ImagePickerView {
     }
     
     public func config(user: User) {
-        imageView.contentMode = .scaleAspectFill
-        imageView.kf.setImage(with: URL(string: user.imagePathURL ?? ""))
+        imagePickerView.imageView.contentMode = .scaleAspectFill
+        imagePickerView.imageView.kf.setImage(with: URL(string: user.imagePathURL ?? ""))
         nameView.textField.text = user.name
         mbtiView.textField.text = user.mbti
         ageView.textField.text = "\(user.age ?? 0)"

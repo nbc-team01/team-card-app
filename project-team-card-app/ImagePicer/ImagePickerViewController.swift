@@ -8,41 +8,25 @@
 import UIKit
 
 
-class ImagePickerViewController: UIViewController{
-    
-    private let imagePickerView:ImagePickerView
-    
-    init(imagePickerView: ImagePickerView) {
-        self.imagePickerView = imagePickerView
-        super.init(nibName: nil, bundle: nil)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        imageViewAddTarget()
-    }
-}
-
-extension ImagePickerViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
-    
+class ImagePickerManager: NSObject, UIImagePickerControllerDelegate,UINavigationControllerDelegate  {
+    weak var delegate:ImagePickerDelegate?
+    private var controller = UIImagePickerController()
+   
     //이미지 뷰 제스쳐 추가
-    private func imageViewAddTarget() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
-        imagePickerView.imageView.addGestureRecognizer(tapGesture)
+    public var imageViewAddTarget:UITapGestureRecognizer{
+        return UITapGestureRecognizer(target: self, action: #selector(imageViewTapped))
     }
     //이미지 뷰 터치 시 이벤트 실행
     @objc func imageViewTapped() {
-        showImagePicker(controller: imagePickerView.imagePickerController)
+        showImagePicker()
     }
     //이미지 라이브러리 표시
-    private func showImagePicker(controller: UIImagePickerController) {
+    private func showImagePicker() {
+        controller.delegate = self
         controller.sourceType = .photoLibrary
         controller.modalPresentationStyle = .pageSheet
         controller.allowsEditing = true
-        controller.delegate = self
-        self.present(controller, animated: true)
+        delegate?.didSelectedView(controller: controller)
     }
     // 이미지 피커 컨트롤러에서 이미지를 선택하거나 카메라 촬영을 완료했을 때 호출되는 메소드
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -51,11 +35,6 @@ extension ImagePickerViewController: UIImagePickerControllerDelegate,UINavigatio
         let image = UIImagePickerController.InfoKey.editedImage
         
         guard let editedImage = info[image.rawValue] as? UIImage else { return }
-        
-        dismiss(animated: true) {
-            self.imagePickerView.imageView.image = editedImage
-            self.imagePickerView.imageView.contentMode = .scaleToFill
-            self.loadViewIfNeeded()
-        }
+        delegate?.didSelectedPhoto(image:editedImage)
     }
 }

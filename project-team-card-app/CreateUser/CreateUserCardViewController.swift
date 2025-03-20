@@ -8,18 +8,20 @@
 import UIKit
 import Kingfisher
 
-class CreateUserCardViewController: ImagePickerViewController {
+class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
     
     //MARK: 저장 프로퍼티
     private let createUserCardView = CreateUserCardView()
     private let type: UserCardOption // 생성인지 수정인지 구분
     private var userId: String
+    private var manager: ImagePickerManager?
     weak var delegate:CreateUserViewControllerDelegate?
+    
     //MARK: 연산 프로퍼티 및 반환값이 있는 메서드
     //유저 생성 페이지에 빈 입력 값을 검사하는 연산 프로퍼티
     //없을 경우 true 있을 경우 fasle를 반환
     private var validationData:Bool {
-        let isImageValid = createUserCardView.imageView.image != UIImage(systemName: "photo.badge.plus")
+        let isImageValid = createUserCardView.imagePickerView.imageView.image != UIImage(systemName: "photo.badge.plus")
         createUserCardView.errorLabel.isHidden = isImageValid
         let isInfoValid = createUserCardView.infoStackView.arrangedSubviews
             .compactMap { $0 as? CreateUserInfoView }
@@ -59,7 +61,8 @@ class CreateUserCardViewController: ImagePickerViewController {
     init(type: UserCardOption) {
         self.userId = UUID().uuidString
         self.type = type
-        super.init(imagePickerView: createUserCardView)
+        super.init(nibName: nil, bundle: nil)
+        manager?.delegate = self
         fetchUserInfo()
     }
     required init?(coder: NSCoder) {
@@ -109,7 +112,7 @@ class CreateUserCardViewController: ImagePickerViewController {
         createUserCardView.indicatorStackView.isHidden = false
         createUserCardView.backgorund.isHidden = false
         createUserCardView.layoutIfNeeded()
-        guard let image = self.createUserCardView.imageView.image else {return}
+        guard let image = self.createUserCardView.imagePickerView.imageView.image else {return}
         Task {
             let imagePath = try await StorageAPIService.setImage(image, userId: userId)
             let user = self.getUser(password: password,imagePathURL: imagePath)
@@ -121,7 +124,19 @@ class CreateUserCardViewController: ImagePickerViewController {
             dismiss(animated: true)
         }
     }
-    
+    //MARK: Delegate 메서드
+    //뷰를 터치했을떼
+    //이미지를 선택했을 때
+    func didSelectedView(controller: UIImagePickerController) {
+        self.present(controller, animated: true)
+    }
+    func didSelectedPhoto(image: UIImage) {
+        dismiss(animated: true) {
+            self.createUserCardView.imagePickerView.imageView.image = image
+            self.createUserCardView.imagePickerView.imageView.contentMode = .scaleToFill
+            self.loadViewIfNeeded()
+        }
+    }
     //MARK: UI 관련
     //수정 시 컨텐츠뷰 추가 로직
     private func setUserContents(user: User) {
@@ -153,10 +168,13 @@ class CreateUserCardViewController: ImagePickerViewController {
         present(alert, animated: true)
     }
     //MARK: 상세페이지 타겟설정
+    //imageView 터치 제스쳐
     //Add/Cancel 버튼
     //Add Content 버튼
     //터치 시 키보드 비홀성호 버튼
     private func setAction(){
+        guard let manager else {return}
+        createUserCardView.imagePickerView.addGestureRecognizer(manager.imageViewAddTarget)
         createUserCardView.addContentButton.addTarget(self, action: #selector(addContentButtonTarget), for: .touchUpInside)
         createUserCardView.saveButton.addTarget(self, action: #selector(saveButtonTarget), for: .touchUpInside)
         createUserCardView.cancelButton.addTarget(self, action: #selector(canecelButtonTarget), for: .touchUpInside)
