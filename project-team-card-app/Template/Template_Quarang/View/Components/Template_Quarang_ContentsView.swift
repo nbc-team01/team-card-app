@@ -28,7 +28,6 @@ class Template_Quarang_ContentsView:UIView{
         contentLabel.text = content
         contentLabel.numberOfLines = 0
         contentLabel.lineBreakMode = .byWordWrapping
-        contentLabel.font = .systemFont(ofSize: 20)
         contentLabel.textAlignment = .left
         contentLabel.sizeToFit()
         

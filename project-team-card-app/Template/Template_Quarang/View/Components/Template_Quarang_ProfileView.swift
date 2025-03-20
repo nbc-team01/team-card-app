@@ -71,7 +71,7 @@ class Template_Quarang_ProfileView:UIView{
         label.text = "Introduce"
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = .systemFont(ofSize: 25,weight: .bold)
+        label.font = .boldSystemFont(ofSize: 25)
         label.textAlignment = .left
         return label
     }()
@@ -79,6 +79,7 @@ class Template_Quarang_ProfileView:UIView{
         let label = PaddingLabel(topPadding: 5, leftPadding: 5, bottomPadding: 5, rightPadding: 5)
         label.text = user.introduce
         label.backgroundColor = .lightGray.withAlphaComponent(0.1)
+        label.numberOfLines = 0
         label.layer.cornerRadius = 5
         return label
     }()
