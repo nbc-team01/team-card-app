@@ -21,5 +21,16 @@ class SplashViewController: UIViewController {
         imageView.frame.size = CGSize(width: 200, height: 200)
         imageView.center = view.center
         view.addSubview(imageView)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            self.showMainView()
+        }
+    }
+    
+    private func showMainView() {
+        let mainVC = TabBarView()
+        mainVC.modalPresentationStyle = .fullScreen
+        mainVC.modalTransitionStyle = .crossDissolve
+        present(mainVC, animated: true)
     }
 }

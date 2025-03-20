@@ -29,21 +29,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
     }
     
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.showMainView()
-        }
-    }
-    
-    private func showMainView() {
-        let mainVC = TabBarView() // 메인 화면
-        let navVC = UINavigationController(rootViewController: mainVC)
-        
-        UIView.transition(with: window!,duration: 0.5,options: .transitionCrossDissolve){
-            self.window?.rootViewController = navVC
-        }
-    }
-    
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
