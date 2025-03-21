@@ -27,6 +27,7 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
     public lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifier)
+        view.register(UserSkeletonCell.self, forCellWithReuseIdentifier: UserSkeletonCell.identifier)
         view.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
         view.backgroundColor = .clear
         view.isScrollEnabled = true
@@ -70,10 +71,13 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
 extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
     // MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return users.count
+        return users.isEmpty ? 10 : users.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard !users.isEmpty else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: UserSkeletonCell.identifier, for: indexPath)
+        }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserCell.identifier, for: indexPath) as? UserCell else {
             return UICollectionViewCell()
         }

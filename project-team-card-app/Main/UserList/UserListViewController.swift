@@ -7,9 +7,9 @@
 
 import UIKit
 
-typealias VCDelete = UserListViewDelegate&CreateUserViewControllerDelegate
+typealias VCDelegate = UserListViewDelegate&CreateUserViewControllerDelegate
 
-class UserListViewController: UIViewController, VCDelete{
+class UserListViewController: UIViewController, VCDelegate{
     
     private let userListView = UserListView()
     
@@ -42,7 +42,6 @@ class UserListViewController: UIViewController, VCDelete{
                 let users = try await UserAPIService.fetchUsers()
                 
                 DispatchQueue.main.async { [weak self] in
-                    
                     self?.userListView.users = users
                     self?.userListView.collectionView.reloadData()
                     self?.view = self?.userListView
