@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+//MARK: 원본이미지의 투명도를 제어하기 위한 extension
 extension UIImage{
     func imageWithAlphaColor(alpha: CGFloat) -> UIImage? {
         return UIGraphicsImageRenderer(size: self.size).image { _ in
