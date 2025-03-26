@@ -14,6 +14,7 @@ class TemplateHeaderViewController: UIViewController,CreateUserViewControllerDel
     let headerView = TemplateHeaderView()
     let options = TemplateOption.allCases
     var option:TemplateOption = .quarang
+    
     private let pickerView = UIPickerView()
     private lazy var containerView = UIView()
     
@@ -30,19 +31,21 @@ class TemplateHeaderViewController: UIViewController,CreateUserViewControllerDel
         super.viewDidLoad()
         view.backgroundColor = .white
         configureView()
+        configureTarget()
     }
     func didSetUser() {
         updateContainerView()
     }
-    private func configureView(){
-        containerView = Template_Quarang_ViewController(userId: userId).view
-        
-        view.addSubview(containerView)
-        view.addSubview(headerView)
-        
+    private func configureTarget(){
         headerView.changeTemplateButton.addTarget(self, action: #selector(setupPicker), for: .touchUpInside)
         headerView.menuButton.addTarget(self, action: #selector(showAlert), for: .touchUpInside)
         headerView.dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchUpInside)
+    }
+    private func configureView(){
+        containerView = Template_Quarang_ViewController(userId: userId).view
+        
+        [containerView,headerView]
+            .forEach{ view.addSubview($0) }
         
         headerView.snp.makeConstraints {
             $0.top.left.right.equalToSuperview()
@@ -131,12 +134,9 @@ class TemplateHeaderViewController: UIViewController,CreateUserViewControllerDel
         Task {
             // 비밀번호 검사 성공
             if try await UserAPIService.isValidPassword(userId: userId, password: password){
-                // 성공 시 멤버 삭제
                 try await UserAPIService.deleteUser(userId: self.userId)
                 self.dismissButtonTapped()
             } else {
-                // 비밀번호가 틀렸습니다.
-                print("비밀번호가 틀렸습니다")
                 let alert = UIAlertController(title: "비밀번호 확인", message: "비밀번호가 일치하지 않습니다.", preferredStyle: .alert)
                 let action = UIAlertAction(title: "확인", style: .default)
                 alert.addAction(action)
