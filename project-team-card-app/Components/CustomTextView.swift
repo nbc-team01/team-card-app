@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+//MARK: 텍스트뷰에 없는 플레이스홀더를 표시하기 위함 커스텀 텍스트뷰
 class CustomTextView: UITextView, UITextViewDelegate {
     
     lazy var placeHolderLabel: UILabel = {

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+//MARK: paading 라벨 + 커스텀 속성 적용
 class StyledPaddingLabel: PaddingLabel {
     
     // 커스텀 초기화 메서드

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-// MARK: - UserListHeaderView
+// MARK: - 커스텀 UserListHeaderView
 class HeaderView: UICollectionReusableView {
     static let identifier = "HeaderView"
     

@@ -7,11 +7,12 @@
 
 import UIKit
 
+//MARK: 버튼 속성(normal -> 가득채워진 버튼, border -> 테두리가 있는 버튼)
 enum ButtonThemeType{
     case normal
     case border
 }
-
+//MARK: 앱 프로젝트에서 전역에서 사용되는 커스텀 버튼
 class AddButton: UIButton {
     private let type:ButtonThemeType
     private let text: String

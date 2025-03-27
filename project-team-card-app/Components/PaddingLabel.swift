@@ -7,6 +7,7 @@
 
 import UIKit
 
+//MARK: 마진을 설정할 수 있는 라벨
 class PaddingLabel: UILabel {
     private let padding: UIEdgeInsets
     
@@ -19,12 +20,12 @@ class PaddingLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // UILabel에 패딩 추가
+    //MARK: UILabel에 패딩 추가
     override func drawText(in rect: CGRect) {
         super.drawText(in: rect.inset(by: padding))
     }
     
-    // intrinsicContentSize를 직접 조정하여 최소 높이를 보장하면
+    //MARK: intrinsicContentSize를 직접 조정하여 최소 높이를 보장하면
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
         let height = padding.top + padding.bottom + size.height
