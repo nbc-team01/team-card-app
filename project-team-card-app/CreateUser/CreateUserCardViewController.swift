@@ -12,9 +12,13 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
     
     //MARK: 저장 프로퍼티
     private let createUserCardView = CreateUserCardView()
-    private let type: UserCardOption // 생성인지 수정인지 구분
+    //MARK: 생성인지 수정인지 구분
+    private let type: UserCardOption
+    //MARK: 유저 ID
     private var userId: String
+    //MARK: ImagePickerManager
     private var manager: ImagePickerManager?
+    //MARK: createUserCardView의 기능 deleagate
     weak var delegate:CreateUserViewControllerDelegate?
     
     //MARK: 연산 프로퍼티 및 반환값이 있는 메서드
@@ -34,7 +38,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
             .allSatisfy { $0 }
         return isImageValid && isInfoValid
     }
-    // User 객체  생성 후 반환
+    //MARK: User 객체  생성 후 반환
     private func getUser(password: String,imagePathURL:String) -> User {
         var user = User()
         user.userID = userId
@@ -92,7 +96,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
             }
         }
     }
-    // 비밀 번호 확인
+    //MARK: 비밀 번호 확인
     private func checkPassword(password: String){
         Task {
             // 비밀번호 검사 성공
@@ -106,7 +110,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
             }
         }
     }
-    // 유저정보 생성/수정 요청
+    //MARK: 유저정보 생성/수정 요청
     private func setUserData(password: String,mode:UserCardOption){
         createUserCardView.indicatorStackView.isHidden = false
         createUserCardView.backgorund.isHidden = false
@@ -150,7 +154,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
             createUserCardView.contentStackView.addArrangedSubview(contentView)
         }
     }
-    // 비밀번호 얼럿
+    //MARK: 비밀번호 얼럿
     private func presentAlert(completion: @escaping (String) -> Void) {
         let alert = UIAlertController(title: "비밀번호를 입력해주세요", message: nil, preferredStyle: .alert)
         alert.addTextField()
@@ -181,7 +185,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
         createUserCardView.imagePickerView.addGestureRecognizer(manager.imageViewAddTarget)
     }
     
-    //MARK: 버튼 이벤트
+    //MARK: 저장 버튼 이벤트
     @objc private func saveButtonTarget() {
         guard self.validationData else { return }
         // 얼럿 띄우기
@@ -194,9 +198,11 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
             }
         }
     }
+    //MARK: 유저 추가 페이지 cancel 버튼 이벤트
     @objc private func canecelButtonTarget() {
         dismiss(animated: true)
     }
+    //MARK: 유저 추가 버튼 이벤트
     @objc private func addContentButtonTarget() {
         // ContentView 생성
         let contentView = ContentView()
@@ -206,6 +212,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
         createUserCardView.contentStackView.addArrangedSubview(contentView)
         createUserCardView.scrollView.scroll(to: .bottom)
     }
+    //MARK: 컨텐츠 삭제 버튼 이벤트
     @objc private func removeButtonTapGesture(_ gesture: ContentDeleteGesture) {
         guard let id = gesture.id else { return }
         createUserCardView.contentStackView.arrangedSubviews

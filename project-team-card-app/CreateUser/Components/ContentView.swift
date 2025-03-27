@@ -9,11 +9,12 @@ import UIKit
 import SnapKit
 
 class ContentView: UIView {
-    public var id = UUID() // Content 구분을 위해 ID 값 사용
+    //MARK: Content 구분을 위해 ID 값 사용
+    public var id = UUID()
     
-    // 타이틀 뷰
+    //MARK: 타이틀 뷰
     public let titleView = CreateUserInfoView(title: "Title", placeholder: "Enter your Content Title",isContent: true)
-    // 컨텐츠 뷰
+    //MARK: 컨텐츠 뷰
     public let contentsView = CreateUserInfoView(title: "Content", placeholder: "Enter your Content", isLongText: true)
     
     override init(frame: CGRect) {
@@ -25,9 +26,11 @@ class ContentView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    //MARK: 뷰 추가
     private func setSubView() {
         [titleView,contentsView].forEach{ addSubview($0) }
     }
+    //MARK: 오토레이아웃 설정
     private func setUI() {
         titleView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
@@ -38,6 +41,7 @@ class ContentView: UIView {
             make.bottom.equalToSuperview()
         }
     }
+    //MARK: 뷰 데이터 업데이트
     func config(content: Content) {
         titleView.textField.text = content.title
         contentsView.textView.text = content.content

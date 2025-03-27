@@ -11,35 +11,35 @@ import SnapKit
 
 
 class CreateUserCardView: UIView {
-    // 컨텐츠 뷰
+    //MARK: 컨텐츠 뷰
     var contentView = UIView()
-    // 이미지 피커
+    //MARK: 이미지 피커
     public let imagePickerView = ImagePickerView()
-    // 커스텀 내용 추가
+    //MARK: 커스텀 내용 추가
     public let addContentButton = AddButton(type: .normal,text: "Add Content",buttonColor: .black,themeColor: .white)
-    //cancel
+    //MARK: cancel
     public let cancelButton = AddButton(type: .border,text: "Cancel",buttonColor: .white,themeColor: .black)
-    //add
+    //MARK: add
     public let saveButton = AddButton(type: .normal,text: "Add",buttonColor: .black,themeColor: .white)
-    // 이름
+    //MARK: 이름
     public let nameView = CreateUserInfoView(title: "이름", placeholder: "Enter your name")
-    // MBTI
+    //MARK: MBTI
     public let mbtiView = CreateUserInfoView(title: "MBTI", placeholder: "Enter your MBTI")
-    // 닉네임
+    //MARK: 닉네임
     public let nicknameView = CreateUserInfoView(title: "닉네임", placeholder: "Enter your Nickname")
-    // 깃허브
+    //MARK: 깃허브
     public let gitAddress = CreateUserInfoView(title: "GitHub URL", placeholder: "Enter your Github URL")
-    // 블로그
+    //MARK: 블로그
     public let blogAddress = CreateUserInfoView(title: "Blog URL", placeholder: "Enter your Blog URL")
-    // 자기소개
+    //MARK: 자기소개
     public let introduceView = CreateUserInfoView(title: "자기소개", placeholder: "Introduce yourself", isLongText: true)
-    // 나이
+    //MARK: 나이
     public let ageView: CreateUserInfoView = {
         let view = CreateUserInfoView(title: "나이", placeholder: "Enter your Age")
         view.textField.keyboardType = .numberPad // 숫자 패드로 변경
         return view
     }()
-    //인디케이터
+    //MARK: 인디케이터 스탤뷰
     public lazy var indicatorStackView:UIStackView = {
         let view = UIStackView(arrangedSubviews: [indicator,indicatorLabel])
         view.axis = .vertical
@@ -48,6 +48,7 @@ class CreateUserCardView: UIView {
         view.isHidden = true
         return view
     }()
+    //MARK: 인디케이터 라벨
     private let indicatorLabel: UILabel = {
         let label = UILabel()
         label.text = "Saving .."
@@ -55,6 +56,7 @@ class CreateUserCardView: UIView {
         label.font = .systemFont(ofSize: 15, weight: .medium)
         return label
     }()
+    //MARK: 인디케이터 라벨
     public lazy var indicator:UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
         view.color = .white
@@ -62,26 +64,27 @@ class CreateUserCardView: UIView {
         view.isHidden = false
         return view
     }()
+    //MARK: 백그라운드
     public let backgorund:UIView = {
         let view = UIView()
         view.backgroundColor = .gray.withAlphaComponent(0.5)
         view.isHidden = true
         return view
     }()
-    // 타이틀 라벨
+    //MARK: 타이틀 라벨
     public let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "User Profile"
         label.font = .systemFont(ofSize: 20, weight: .medium)
         return label
     }()
-    // 경계션
+    //MARK: 경계션
     private let divider: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray4.withAlphaComponent(0.5)
         return view
     }()
-    // 스크롤뷰
+    //MARK: 스크롤뷰
     public let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.isScrollEnabled = true
@@ -89,7 +92,7 @@ class CreateUserCardView: UIView {
         view.showsVerticalScrollIndicator = false
         return view
     }()
-    // 에러 라벨
+    //MARK: 에러 라벨
     public let errorLabel: UILabel = {
         let label = UILabel()
         label.text = "프로필 사진을 선택해주세요"
@@ -98,7 +101,7 @@ class CreateUserCardView: UIView {
         label.isHidden = true
         return label
     }()
-    // 정보 스택뷰
+    //MARK: 정보 스택뷰
     public let infoStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -106,7 +109,7 @@ class CreateUserCardView: UIView {
         view.distribution = .fillProportionally
         return view
     }()
-    // 컨텐츠 스택뷰
+    //MARK: 컨텐츠 스택뷰
     public let contentStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -114,7 +117,7 @@ class CreateUserCardView: UIView {
         view.distribution = .fillEqually
         return view
     }()
-    // 바텀 버튼 스택뷰
+    //MARK: 바텀 버튼 스택뷰
     private let bottomButtonStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -132,6 +135,7 @@ class CreateUserCardView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    //MARK: 뷰 추가
     private func setSubView(){
         scrollView.addSubview(contentView)
         [titleLabel, divider, scrollView,bottomButtonStackView,backgorund,indicatorStackView]
@@ -143,7 +147,7 @@ class CreateUserCardView: UIView {
         [nameView,mbtiView,ageView,nicknameView,gitAddress,blogAddress,introduceView]
             .forEach{ infoStackView.addArrangedSubview($0) }
     }
-    
+    //MARK: 오토레이아웃 설정
     private func setUI() {
         backgorund.snp.makeConstraints { make in
             make.width.height.equalToSuperview()
@@ -196,7 +200,7 @@ class CreateUserCardView: UIView {
             make.horizontalEdges.equalToSuperview().inset(10)
         }
     }
-    
+    //MARK: 유저정보 업데이트 후 뷰에 적용
     public func config(user: User) {
         imagePickerView.imageView.contentMode = .scaleAspectFill
         imagePickerView.imageView.kf.setImage(with: URL(string: user.imagePathURL ?? ""))

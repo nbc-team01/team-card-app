@@ -8,26 +8,26 @@
 import UIKit
 import SnapKit
 
-// 텍스트 필드 그룹
+//MARK: 텍스트 필드 그룹
 class CreateUserInfoView: UIView {
-    // 타이틀
+    //MARK: 타이틀
     private let title: String
-    // placeholder
+    //MARK: placeholder
     private let placeholder: String
-    // 텍스트 필드 높이 설정
+    //MARK: 텍스트 필드 높이 설정
     public let isLongText: Bool
-    // 삭제 가능 유무
+    //MARK: 삭제 가능 유무
     private let isContent: Bool
-    // 텍스트 뷰
+    //MARK: 텍스트 뷰
     lazy var textView = CustomTextView()
-    // 타이틀 라벨
+    //MARK: 타이틀 라벨
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = title
         label.font = .systemFont(ofSize: 14, weight: .bold)
         return label
     }()
-    // 삭제 버튼
+    //MARK: 삭제 버튼
     public lazy var removeButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "minus.circle.fill"), for: .normal)
@@ -35,7 +35,7 @@ class CreateUserInfoView: UIView {
         button.isHidden = !isContent
         return button
     }()
-    // 텍스트 필드
+    //MARK: 텍스트 필드
     public lazy var textField: UITextField = {
         let field = UITextField()
         field.placeholder = placeholder
@@ -44,7 +44,7 @@ class CreateUserInfoView: UIView {
         field.clearButtonMode = .whileEditing
         return field
     }()
-    // 에러 라벨
+    //MARK: 에러 라벨
     public let errorLabel: UILabel = {
         let label = UILabel()
         label.text = "필수로 입력해주세요"
@@ -72,7 +72,7 @@ class CreateUserInfoView: UIView {
         [titleLabel,removeButton,isLongText ? textView : textField,errorLabel]
             .forEach{ addSubview($0) }
     }
-    
+    //MARK: UI설정
     private func setUI() {
         textView.configure(placeHolder: "Enter your Introduce")
         let textSpace = isLongText ? textView : textField

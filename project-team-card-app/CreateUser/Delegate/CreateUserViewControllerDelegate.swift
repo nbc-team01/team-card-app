@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK: 유저정보가 세팅 된 후 이벤트
 protocol CreateUserViewControllerDelegate:AnyObject{
     func didSetUser()
 }
