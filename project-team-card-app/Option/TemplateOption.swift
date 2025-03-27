@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+//MARK: 템플릿 옵션
 enum TemplateOption:String,CaseIterable{
     case soo = "이수현 템플릿"
     case hakyung = "손하경 템플릿"
