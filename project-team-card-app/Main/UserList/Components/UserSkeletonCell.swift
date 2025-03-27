@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+//MARK: 유저 리스트 컬렉션 뷰 스켈레톤 셀
 class UserSkeletonCell: UICollectionViewCell {
     static let identifier = "SkeletonCell"
 

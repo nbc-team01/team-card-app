@@ -12,18 +12,21 @@ import SnapKit
 // MARK: - UserListView
 class UserListView: UIView, UICollectionViewDelegateFlowLayout {
     
+    //MARK: 유저 리스트
     var users: [User] = []
+    //MARK: VC에 기능 위임용
     weak var delegate: UserListViewDelegate?
     
-    // Add User Button
+    //MARK: Add User Button
     public lazy var addUserButton = AddButton(type: .normal,text: "Add User",buttonColor: .black,themeColor: .white)
-    
+    //MARK: 컬렉션뷰 레이아웃 설정
     private let layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 103)
         return layout
     }()
+    //MARK: 컬렉션 뷰 속성 설정
     public lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(UserCell.self, forCellWithReuseIdentifier: UserCell.identifier)
@@ -35,7 +38,7 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
         view.showsVerticalScrollIndicator = false
         return view
     }()
-    
+    //MARK: UI 및 오토레이아웃 설정
     private func configureUI() {
         backgroundColor = .white
         
@@ -69,11 +72,11 @@ class UserListView: UIView, UICollectionViewDelegateFlowLayout {
 }
 
 extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
-    // MARK: - UICollectionViewDataSource
+    //MARK: 아이템 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return users.isEmpty ? 10 : users.count
     }
-    
+    //MARK: 셀 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard !users.isEmpty else {
             return collectionView.dequeueReusableCell(withReuseIdentifier: UserSkeletonCell.identifier, for: indexPath)
@@ -85,6 +88,7 @@ extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
         cell.configure(user: user)
         return cell
     }
+    //MARK: 헤더 설정
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.identifier, for: indexPath) as? HeaderView else {
@@ -93,8 +97,7 @@ extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
         header.configure(title: "Team Card")
         return header
     }
-    
-    // MARK: - UICollectionViewDelegateFlowLayout (Grid 설정)
+    //MARK: Grid 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let totalWidth = collectionView.frame.width
         let cellWidth = (totalWidth - 10) / 2
@@ -102,7 +105,7 @@ extension UserListView: UICollectionViewDelegate, UICollectionViewDataSource{
         
         return CGSize(width: cellWidth, height: cellHeight)
     }
-    
+    //MARK: 아이템 터치 시 이벤트 설정
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let userId = users[indexPath.row].userID else {return}
         delegate?.didSelectUser(userId: userId)

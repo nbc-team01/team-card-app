@@ -9,19 +9,21 @@ import UIKit
 import Kingfisher
 import SnapKit
 
+//MARK: 유저 리스트 컬렉션 뷰 셀
 class UserCell: UICollectionViewCell {
     static let identifier = "UserCell"
-    //닉네임&MBTI
+    //MARK: 닉네임&MBTI
     private let nickNameLabel = StyledPaddingLabel(top: 2, left: 4, bottom: 2, right: 4)
     private let mbtiLabel = StyledPaddingLabel(top: 2, left: 4, bottom: 2, right: 4)
-    // 메인 이미지뷰
+    
+    //MARK: 메인 이미지뷰
     private let mainImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleToFill
         view.backgroundColor = .black.withAlphaComponent(0.05)
         return view
     }()
-    // subImageView
+    //MARK: subImageView
     private let subImageView: UIImageView = {
         let view = UIImageView()
         view.layer.cornerRadius = 10
@@ -30,14 +32,14 @@ class UserCell: UICollectionViewCell {
         view.backgroundColor = .black.withAlphaComponent(0.05)
         return view
     }()
-    // 이름
+    //MARK: 이름
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
         return label
     }()
     
-    // 자기소개
+    //MARK: 자기소개
     private let introduceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)

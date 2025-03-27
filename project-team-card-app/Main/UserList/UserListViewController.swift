@@ -7,13 +7,15 @@
 
 import UIKit
 
+
 typealias VCDelegate = UserListViewDelegate&CreateUserViewControllerDelegate
 
+//MARK: 유저 리스트 VC
 class UserListViewController: UIViewController, VCDelegate{
-    
+    //MARK: 유저 리스트 뷰
     private let userListView = UserListView()
     
-    // 유저 리스트 정보 가져오기
+    //MARK: 유저 리스트 정보 가져오기
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchUsers()
@@ -24,18 +26,18 @@ class UserListViewController: UIViewController, VCDelegate{
         userListView.delegate = self
         setAction()
     }
-    // 액션 설정
+    //MARK: 액션 설정
     private func setAction() {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         userListView.addUserButton.addTarget(self, action: #selector(touchUpInsideAddUserButton), for: .touchUpInside)
     }
-    // Add User 버튼 액션
+    //MARK: Add User 버튼 액션
     @objc private func touchUpInsideAddUserButton() {
         let nextVC = CreateUserCardViewController(type: .create)
         nextVC.modalPresentationStyle = .fullScreen
         present(nextVC, animated: true)
     }
-    // 유저 배열 가져오기
+    //MARK: 유저 배열 가져오기
     private func fetchUsers() {
         Task {
             do {
@@ -52,11 +54,13 @@ class UserListViewController: UIViewController, VCDelegate{
             }
         }
     }
+    //MARK: 유저 선택 시 화면 이동
     func didSelectUser(userId: String) {
         let detailVC = TemplateHeaderViewController(userId: userId)
         detailVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
+    //MARK: 유저 정보 삭제 및 업데이트 시 리스트 업
     func didSetUser() {
         fetchUsers()
         userListView.layoutIfNeeded()
