@@ -7,6 +7,7 @@
 
 import UIKit
 
+//MARK: ContentView 제거를 위한 ID
 class ContentDeleteGesture: UITapGestureRecognizer {
-    var id: UUID? // ContentView 제거를 위한 ID
+    var id: UUID?
 }
