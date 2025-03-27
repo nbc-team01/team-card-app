@@ -7,7 +7,7 @@
 
 import Foundation
 
-//User Data
+//MARK: User Data DTO
 struct User: Codable {
     var userID, name, mbti, nickname: String?
     var age: Int?

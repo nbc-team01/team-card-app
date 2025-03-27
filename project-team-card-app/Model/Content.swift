@@ -7,7 +7,7 @@
 
 import Foundation
 
-//Content of User Data
+//MARK: Content of User Data
 //Key - title, Value - content
 //ex - Goals, Merit, TMI
 struct Content: Codable {
