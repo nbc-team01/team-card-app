@@ -8,13 +8,15 @@
 import UIKit
 import SnapKit
 
+//MARK: 팀 규직 리스트 뷰
 class TeamRulesListView: UIView{
     
-    
+    //MARK: 팀 규칙 리스트
     private let rules:[Team] = [
         Team(image: "rocket", title: "코드 리뷰는 필참!", content: "• 다같이 학습해요"),
         Team(image: "talk", title: "소통 예쁘게 하기!", content: "• 가는말이 고와야 오는말이 곱다."),
     ]
+    //MARK: 리스트 스택뷰
     private lazy var stackView:UIStackView = {
         let view = UIStackView(arrangedSubviews: rules.map{TeamRulesListCell(rule: $0)})
         view.axis = .vertical

@@ -10,30 +10,29 @@ import SnapKit
 
 class HomeView: UIView {
     
-    //MARK: - UI 요소 정의
     
-    // 실제 UI를 담을 뷰
+    //MARK: 실제 UI를 담을 뷰
     private let contentView = UIView()
-    // 팀 이미지
+    //MARK: 팀 이미지
     private let teamImage = UIImageView(image: UIImage(named: "sampleTeamImage"))
-    // 팀 룰 리스트
+    //MARK: 팀 룰 리스트
     private let teamRulesListView = TeamRulesListView()
-    // 팀 목표 카드
+    //MARK: 팀 목표 카드
     private let teamGoalsView = TeamGoalsView()
-    // 스크롤 뷰 생성
+    //MARK: 스크롤 뷰 생성
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false // 세로 스크롤바 숨김
         return scrollView
     }()
-    // 타이틀
+    //MARK: 타이틀
     private let teamTitleLabal: UILabel = {
         let teamTitle = UILabel()
         teamTitle.text = "Team 1"
         teamTitle.font = .systemFont(ofSize: 25, weight: .bold)
         return teamTitle
     }()
-    // 서브 타이틀
+    //MARK: 서브 타이틀
     private let subTitleLabal: UILabel = {
         let subTitle = UILabel()
         subTitle.text = "내배캠 iOS 마스터 6기"
@@ -41,13 +40,14 @@ class HomeView: UIView {
         subTitle.textColor = .systemGray
         return subTitle
     }()
-    // 팀 룰
+    //MARK: 팀 룰
     private let teamRulesTitleLabal: UILabel = {
         let teamRulesTitle = UILabel()
         teamRulesTitle.text = "Team Rules"
         teamRulesTitle.font = .systemFont(ofSize: 20, weight: .bold)
         return teamRulesTitle
     }()
+    //MARK: 팀 목표
     private let teamGoalsTitleLabal: UILabel = {
         let teamRulesTitle = UILabel()
         teamRulesTitle.text = "Team Goals"
@@ -70,7 +70,6 @@ class HomeView: UIView {
         backgroundColor = .white
         addSubview(scrollView)
         //각 요소 추가
-//        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.addSubview(contentView)
         contentView.addSubview(teamTitleLabal)
         contentView.addSubview(subTitleLabal)

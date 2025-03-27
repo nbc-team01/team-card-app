@@ -14,10 +14,8 @@ class TeamRulesListCell: UIView {
     
     // MARK: - 식별자 (셀 재사용을 위한 Identifier)
     var rule:Team
-
-    // MARK: - UI 요소 정의
-
-    // 아이콘 이미지 뷰
+    
+    //MARK:  아이콘 이미지 뷰
     private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView(image: rule.image)
         imageView.contentMode = .scaleAspectFit // 이미지 비율 유지
@@ -25,8 +23,7 @@ class TeamRulesListCell: UIView {
         imageView.layer.cornerRadius = 20 // 둥근 모서리 적용
         return imageView
     }()
-
-    // 타이틀 라벨
+    //MARK: 타이틀 라벨
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = rule.title
@@ -34,8 +31,7 @@ class TeamRulesListCell: UIView {
         label.textColor = .black // 기본 텍스트 색상
         return label
     }()
-
-    // 설명 라벨
+    //MARK:  설명 라벨
     private lazy var contentLabel: UILabel = {
         let label = UILabel()
         label.text = rule.content
@@ -43,15 +39,12 @@ class TeamRulesListCell: UIView {
         label.textColor = .gray // 서브 텍스트 색상
         return label
     }()
-
-    // 구분선 뷰
+    //MARK:  구분선 뷰
     private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray // 연한 회색 구분선
         return view
     }()
-
-    // MARK: - 초기화 메서드
     
     init(rule:Team) {
         self.rule = rule
@@ -65,7 +58,6 @@ class TeamRulesListCell: UIView {
     }
 
     // MARK: - UI 구성 메서드
-
     private func setupUI() {
         // 셀 내부에 UI 요소 추가
         addSubview(iconImageView)
@@ -75,7 +67,6 @@ class TeamRulesListCell: UIView {
     }
 
     // MARK: - 오토레이아웃 설정
-
     private func setupConstraints() {
         // 아이콘 이미지 뷰
         iconImageView.snp.makeConstraints { make in

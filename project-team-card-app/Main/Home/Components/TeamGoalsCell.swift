@@ -9,9 +9,10 @@ import Foundation
 import UIKit
 import SnapKit
 
+//MARK: 커스텀 팀 목표 셀
 class TeamGoalsCell:UIView{
     var team:Team
-    // 개별 카드
+    //MARK:  개별 카드
     private lazy var cardView:UIStackView = {
         let view = UIStackView(arrangedSubviews: [imageView,titleLabel,contentLabel])
         view.axis = .vertical
@@ -25,21 +26,21 @@ class TeamGoalsCell:UIView{
         view.clipsToBounds = true
         return view
     }()
-    //이미지
+    //MARK: 이미지
     private let imageView:UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = .yellow
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    //타이틀
+    //MARK: 타이틀
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         return label
     }()
-    //내용
+    //MARK: 내용
     private let contentLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)

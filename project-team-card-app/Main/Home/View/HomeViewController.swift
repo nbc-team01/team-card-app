@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+//MARK: 홈뷰 VC
 class HomeViewController: UIViewController {
     private let homeView = HomeView()
     

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+//MARK: 팀 정보
 struct Team{
     let image:UIImage?
     let title:String
