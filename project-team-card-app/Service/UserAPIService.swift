@@ -8,11 +8,13 @@
 import Foundation
 import FirebaseFirestore
 
-
+//MARK: Firestore와의 CRUD 기능들이 구현된 API Service
 class UserAPIService{
     
+    //MARK: DB 경로
     private static let db = Firestore.firestore()
-    //유저 정보 조회
+    
+    //MARK: 유저 정보 조회
     static func fetchUser(userId:String) async throws -> User{
         //경로 설정 users/user_uid
         let ref = db.collection("users").document(userId)
@@ -26,7 +28,7 @@ class UserAPIService{
             throw error
         }
     }
-    //유저정보 저장
+    //MARK: 유저정보 저장
     static func setUser(user: User) async throws {
         //경로 설정 users/user_uid
         let ref = db.collection("users").document(user.userID ?? "")
@@ -39,7 +41,7 @@ class UserAPIService{
             throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
         }
     }
-    //유저정보 업데이트
+    //MARK: 유저정보 업데이트
     static func updateUser(user:User) async throws{
         //경로 설정 users/user_uid
         let ref = db.collection("users").document(user.userID ?? "")
@@ -54,19 +56,19 @@ class UserAPIService{
             throw NSError(domain: "FirestoreService", code: 500, userInfo: [NSLocalizedDescriptionKey: "Error saving user data to Firestore"])
         }
     }
-    //유저정보 삭제
+    //MARK: 유저정보 삭제
     static func deleteUser(userId:String) async throws{
         let ref = db.collection("users").document(userId)
         try await ref.delete()
     }
-    //유저 리스트 조회
+    //MARK: 유저 리스트 조회
     static func fetchUsers() async throws -> [User]{
         //컬렉션의 모든 문서 fetching
         let snapshot = try await db.collection("users").getDocuments()
         //문서 디코딩
         return try snapshot.documents.compactMap { try $0.data(as: User.self) }
     }
-    //비밀번호 검사
+    //MARK: 비밀번호 검사
     static func isValidPassword(userId: String, password: String) async throws -> Bool {
         //유저정보가 담겨있는 문서의 데이터를 fetching
         //그 중 paasword 필드의 데이터를 추출

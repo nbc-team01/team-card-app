@@ -9,10 +9,12 @@ import Foundation
 import FirebaseStorage
 import UIKit
 
+//MARK: FireStorage에 이미지를 CRUD하는 API Service
 class StorageAPIService{
+    //MARK: 스토리지 경로
     private static let storage = Storage.storage()
     
-    //이미지를 Storage에 업로드하고 경로 반환
+    //MARK: 이미지를 Storage에 업로드하고 경로 반환
     static func setImage(_ image: UIImage,userId:String) async throws -> String {
         //이미지 형식 밑 퀄리티 설정
         guard let imageData = image.jpegData(compressionQuality: 1.0) else {
@@ -26,7 +28,7 @@ class StorageAPIService{
         
         return try await ref.downloadURL().absoluteString                       //해당 스토리지 경로
     }
-    //이미지 삭제
+    //MARK: 이미지 삭제
     static func deleteImage(userId: String) async throws {
         let ref = storage.reference().child("users/\(userId).jpg")
         try await ref.delete()
