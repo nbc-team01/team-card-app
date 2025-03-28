@@ -17,7 +17,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
     //MARK: 유저 ID
     private var userId: String
     //MARK: ImagePickerManager
-    private var manager: ImagePickerManager?
+    private var manager = ImagePickerManager()
     //MARK: createUserCardView의 기능 deleagate
     weak var delegate:CreateUserViewControllerDelegate?
     
@@ -65,7 +65,7 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
         self.userId = UUID().uuidString
         self.type = type
         super.init(nibName: nil, bundle: nil)
-        manager?.delegate = self
+        manager.delegate = self
         fetchUserInfo()
     }
     required init?(coder: NSCoder) {
@@ -181,7 +181,6 @@ class CreateUserCardViewController: UIViewController, ImagePickerDelegate {
         createUserCardView.saveButton.addTarget(self, action: #selector(saveButtonTarget), for: .touchUpInside)
         createUserCardView.cancelButton.addTarget(self, action: #selector(canecelButtonTarget), for: .touchUpInside)
         createUserCardView.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing)))
-        guard let manager else {return}
         createUserCardView.imagePickerView.addGestureRecognizer(manager.imageViewAddTarget)
     }
     
